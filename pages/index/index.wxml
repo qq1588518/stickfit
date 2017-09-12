@@ -1,0 +1,56 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <!-- form  -->
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="weui-cells__title">运动类型</view>
+    <view class="weui-cells weui-cells_after-title">
+      <radio-group bindchange="radioChange" name="type">
+        <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
+          <radio class="weui-check" value="{{item.name}}" checked="{{item.checked}}" />
+          <view class="weui-cell__bd">{{item.name}}</view>
+          <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+            <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+          </view>
+        </label>
+      </radio-group>
+    </view>
+
+    <view class="weui-cells__title">运动详情</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">日期</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker name="date" mode="date" value="{{date}}" start="2015-09-01" end="2018-09-01" bindchange="bindDateChange">
+            <view class="weui-input">{{date}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">运动量</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input bindinput="changeAmount" name="amount" class="weui-input" type="digit" placeholder="请输入运动量" value="{{amount}}" />
+        </view>
+        <view class="weui-cell__ft">
+          <view class="weui-label">{{unit}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" form-type="submit">打卡</button>
+    </view>
+
+  </form>
+
+</view>

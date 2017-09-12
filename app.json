@@ -1,0 +1,30 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "navigationBarTitleText": "下一马"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/index",
+        "iconPath": "image/if_home_309062.png",
+        "selectedIconPath": "image/if_home_309062.png"
+      },
+      {
+        "text": "历史",
+        "pagePath": "pages/logs/logs",
+        "iconPath": "image/if_menu_309053.png",
+        "selectedIconPath": "image/if_menu_309053.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true
+}
