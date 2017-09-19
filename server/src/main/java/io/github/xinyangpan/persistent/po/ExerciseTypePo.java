@@ -2,6 +2,7 @@ package io.github.xinyangpan.persistent.po;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,11 +24,12 @@ public class ExerciseTypePo {
 	@NotNull
 	private BigDecimal min;
 	@NotNull
+	@Column(name="`order`")
 	private int order;
 
 	@Override
 	public String toString() {
-		return String.format("ExercisePo [id=%s, name=%s, description=%s, unit=%s, min=%s, order=%s]", id, name, description, unit, min, order);
+		return String.format("ExerciseTypePo [id=%s, name=%s, description=%s, unit=%s, min=%s, order=%s]", id, name, description, unit, min, order);
 	}
 
 	public long getId() {
