@@ -1,6 +1,6 @@
 <!--logs.wxml-->
 <view class="container log-list">
-  <view class="weui-cells__title">本月运动记录</view>
+  <view class="weui-cells__title">{{userInfo.nickName}}本月运动记录</view>
   <view class="weui-cells weui-cells_after-title">
 
     <checkbox-group bindchange="checkboxChange">
@@ -14,8 +14,8 @@
         </view>
       </label>
     </checkbox-group>
-
   </view>
+  <view class="weui-cells__tips">{{summary}}</view>
 
   <view class="weui-btn-area">
     <button class="weui-btn" type="warn" bindtap='clearSelected'>删除选中</button>

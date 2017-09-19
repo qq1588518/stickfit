@@ -32,6 +32,13 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    sportItems: [
+      { name: '跑步', desc: '跑步', unit: "公里", min: 6, value: '0', checked: true },
+      { name: '走步', desc: '走步', unit: "步", min: 10000, value: '1' },
+      { name: '游泳', desc: '游泳', unit: "米", min: 1000, value: '3' },
+      { name: '骑车', desc: '骑车', unit: "公里", min: 12, value: '4' },
+      { name: '其他', desc: '其他运动', unit: "分钟", min: 45, value: '2' },
+    ]
   }
 })

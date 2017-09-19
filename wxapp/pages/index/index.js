@@ -42,8 +42,11 @@ Page({
   },
   onLoad: function () {
     // 
+    var sportItems = app.globalData.sportItems;
+    sportItems[0].checked = true;
     this.setData({
-      date: util.formatDate(new Date())
+      date: util.formatDate(new Date()),
+      radioItems: sportItems
     })
     // 
     if (app.globalData.userInfo) {
@@ -88,12 +91,13 @@ Page({
   },
   changeAmount: function (e) {
     this.setData({
-      amount: e.detail.value
+      amount: new Number(e.detail.value)
     })
   },
   //
   formSubmit: function (e) {
     var formData = e.detail.value;
+    formData.amount = new Number(formData.amount);
     console.log('formSubmit: formData = ' + JSON.stringify(formData));
     var radioItems = this.data.radioItems;
     for (var i = 0; i < radioItems.length; i++) {
