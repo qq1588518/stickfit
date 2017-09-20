@@ -26,7 +26,7 @@ mvn clean package
 ####################################################
 # copy jar
 ####################################################
-rm -rf ./${APP_NAME}
+rm -rf ./server
 mkdir -p ./${APP_NAME}/bin
 
 cp -R ./shell/* ./${APP_NAME}/bin/
