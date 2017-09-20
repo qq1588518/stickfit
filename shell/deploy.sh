@@ -30,7 +30,7 @@ rm -rf ./${APP_NAME}
 mkdir -p ./${APP_NAME}/bin
 
 cp -R ../shell/* ./${APP_NAME}/bin/
-cp ./server/target/${APP_NAME}*.jar ./${APP_NAME}/${APP_NAME}.jar
+cp ./target/${APP_NAME}*.jar ./${APP_NAME}/${APP_NAME}.jar
 
 rm -rf ${APP_HOME}
 cp -R ./${APP_NAME} ${APP_HOME}
