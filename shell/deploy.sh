@@ -29,7 +29,7 @@ mvn clean package
 rm -rf ./server
 mkdir -p ./${APP_NAME}/bin
 
-cp -R ./shell/* ./${APP_NAME}/bin/
+cp -R ../shell/* ./${APP_NAME}/bin/
 cp ./server/target/server*.jar ./${APP_NAME}/${APP_NAME}.jar
 
 rm -rf ${APP_HOME}
