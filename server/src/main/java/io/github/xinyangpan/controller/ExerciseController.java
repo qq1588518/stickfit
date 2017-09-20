@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.assertj.core.util.Strings;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
@@ -52,7 +52,7 @@ public class ExerciseController {
 				return String.format("%s%s%s", exerciseTypePo.getDescription(), e.getValue(), exerciseTypePo.getUnit());
 			})
 			.collect(Collectors.toList());
-		return String.format("%s 一共%s.", summary, Strings.join(summaryByType).with(", "));
+		return String.format("%s 一共%s.", summary, Joiner.on(", ").join(summaryByType).toString());
 	}
 
 	private BigDecimal sumAllAmount(Collection<ExercisePo> pos) {
