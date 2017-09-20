@@ -20,13 +20,13 @@ sh ${APP_HOME}/bin/stop.sh
 ####################################################
 # source compile
 ####################################################
-cd ./${APP_NAME}
+cd ./server
 mvn clean package
 
 ####################################################
 # copy jar
 ####################################################
-rm -rf ./server
+rm -rf ./${APP_NAME}
 mkdir -p ./${APP_NAME}/bin
 
 cp -R ../shell/* ./${APP_NAME}/bin/
