@@ -6,6 +6,17 @@ App({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         console.log('login: code=' + res.code);
+        if (res.code) {
+          //发起网络请求
+          wx.request({
+            url: 'https://www.panxinyang.cn/stickfit/login',
+            data: {
+              code: res.code
+            }
+          })
+        } else {
+          console.log('获取用户登录态失败！' + res.errMsg)
+        }
       }
     })
     // 获取用户信息

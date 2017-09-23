@@ -1,8 +1,11 @@
 package io.github.xinyangpan;
 
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
@@ -16,8 +19,13 @@ public class StickfitApplication {
 	@Bean
 //	@ConditionalOnMissingBean
 	public RestTemplate restTemplate() {
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		List<MediaType> mediaList = Lists.newArrayList(converter.getSupportedMediaTypes());
+		mediaList.add(MediaType.TEXT_PLAIN);
+		converter.setSupportedMediaTypes(mediaList);
+		// 
 		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setMessageConverters(Lists.newArrayList(new MappingJackson2HttpMessageConverter()));
+		restTemplate.setMessageConverters(Lists.newArrayList(converter));
 		return restTemplate;
 	}
 

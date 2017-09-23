@@ -25,13 +25,13 @@ public class CustomerController {
 		String appId = "wx7697e61e4407f57a";
 		String secret = "672fa10aea63e42a39a683c65267dca2";
 		Session session = coreService.jscode2session(appId, secret, code);
-		log.info("jscode2session: ", session);
-		return null;
+		log.info("jscode2session: {}", session);
+		return customerService.login(session.getOpenId());
 	}
 
-	@GetMapping("/register")
-	public CustomerPo register(String openId, String username) {
-		return customerService.login(openId, username);
+	@GetMapping("/update")
+	public CustomerPo update(String openId, String username) {
+		return customerService.update(openId, username);
 	}
 
 }

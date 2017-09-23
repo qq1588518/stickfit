@@ -16,11 +16,21 @@ public class CustomerService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public CustomerPo login(String openId, String username) {
+	public CustomerPo login(String openId) {
 		CustomerPo customerPo = customerDao.findByOpenId(openId);
 		if (customerPo == null) {
 			// first time
-			return this.register(openId, username);
+			return this.createCustomer(openId, null);
+		} else {
+			return customerPo;
+		}
+	}
+
+	public CustomerPo update(String openId, String username) {
+		CustomerPo customerPo = customerDao.findByOpenId(openId);
+		if (customerPo == null) {
+			// first time
+			return this.createCustomer(openId, username);
 		} else {
 			if (!Objects.equals(customerPo.getUsername(), username)) {
 				customerPo.setUsername(username);
@@ -30,10 +40,11 @@ public class CustomerService {
 		}
 	}
 
-	private CustomerPo register(String openId, String username) {
+	private CustomerPo createCustomer(String openId, String username) {
 		CustomerPo customerPo = new CustomerPo();
 		customerPo.setUsername(username);
 		customerPo.setOpenId(openId);
 		return customerDao.save(customerPo);
 	}
+
 }
