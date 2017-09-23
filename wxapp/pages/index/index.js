@@ -77,8 +77,8 @@ Page({
     }
   },
   getUserInfo: function (e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
+    app.globalData.userInfo = e.detail.userInfo;
+    console.log("getUserInfo: " + JSON.stringify(e));
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
