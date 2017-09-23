@@ -16,5 +16,5 @@ public class CoreUtils {
 		Calendar instance = Calendar.getInstance();
 		return instance.get(Calendar.MONTH) + 1;
 	}
-
+	
 }

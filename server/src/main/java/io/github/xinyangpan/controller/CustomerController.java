@@ -13,7 +13,13 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@GetMapping("/login")
-	public CustomerPo login(String openId, String username) {
+	public CustomerPo login(String code) {
+		
+		return null;
+	}
+
+	@GetMapping("/login")
+	public CustomerPo register(String openId, String username) {
 		return customerService.login(openId, username);
 	}
 
