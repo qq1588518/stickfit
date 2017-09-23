@@ -14,14 +14,13 @@ public class CustomerPo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@NotNull
-	private String username;
-	@NotNull
 	@Column(unique = true)
 	private String openId;
+	private String username;
 
 	@Override
 	public String toString() {
-		return String.format("CustomerPo [id=%s, username=%s, openId=%s]", id, username, openId);
+		return String.format("CustomerPo [id=%s, openId=%s, username=%s]", id, openId, username);
 	}
 
 	public long getId() {
@@ -32,20 +31,20 @@ public class CustomerPo {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getOpenId() {
 		return openId;
 	}
 
 	public void setOpenId(String openId) {
 		this.openId = openId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }
