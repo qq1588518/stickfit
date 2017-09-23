@@ -1,11 +1,14 @@
 package io.github.xinyangpan.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 //参数	说明
 //openid	用户唯一标识
 //session_key	会话密钥
 //unionid	用户在开放平台的唯一标识符。本字段在满足一定条件的情况下才返回。具体参看UnionID机制说明
+@JsonInclude(Include.NON_NULL)
 public class Session {
 	@JsonProperty("openid")
 	private String openId;
