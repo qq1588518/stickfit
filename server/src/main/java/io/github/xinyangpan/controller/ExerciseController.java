@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +25,7 @@ public class ExerciseController {
 		return exerciseService.currentMonthHistory(customerId);
 	}
 
-	@PostMapping("/deleteExercisesByIds")
+	@GetMapping("/deleteExercisesByIds")
 	public void deleteExercisesByIds(String ids) {
 		List<Long> idList = Arrays.stream(ids.split(",")).map(s -> Long.parseLong(s)).collect(Collectors.toList());
 		System.out.println("deleteExercisesByIds" + idList);
