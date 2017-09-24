@@ -1,6 +1,6 @@
 package io.github.xinyangpan.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,8 @@ public class ExerciseController {
 	}
 
 	@GetMapping("/deleteExercisesByIds")
-	public void deleteExercisesByIds(ArrayList<Long> ids) {
+	public void deleteExercisesByIds(List<Long> ids) {
+		System.out.println("deleteExercisesByIds" + ids);
 		exerciseService.deleteExercisesByIds(ids);
 	}
 
