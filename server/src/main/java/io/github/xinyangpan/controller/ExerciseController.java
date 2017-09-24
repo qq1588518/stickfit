@@ -1,5 +1,9 @@
 package io.github.xinyangpan.controller;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +27,10 @@ public class ExerciseController {
 	}
 
 	@PostMapping("/deleteExercisesByIds")
-	public void deleteExercisesByIds(Long[] ids) {
-		System.out.println("deleteExercisesByIds" + ids);
-		exerciseService.deleteExercisesByIds(Lists.newArrayList(ids));
+	public void deleteExercisesByIds(String ids) {
+		List<Long> idList = Arrays.stream(ids.split(",")).map(s -> Long.parseLong(s)).collect(Collectors.toList());
+		System.out.println("deleteExercisesByIds" + idList);
+		exerciseService.deleteExercisesByIds(Lists.newArrayList(idList));
 	}
 
 }
