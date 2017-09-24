@@ -55,11 +55,15 @@ Page({
     });
   },
   clearSelected: function () {
-    var ids = [];
+    var ids = '';
     this.data.records.map(record => {
       console.log('clear selected' + JSON.stringify(record))
       if (record.checked) {
-        ids.push(record.id);
+        if (ids === '') {
+          ids += record.id;
+        } else {
+          ids += ',' + record.id;
+        }
       }
     });
     console.log('clear selected', ids);
