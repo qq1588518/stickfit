@@ -1,6 +1,6 @@
 <!--pages/rank/rank.wxml-->
 <view class="container">
-  <view class="weui-cells__title">本月排行</view>
+  <view class="weui-cells__title">{{summary}}</view>
   <view class="weui-cells weui-cells_after-title">
 
     <checkbox-group bindchange="checkboxChange">
@@ -9,6 +9,6 @@
       </label>
     </checkbox-group>
   </view>
-  <view class="weui-cells__tips">summary</view>
+  <view class="weui-cells__tips">{{summary}}</view>
 
 </view>
