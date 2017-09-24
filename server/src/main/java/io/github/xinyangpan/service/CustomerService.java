@@ -18,17 +18,10 @@ public class CustomerService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public CustomerPo login(String openId) {
-		// 
-		Preconditions.checkNotNull(openId);
-		// 
-		CustomerPo customerPo = customerDao.findByOpenId(openId);
-		if (customerPo == null) {
-			// first time
-			return this.createCustomer(openId, null);
-		} else {
-			return customerPo;
-		}
+	public CustomerPo update(Long customerId, String username) {
+		CustomerPo customerPo = customerDao.findOne(customerId);
+		customerPo.setUsername(username);
+		return customerDao.save(customerPo);
 	}
 
 	public CustomerPo login(String openId, String username) {

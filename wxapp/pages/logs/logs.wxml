@@ -19,6 +19,5 @@
 
   <view class="weui-btn-area">
     <button class="weui-btn" type="warn" bindtap='clearSelected'>删除选中</button>
-    <button class="weui-btn" type="warn" bindtap='clearData'>清空记录</button>
   </view>
 </view>

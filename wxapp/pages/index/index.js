@@ -16,14 +16,6 @@ Page({
   },
   onLoad: function () {
     // 
-    app.exerciseTypesReadyCallback = exerciseTypes => {
-      exerciseTypes[0].checked = true;
-      this.setData({
-        date: util.formatDate(new Date()),
-        radioItems: exerciseTypes
-      })
-    }
-    // 
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -48,6 +40,24 @@ Page({
             hasUserInfo: true
           })
         }
+      })
+    }
+    // 
+    app.exerciseTypesReadyCallback = exerciseTypes => {
+      exerciseTypes[0].checked = true;
+      this.setData({
+        date: util.formatDate(new Date()),
+        radioItems: exerciseTypes
+      })
+    }
+  },
+  onShow: function () {
+    var exerciseTypes = app.globalData.exerciseTypes;
+    if (exerciseTypes) {
+      exerciseTypes[0].checked = true;
+      this.setData({
+        date: util.formatDate(new Date()),
+        radioItems: exerciseTypes
       })
     }
   },
@@ -76,6 +86,16 @@ Page({
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
+    })
+    wx.request({
+      url: 'https://www.panxinyang.cn/stickfit/customer/update',
+      data: {
+        customerId: app.globalData.customer.id,
+        username: e.detail.userInfo.nickName
+      },
+      success: e => {
+        app.globalData.customer = e.data;
+      }
     })
   },
   bindDateChange: function (e) {

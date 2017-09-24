@@ -32,8 +32,8 @@ public class CustomerController {
 	}
 
 	@GetMapping("/update")
-	public CustomerPo update(String openId, String username) {
-		return customerService.login(openId, username);
+	public CustomerPo update(Long customerId, String username) {
+		return customerService.update(customerId, username);
 	}
 
 }

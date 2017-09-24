@@ -76,9 +76,5 @@ Page({
         this.onShow();
       }
     });
-  },
-  clearData: function () {
-    wx.removeStorageSync('records');
-    this.onShow();
   }
 })
