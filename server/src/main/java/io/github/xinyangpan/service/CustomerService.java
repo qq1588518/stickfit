@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
+
 import io.github.xinyangpan.persistent.dao.CustomerDao;
 import io.github.xinyangpan.persistent.po.CustomerPo;
 
@@ -17,6 +19,9 @@ public class CustomerService {
 	private CustomerDao customerDao;
 
 	public CustomerPo login(String openId) {
+		// 
+		Preconditions.checkNotNull(openId);
+		// 
 		CustomerPo customerPo = customerDao.findByOpenId(openId);
 		if (customerPo == null) {
 			// first time
@@ -26,13 +31,16 @@ public class CustomerService {
 		}
 	}
 
-	public CustomerPo update(String openId, String username) {
+	public CustomerPo login(String openId, String username) {
+		// 
+		Preconditions.checkNotNull(openId);
+		// 
 		CustomerPo customerPo = customerDao.findByOpenId(openId);
 		if (customerPo == null) {
 			// first time
 			return this.createCustomer(openId, username);
 		} else {
-			if (!Objects.equals(customerPo.getUsername(), username)) {
+			if (username != null && !Objects.equals(customerPo.getUsername(), username)) {
 				customerPo.setUsername(username);
 				customerPo = customerDao.save(customerPo);
 			}

@@ -23,17 +23,17 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@GetMapping("/login")
-	public CustomerPo login(String code) {
+	public CustomerPo login(String code, String username) {
 		String appId = "wx7697e61e4407f57a";
 		String secret = "672fa10aea63e42a39a683c65267dca2";
 		Session session = coreService.jscode2session(appId, secret, code);
 		log.info("jscode2session: {}", session);
-		return customerService.login(session.getOpenId());
+		return customerService.login(session.getOpenId(), username);
 	}
 
 	@GetMapping("/update")
 	public CustomerPo update(String openId, String username) {
-		return customerService.update(openId, username);
+		return customerService.login(openId, username);
 	}
 
 }
