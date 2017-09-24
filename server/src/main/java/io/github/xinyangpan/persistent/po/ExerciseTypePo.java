@@ -26,6 +26,15 @@ public class ExerciseTypePo {
 	@NotNull
 	@Column(name="`order`")
 	private int order;
+	
+	public ExerciseTypePo(String name, String description, String unit, BigDecimal min, int order) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.unit = unit;
+		this.min = min;
+		this.order = order;
+	}
 
 	@Override
 	public String toString() {
