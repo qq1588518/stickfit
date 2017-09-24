@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/rank/rank"
   ],
   "window": {
     "navigationBarTitleText": "下一马"
@@ -15,8 +16,14 @@
         "selectedIconPath": "image/if_home_309062.png"
       },
       {
-        "text": "历史",
+        "text": "记录",
         "pagePath": "pages/logs/logs",
+        "iconPath": "image/if_menu_309053.png",
+        "selectedIconPath": "image/if_menu_309053.png"
+      },
+      {
+        "text": "排行",
+        "pagePath": "pages/rank/rank",
         "iconPath": "image/if_menu_309053.png",
         "selectedIconPath": "image/if_menu_309053.png"
       }

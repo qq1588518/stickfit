@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
 
+import io.github.xinyangpan.core.CoreUtils;
+import io.github.xinyangpan.persistent.vo.RankItem;
 import io.github.xinyangpan.service.ExerciseService;
 import io.github.xinyangpan.vo.CurrentMonthHistory;
 
@@ -30,6 +32,11 @@ public class ExerciseController {
 		List<Long> idList = Arrays.stream(ids.split(",")).map(s -> Long.parseLong(s)).collect(Collectors.toList());
 		System.out.println("deleteExercisesByIds" + idList);
 		exerciseService.deleteExercisesByIds(Lists.newArrayList(idList));
+	}
+
+	@GetMapping("/rank")
+	public List<RankItem> rank() {
+		return exerciseService.rank(CoreUtils.getMonth());
 	}
 
 }

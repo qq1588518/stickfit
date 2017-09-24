@@ -1,0 +1,14 @@
+<!--pages/rank/rank.wxml-->
+<view class="container">
+  <view class="weui-cells__title">本月排行</view>
+  <view class="weui-cells weui-cells_after-title">
+
+    <checkbox-group bindchange="checkboxChange">
+      <label class="weui-cell weui-check__label" wx:for="{{rank}}" wx:key="value">
+        <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
+      </label>
+    </checkbox-group>
+  </view>
+  <view class="weui-cells__tips">summary</view>
+
+</view>
