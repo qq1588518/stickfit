@@ -6,48 +6,23 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    radioItems: [
-      { name: '跑步', desc: '跑步', unit: "公里", min: 6, value: '0', checked: true },
-      { name: '走步', desc: '走步', unit: "步", min: 10000, value: '1' },
-      { name: '游泳', desc: '游泳', unit: "米", min: 1000, value: '3' },
-      { name: '骑车', desc: '骑车', unit: "公里", min: 12, value: '4' },
-      { name: '其他', desc: '其他运动', unit: "分钟", min: 45, value: '2' },
-    ],
+    radioItems: null,
     date: "2017-09-01",
     unit: "公里",
     amount: null
   },
-  //事件处理函数
-  radioChange: function (e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value);
-
-    var radioItems = this.data.radioItems;
-    var unit = this.data.unit;
-    for (var i = 0, len = radioItems.length; i < len; ++i) {
-      radioItems[i].checked = radioItems[i].name == e.detail.value;
-      if (radioItems[i].checked) {
-        unit = radioItems[i].unit;
-      }
-    }
-
-    this.setData({
-      radioItems: radioItems,
-      unit: unit,
-      amount: null
-    });
-  },
   onLoad: function () {
     // 
-    var sportItems = app.globalData.sportItems;
-    sportItems[0].checked = true;
-    this.setData({
-      date: util.formatDate(new Date()),
-      radioItems: sportItems
-    })
+    app.exerciseTypesReadyCallback = exerciseTypes => {
+      exerciseTypes[0].checked = true;
+      this.setData({
+        date: util.formatDate(new Date()),
+        radioItems: exerciseTypes
+      })
+    }
     // 
     if (app.globalData.userInfo) {
       this.setData({
@@ -75,6 +50,25 @@ Page({
         }
       })
     }
+  },
+  //事件处理函数
+  radioChange: function (e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value);
+
+    var radioItems = this.data.radioItems;
+    var unit = this.data.unit;
+    for (var i = 0, len = radioItems.length; i < len; ++i) {
+      radioItems[i].checked = radioItems[i].id == e.detail.value;
+      if (radioItems[i].checked) {
+        unit = radioItems[i].unit;
+      }
+    }
+
+    this.setData({
+      radioItems: radioItems,
+      unit: unit,
+      amount: null
+    });
   },
   getUserInfo: function (e) {
     app.globalData.userInfo = e.detail.userInfo;
@@ -139,13 +133,21 @@ Page({
         } else {
           // 打卡成功
           // 保存到本地
-          var records = wx.getStorageSync('records') || new Object();
-          console.log('before' + JSON.stringify(records));
-          formData.item = radioItems[i];
-          formData.id = Date.now();
-          records[formData.id] = formData;
-          console.log('after' + JSON.stringify(records))
-          wx.setStorageSync('records', records)
+          var exercise = {};
+          exercise.amount = formData.amount;
+          exercise.typeId = formData.type;
+          exercise.time = new Date(formData.date);
+          exercise.customerId = app.globalData.customer.id;
+
+          // 获取运动信息
+          wx.request({
+            url: 'https://www.panxinyang.cn/stickfit/exercisePoes',
+            method: 'POST',
+            data: exercise,
+            success: res => {
+              console.log('exercisePoes: ' + JSON.stringify(res));
+            }
+          });
           // 提示信息
           wx.showToast({
             title: '打卡完成',

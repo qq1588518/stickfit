@@ -32,6 +32,12 @@ public class ExerciseService {
 	@Autowired
 	private ExerciseTypeDao exerciseTypeDao;
 
+	public void deleteExercisesByIds(List<Long> ids) {
+		for (Long id : ids) {
+			exerciseDao.delete(id);
+		}
+	}
+	
 	public CurrentMonthHistory currentMonthHistory(long customerId) {
 		List<ExercisePo> exercisePos = exerciseDao.findByCustomerIdAndMonthOrderByTimeAsc(customerId, CoreUtils.getMonth());
 		// 

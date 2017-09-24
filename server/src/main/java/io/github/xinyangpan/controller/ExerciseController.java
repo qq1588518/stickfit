@@ -1,5 +1,7 @@
 package io.github.xinyangpan.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,11 @@ public class ExerciseController {
 	@GetMapping("/currentMonthHistory")
 	public CurrentMonthHistory currentMonthHistory(long customerId) {
 		return exerciseService.currentMonthHistory(customerId);
+	}
+
+	@GetMapping("/deleteExercisesByIds")
+	public void deleteExercisesByIds(List<Long> ids) {
+		exerciseService.deleteExercisesByIds(ids);
 	}
 
 }
