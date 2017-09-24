@@ -27,6 +27,9 @@ public class ExerciseTypePo {
 	@Column(name="`order`")
 	private int order;
 	
+	public ExerciseTypePo() {
+	}
+	
 	public ExerciseTypePo(String name, String description, String unit, BigDecimal min, int order) {
 		super();
 		this.name = name;
