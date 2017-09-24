@@ -1,5 +1,5 @@
 <!--pages/rank/rank.wxml-->
-<view class="container">
+<view class="container log-list">
   <view class="weui-cells__title">{{summary}}</view>
   <view class="weui-cells weui-cells_after-title">
 
