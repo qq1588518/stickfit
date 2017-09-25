@@ -11,7 +11,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     radioItems: null,
     date: "2017-09-01",
-    unit: "公里",
+    unit: "",
     amount: null
   },
   onLoad: function () {
@@ -47,18 +47,22 @@ Page({
       exerciseTypes[0].checked = true;
       this.setData({
         date: util.formatDate(new Date()),
-        radioItems: exerciseTypes
+        radioItems: exerciseTypes,
+        unit: exerciseTypes[0].unit
       })
     }
   },
   onShow: function () {
-    var exerciseTypes = app.globalData.exerciseTypes;
-    if (exerciseTypes) {
-      exerciseTypes[0].checked = true;
-      this.setData({
-        date: util.formatDate(new Date()),
-        radioItems: exerciseTypes
-      })
+    if (!this.data.radioItems) {
+      var exerciseTypes = app.globalData.exerciseTypes;
+      if (exerciseTypes) {
+        exerciseTypes[0].checked = true;
+        this.setData({
+          date: util.formatDate(new Date()),
+          radioItems: exerciseTypes,
+          unit: exerciseTypes[0].unit
+        })
+      }
     }
   },
   //事件处理函数
