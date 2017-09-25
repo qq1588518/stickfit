@@ -40,7 +40,6 @@ public class ExerciseService {
 	private CustomerDao customerDao;
 
 	public List<RankItem> rank(int month) {
-		List<RankItem> rank = Lists.newArrayList();
 		List<ExercisePo> exercisePos = exerciseDao.findByMonth(month);
 		Map<Long, RankItem> map = Maps.newHashMap();
 		for (ExercisePo exercisePo : exercisePos) {
@@ -54,6 +53,8 @@ public class ExerciseService {
 				rankItem.setLastId(Math.max(exercisePo.getId(), rankItem.getLastId()));
 			}
 		}
+		// 
+		List<RankItem> rank = Lists.newArrayList(map.values());
 		Collections.sort(rank, Comparator.comparingInt(RankItem::getCount).reversed().thenComparing(RankItem::getLastId));
 		return rank;
 	}
