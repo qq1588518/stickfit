@@ -60,7 +60,8 @@ public class ExerciseService {
 			long customerId = exercisePo.getCustomerId();
 			RankItem rankItem = customerId2RankItem.get(customerId);
 			if (rankItem == null) {
-				rankItem = new RankItem(id2CustomerPo.get(exercisePo.getCustomerId()).getUsername(), 1, exercisePo.getId());
+				String username = id2CustomerPo.get(exercisePo.getCustomerId()).getUsername();
+				rankItem = new RankItem(customerId, username, 1, exercisePo.getId());
 				customerId2RankItem.put(customerId, rankItem);
 			} else {
 				rankItem.setCount(rankItem.getCount() + 1);

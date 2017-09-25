@@ -1,15 +1,17 @@
 package io.github.xinyangpan.persistent.vo;
 
 public class RankItem {
+	private long customerId;
 	private String username;
 	private int count;
 	private long lastId;
-	
+
 	public RankItem() {
 	}
-	
-	public RankItem(String username, int count, long lastId) {
+
+	public RankItem(long customerId, String username, int count, long lastId) {
 		super();
+		this.customerId = customerId;
 		this.username = username;
 		this.count = count;
 		this.lastId = lastId;
@@ -17,7 +19,15 @@ public class RankItem {
 
 	@Override
 	public String toString() {
-		return String.format("RankItem [username=%s, count=%s, lastId=%s]", username, count, lastId);
+		return String.format("RankItem [customerId=%s, username=%s, count=%s, lastId=%s]", customerId, username, count, lastId);
+	}
+
+	public long getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(long customerId) {
+		this.customerId = customerId;
 	}
 
 	public String getUsername() {
