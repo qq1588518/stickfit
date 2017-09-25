@@ -8,7 +8,7 @@ Page({
   data: {
     userInfo: {},
     records: [],
-    summary: null
+    summary: ''
   },
   onLoad: function () {
     this.setData({

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ import io.github.xinyangpan.core.CoreUtils;
 import io.github.xinyangpan.persistent.dao.CustomerDao;
 import io.github.xinyangpan.persistent.dao.ExerciseDao;
 import io.github.xinyangpan.persistent.dao.ExerciseTypeDao;
+import io.github.xinyangpan.persistent.po.CustomerPo;
 import io.github.xinyangpan.persistent.po.ExercisePo;
 import io.github.xinyangpan.persistent.po.ExerciseTypePo;
 import io.github.xinyangpan.persistent.vo.RankItem;
@@ -41,30 +43,45 @@ public class ExerciseService {
 
 	public List<RankItem> rank(int month) {
 		List<ExercisePo> exercisePos = exerciseDao.findByMonth(month);
-		Map<Long, RankItem> map = Maps.newHashMap();
+		// 
+		Map<Long, RankItem> customerId2RankItem = customerId2RankItem(exercisePos);
+		// 
+		List<RankItem> rank = Lists.newArrayList(customerId2RankItem.values());
+		Collections.sort(rank, Comparator.comparingInt(RankItem::getCount).reversed().thenComparing(RankItem::getLastId));
+		return rank;
+	}
+
+	private Map<Long, RankItem> customerId2RankItem(List<ExercisePo> exercisePos) {
+		//
+		Map<Long, CustomerPo> id2CustomerPo = id2CustomerPo(exercisePos);
+		//
+		Map<Long, RankItem> customerId2RankItem = Maps.newHashMap();
 		for (ExercisePo exercisePo : exercisePos) {
 			long customerId = exercisePo.getCustomerId();
-			RankItem rankItem = map.get(customerId);
+			RankItem rankItem = customerId2RankItem.get(customerId);
 			if (rankItem == null) {
-				rankItem = new RankItem(customerDao.findOne(exercisePo.getCustomerId()).getUsername(), 1, exercisePo.getId());
-				map.put(customerId, rankItem);
+				rankItem = new RankItem(id2CustomerPo.get(exercisePo.getCustomerId()).getUsername(), 1, exercisePo.getId());
+				customerId2RankItem.put(customerId, rankItem);
 			} else {
 				rankItem.setCount(rankItem.getCount() + 1);
 				rankItem.setLastId(Math.max(exercisePo.getId(), rankItem.getLastId()));
 			}
 		}
-		// 
-		List<RankItem> rank = Lists.newArrayList(map.values());
-		Collections.sort(rank, Comparator.comparingInt(RankItem::getCount).reversed().thenComparing(RankItem::getLastId));
-		return rank;
+		return customerId2RankItem;
 	}
-	
+
+	private Map<Long, CustomerPo> id2CustomerPo(List<ExercisePo> exercisePos) {
+		Set<Long> customerIds = exercisePos.stream().map(ExercisePo::getCustomerId).collect(Collectors.toSet());
+		List<CustomerPo> customerPos = customerDao.findByIdIn(customerIds);
+		return Maps.uniqueIndex(customerPos, CustomerPo::getId);
+	}
+
 	public void deleteExercisesByIds(List<Long> ids) {
 		for (Long id : ids) {
 			exerciseDao.delete(id);
 		}
 	}
-	
+
 	public CurrentMonthHistory currentMonthHistory(long customerId) {
 		List<ExercisePo> exercisePos = exerciseDao.findByCustomerIdAndMonthOrderByTimeAsc(customerId, CoreUtils.getMonth());
 		// 
@@ -82,21 +99,15 @@ public class ExerciseService {
 		Multimap<Long, ExercisePo> index = Multimaps.index(exercisePos, exercisePo -> exercisePo.getTypeId());
 		Map<Long, BigDecimal> treeMap = new TreeMap<>(Maps.transformValues(index.asMap(), pos -> sumAllAmount(pos)));
 		// 
-		List<String> summaryByType = treeMap.entrySet()
-			.stream()
-			.map(e -> {
-				ExerciseTypePo exerciseTypePo = exerciseTypeDao.findOne(e.getKey());
-				return String.format("%s%s%s", exerciseTypePo.getDescription(), e.getValue(), exerciseTypePo.getUnit());
-			})
-			.collect(Collectors.toList());
+		List<String> summaryByType = treeMap.entrySet().stream().map(e -> {
+			ExerciseTypePo exerciseTypePo = exerciseTypeDao.findOne(e.getKey());
+			return String.format("%s%s%s", exerciseTypePo.getDescription(), e.getValue(), exerciseTypePo.getUnit());
+		}).collect(Collectors.toList());
 		return String.format("%s 一共%s.", summary, Joiner.on(", ").join(summaryByType).toString());
 	}
 
 	private BigDecimal sumAllAmount(Collection<ExercisePo> pos) {
-		return pos.stream()
-			.map(po -> po.getAmount())
-			.reduce((a, b) -> a.add(b))
-			.get();
+		return pos.stream().map(po -> po.getAmount()).reduce((a, b) -> a.add(b)).get();
 	}
 
 }

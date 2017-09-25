@@ -10,8 +10,8 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     radioItems: null,
-    date: "2017-09-01",
-    unit: "",
+    date: '2017-09-01',
+    unit: '',
     amount: null
   },
   onLoad: function () {
@@ -136,12 +136,7 @@ Page({
           })
         } else if (this.data.amount < radioItems[i].min) {
           // Amount 不达标
-          var content;
-          if (radioItems[i].name == "其他") {
-            content = radioItems[i].name + '运动的运动量不能少于' + radioItems[i].min + radioItems[i].unit;
-          } else {
-            content = radioItems[i].name + '的运动量不能少于' + radioItems[i].min + radioItems[i].unit;
-          }
+          const content = radioItems[i].description + '的运动量不能少于' + radioItems[i].min + radioItems[i].unit;
           wx.showModal({
             title: '提示',
             content: content,
@@ -156,30 +151,28 @@ Page({
           })
         } else {
           // 打卡成功
-          // 保存到本地
           var exercise = {};
           exercise.amount = formData.amount;
           exercise.typeId = formData.type;
           exercise.time = new Date(formData.date);
           exercise.customerId = app.globalData.customer.id;
-
-          // 获取运动信息
+          // 远端添加
           wx.request({
             url: 'https://www.panxinyang.cn/stickfit/exercisePoes',
             method: 'POST',
             data: exercise,
             success: res => {
               console.log('exercisePoes: ' + JSON.stringify(res));
+              // 提示信息
+              wx.showToast({
+                title: '打卡完成',
+                duration: 1200
+              });
+              this.setData({
+                amount: null
+              })
             }
           });
-          // 提示信息
-          wx.showToast({
-            title: '打卡完成',
-            duration: 1200
-          });
-          this.setData({
-            amount: null
-          })
         }
       }
     }
