@@ -1,25 +1,39 @@
 //logs.js
-const util = require('../../utils/util.js')
 
 //获取应用实例
 const app = getApp()
 
 Page({
   data: {
-    userInfo: {},
+    customer: {},
     records: [],
-    summary: ''
+    summary: '',
+    isRedirect: null
   },
-  onLoad: function () {
-    this.setData({
-      userInfo: app.globalData.userInfo
-    })
+  onLoad: function (options) {
+    console.log('onLoad: ', options);
+    // options.customerId & options.username
+    var customerId = options.customerId;
+    if (customerId) {
+      this.setData({
+        customer: { 'id': customerId, 'username': options.username},
+        isRedirect: true
+      })
+    } else {
+      this.setData({
+        customer: app.globalData.customer,
+        isRedirect: false
+      })
+    }
   },
   onShow: function () {
+    this.currentMonthHistory();
+  },
+  currentMonthHistory: function () {
     wx.request({
       url: 'https://www.panxinyang.cn/stickfit/exercise/currentMonthHistory',
       data: {
-        customerId: app.globalData.customer.id
+        customerId: this.data.customer.id
       },
       success: res => {
         console.log('currentMonthHistory: ', res);
@@ -30,7 +44,7 @@ Page({
         console.log('currentMonthHistory: ', res.data.exercisePos);
         this.setData({
           records: res.data.exercisePos,
-          summary: app.globalData.customer.username + res.data.summary
+          summary: this.data.customer.username + res.data.summary
         })
       }
     });

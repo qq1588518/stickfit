@@ -3,11 +3,11 @@
   <view class="weui-cells__title">{{summary}}</view>
   <view class="weui-cells weui-cells_after-title">
 
-    <checkbox-group bindchange="checkboxChange">
-      <label class="weui-cell weui-check__label" wx:for="{{rank}}" wx:key="value">
-        <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
-      </label>
-    </checkbox-group>
+    <navigator url="../detail/detail?customerId={{item.customerId}}&username={{item.username}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" wx:for="{{rank}}" wx:key="value">
+      <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
+
   </view>
   <view class="weui-cells__tips">{{summary}}</view>
 

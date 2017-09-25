@@ -48,7 +48,7 @@ App({
                   },
                   success: e => {
                     this.globalData.customer = e.data;
-                    console.log('customer: ' + JSON.stringify(this.globalData.customer));
+                    console.log('customer: ', this.globalData.customer);
                   }
                 })
               }

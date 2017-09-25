@@ -1,6 +1,6 @@
 <!--logs.wxml-->
 <view class="container log-list">
-  <view class="weui-cells__title">{{userInfo.nickName}}本月运动记录</view>
+  <view class="weui-cells__title">{{customer.username}}本月运动记录</view>
   <view class="weui-cells weui-cells_after-title">
 
     <checkbox-group bindchange="checkboxChange">
@@ -8,7 +8,7 @@
         <checkbox class="weui-check" value="{{item.id}}" checked="{{item.checked}}" />
 
         <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
-        <view class="weui-cell__hd weui-check__hd_in-checkbox">
+        <view class="weui-cell__hd weui-check__hd_in-checkbox" hidden='{{isRedirect}}'>
           <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
           <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
         </view>
@@ -17,7 +17,7 @@
   </view>
   <view class="weui-cells__tips">{{summary}}</view>
 
-  <view class="weui-btn-area">
+  <view class="weui-btn-area" hidden='{{isRedirect}}'>
     <button class="weui-btn" type="warn" bindtap='clearSelected'>删除选中</button>
   </view>
 </view>

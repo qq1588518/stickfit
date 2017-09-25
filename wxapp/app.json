@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/rank/rank"
+    "pages/rank/rank",
+    "pages/detail/detail"
   ],
   "window": {
     "navigationBarTitleText": "下一马"
