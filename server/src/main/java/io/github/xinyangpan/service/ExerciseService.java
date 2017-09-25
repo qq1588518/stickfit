@@ -15,13 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
-import com.google.common.collect.Multiset;
-import com.google.common.collect.Multiset.Entry;
 
 import io.github.xinyangpan.core.CoreUtils;
 import io.github.xinyangpan.persistent.dao.CustomerDao;
@@ -45,14 +42,19 @@ public class ExerciseService {
 	public List<RankItem> rank(int month) {
 		List<RankItem> rank = Lists.newArrayList();
 		List<ExercisePo> exercisePos = exerciseDao.findByMonth(month);
-		Multiset<Long> multiset = HashMultiset.create();
+		Map<Long, RankItem> map = Maps.newHashMap();
 		for (ExercisePo exercisePo : exercisePos) {
-			multiset.add(exercisePo.getCustomerId());
+			long customerId = exercisePo.getCustomerId();
+			RankItem rankItem = map.get(customerId);
+			if (rankItem == null) {
+				rankItem = new RankItem(customerDao.findOne(exercisePo.getCustomerId()).getUsername(), 1, exercisePo.getId());
+				map.put(customerId, rankItem);
+			} else {
+				rankItem.setCount(rankItem.getCount() + 1);
+				rankItem.setLastId(Math.max(exercisePo.getId(), rankItem.getLastId()));
+			}
 		}
-		for (Entry<Long> e : multiset.entrySet()) {
-			rank.add(new RankItem(customerDao.findOne(e.getElement()).getUsername(), e.getCount()));
-		}
-		Collections.sort(rank, Comparator.comparingInt(RankItem::getCount).reversed());
+		Collections.sort(rank, Comparator.comparingInt(RankItem::getCount).reversed().thenComparing(RankItem::getLastId));
 		return rank;
 	}
 	
