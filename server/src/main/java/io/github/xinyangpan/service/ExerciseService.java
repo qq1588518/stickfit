@@ -102,7 +102,8 @@ public class ExerciseService {
 		// 
 		List<String> summaryByType = treeMap.entrySet().stream().map(e -> {
 			ExerciseTypePo exerciseTypePo = exerciseTypeDao.findOne(e.getKey());
-			return String.format("%s%s%s", exerciseTypePo.getDescription(), e.getValue(), exerciseTypePo.getUnit());
+			String amount = e.getValue().stripTrailingZeros().toPlainString();
+			return String.format("%s%s%s", exerciseTypePo.getDescription(), amount, exerciseTypePo.getUnit());
 		}).collect(Collectors.toList());
 		return String.format("%s 一共%s.", summary, Joiner.on(", ").join(summaryByType).toString());
 	}
