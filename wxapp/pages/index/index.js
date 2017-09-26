@@ -109,7 +109,7 @@ Page({
   },
   changeAmount: function (e) {
     this.setData({
-      amount: new Number(e.detail.value)
+      amount: e.detail.value
     })
   },
   //
