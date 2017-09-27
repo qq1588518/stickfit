@@ -1,5 +1,6 @@
 //index.js
 const util = require('../../utils/util.js')
+const core = require('../../utils/core.js')
 
 //获取应用实例
 const app = getApp()
@@ -16,54 +17,23 @@ Page({
   },
   onLoad: function () {
     // 
-    if (app.globalData.userInfo) {
+    core.exercise.getExercise(exercise => {
+      exercise.exerciseTypes[0].checked = true;
       this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
+        date: util.formatDate(new Date()),
+        radioItems: exercise.exerciseTypes,
+        unit: exercise.exerciseTypes[0].unit
       })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
+    })
+    // 
+    core.user.getUser(user => {
+      if (user && user.userInfo) {
         this.setData({
-          userInfo: res.userInfo,
+          userInfo: user.userInfo,
           hasUserInfo: true
         })
       }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-    // 
-    app.exerciseTypesReadyCallback = exerciseTypes => {
-      exerciseTypes[0].checked = true;
-      this.setData({
-        date: util.formatDate(new Date()),
-        radioItems: exerciseTypes,
-        unit: exerciseTypes[0].unit
-      })
-    }
-  },
-  onShow: function () {
-    if (!this.data.radioItems) {
-      var exerciseTypes = app.globalData.exerciseTypes;
-      if (exerciseTypes) {
-        exerciseTypes[0].checked = true;
-        this.setData({
-          date: util.formatDate(new Date()),
-          radioItems: exerciseTypes,
-          unit: exerciseTypes[0].unit
-        })
-      }
-    }
+    })
   },
   //事件处理函数
   radioChange: function (e) {
@@ -85,22 +55,12 @@ Page({
     });
   },
   getUserInfo: function (e) {
-    app.globalData.userInfo = e.detail.userInfo;
-    console.log("getUserInfo: " + JSON.stringify(e));
+    let userInfo = e.detail.userInfo;
     this.setData({
-      userInfo: e.detail.userInfo,
+      userInfo: userInfo,
       hasUserInfo: true
     })
-    wx.request({
-      url: 'https://www.panxinyang.cn/stickfit/customer/update',
-      data: {
-        customerId: app.globalData.customer.id,
-        username: e.detail.userInfo.nickName
-      },
-      success: e => {
-        app.globalData.customer = e.data;
-      }
-    })
+    core.user.updateUserInfo(userInfo);
   },
   bindDateChange: function (e) {
     this.setData({
@@ -151,28 +111,30 @@ Page({
           })
         } else {
           // 打卡成功
-          var exercise = {};
-          exercise.amount = formData.amount;
-          exercise.typeId = formData.type;
-          exercise.time = new Date(formData.date);
-          exercise.customerId = app.globalData.customer.id;
-          // 远端添加
-          wx.request({
-            url: 'https://www.panxinyang.cn/stickfit/exercisePoes',
-            method: 'POST',
-            data: exercise,
-            success: res => {
-              console.log('exercisePoes: ' + JSON.stringify(res));
-              // 提示信息
-              wx.showToast({
-                title: '打卡完成',
-                duration: 1200
-              });
-              this.setData({
-                amount: null
-              })
-            }
-          });
+          core.user.getUser(user => {
+            var exercise = {};
+            exercise.amount = formData.amount;
+            exercise.typeId = formData.type;
+            exercise.time = new Date(formData.date);
+            exercise.customerId = user.customer.id;
+            // 远端添加
+            wx.request({
+              url: 'https://www.panxinyang.cn/stickfit/exercisePoes',
+              method: 'POST',
+              data: exercise,
+              success: res => {
+                console.log('exercisePoes: ' + JSON.stringify(res));
+                // 提示信息
+                wx.showToast({
+                  title: '打卡完成',
+                  duration: 1200
+                });
+                this.setData({
+                  amount: null
+                })
+              }
+            });
+          })
         }
       }
     }

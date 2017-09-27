@@ -1,4 +1,5 @@
 //logs.js
+const core = require('../../utils/core.js')
 
 //获取应用实例
 const app = getApp()
@@ -7,24 +8,14 @@ Page({
   data: {
     customer: {},
     records: [],
-    summary: '',
-    isRedirect: null
+    summary: ''
   },
   onLoad: function (options) {
-    console.log('onLoad: ', options);
-    // options.customerId & options.username
-    var customerId = options.customerId;
-    if (customerId) {
+    core.user.getUser(user => {
       this.setData({
-        customer: { 'id': customerId, 'username': options.username},
-        isRedirect: true
+        customer: user.customer
       })
-    } else {
-      this.setData({
-        customer: app.globalData.customer,
-        isRedirect: false
-      })
-    }
+    })
   },
   onShow: function () {
     this.currentMonthHistory();
@@ -38,7 +29,7 @@ Page({
       success: res => {
         console.log('currentMonthHistory: ', res);
         res.data.exercisePos.map(exercisePo => {
-          var exerciseType = app.globalData.exerciseTypeMap[exercisePo.typeId];
+          var exerciseType = core.exercise.exerciseTypeMap[exercisePo.typeId];
           exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
         });
         console.log('currentMonthHistory: ', res.data.exercisePos);
