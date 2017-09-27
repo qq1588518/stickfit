@@ -9,7 +9,6 @@ App({
         console.log('login: code=' + code);
         if (code) {
           // 获取用户信息 nickName
-          var nickName = null;
           wx.getSetting({
             success: res => {
               if (res.authSetting['scope.userInfo']) {
@@ -19,13 +18,12 @@ App({
                     // 可以将 res 发送给后台解码出 unionId
                     this.globalData.userInfo = res.userInfo;
                     console.log('userInfo: ' + JSON.stringify(this.globalData.userInfo));
-                    nickName = res.userInfo.nickName;
                     // 发起网络请求 - nickName
                     wx.request({
                       url: 'https://www.panxinyang.cn/stickfit/customer/login',
                       data: {
                         code: code,
-                        username: nickName
+                        username: res.userInfo.nickName
                       },
                       success: e => {
                         this.globalData.customer = e.data;
@@ -64,8 +62,8 @@ App({
       url: 'https://www.panxinyang.cn/stickfit/exerciseTypePoes',
       success: res => {
         this.globalData.exerciseTypes = res.data._embedded.exerciseTypePoes;
-        for (var i in this.globalData.exerciseTypes) {
-          var exerciseType = this.globalData.exerciseTypes[i];
+        for (let i in this.globalData.exerciseTypes) {
+          let exerciseType = this.globalData.exerciseTypes[i];
           this.globalData.exerciseTypeMap[exerciseType.id] = exerciseType;
         }
         console.log('exerciseTypeMap: ' + JSON.stringify(this.globalData.exerciseTypeMap));
