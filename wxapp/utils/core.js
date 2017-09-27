@@ -110,7 +110,8 @@ const exercise = {
           let exerciseType = this.exerciseTypes[i];
           this.exerciseTypeMap[exerciseType.id] = exerciseType;
         }
-        resolve(this)
+        resolve(this);
+        wx.setStorageSync('exercise', this);
       }
     })
   }
