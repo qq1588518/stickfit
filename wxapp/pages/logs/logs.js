@@ -1,9 +1,6 @@
 //logs.js
 const core = require('../../utils/core.js')
 
-//获取应用实例
-const app = getApp()
-
 Page({
   data: {
     customer: {},
