@@ -23,20 +23,19 @@ public class ExerciseController {
 	private ExerciseService exerciseService;
 
 	@GetMapping("/currentMonthHistory")
-	public CurrentMonthHistory currentMonthHistory(long customerId) {
-		return exerciseService.currentMonthHistory(customerId);
+	public CurrentMonthHistory currentMonthHistory(long customerId, Integer yyyyMM) {
+		return exerciseService.currentMonthHistory(customerId, yyyyMM);
 	}
 
 	@GetMapping("/deleteExercisesByIds")
 	public void deleteExercisesByIds(String ids) {
 		List<Long> idList = Arrays.stream(ids.split(",")).map(s -> Long.parseLong(s)).collect(Collectors.toList());
-		System.out.println("deleteExercisesByIds" + idList);
 		exerciseService.deleteExercisesByIds(Lists.newArrayList(idList));
 	}
 
 	@GetMapping("/rank")
-	public List<RankItem> rank() {
-		return exerciseService.rank(CoreUtils.getMonth());
+	public List<RankItem> rank(Integer yyyyMM) {
+		return exerciseService.rank(yyyyMM);
 	}
 
 }

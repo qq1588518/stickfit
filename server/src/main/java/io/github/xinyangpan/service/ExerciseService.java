@@ -41,8 +41,8 @@ public class ExerciseService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public List<RankItem> rank(int month) {
-		List<ExercisePo> exercisePos = exerciseDao.findByMonth(month);
+	public List<RankItem> rank(Integer yyyyMM) {
+		List<ExercisePo> exercisePos = exerciseDao.findByMonth(yyyyMM);
 		// 
 		Map<Long, RankItem> customerId2RankItem = customerId2RankItem(exercisePos);
 		// 
@@ -83,8 +83,11 @@ public class ExerciseService {
 		}
 	}
 
-	public CurrentMonthHistory currentMonthHistory(long customerId) {
-		List<ExercisePo> exercisePos = exerciseDao.findByCustomerIdAndMonthOrderByTimeAsc(customerId, CoreUtils.getMonth());
+	public CurrentMonthHistory currentMonthHistory(long customerId, Integer yyyyMM) {
+		if (yyyyMM == null) {
+			yyyyMM = CoreUtils.getYearMonth();
+		}
+		List<ExercisePo> exercisePos = exerciseDao.findByCustomerIdAndMonthOrderByTimeAsc(customerId, yyyyMM);
 		// 
 		CurrentMonthHistory history = new CurrentMonthHistory();
 		history.setExercisePos(exercisePos);
