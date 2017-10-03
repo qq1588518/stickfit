@@ -48,8 +48,8 @@ public class ExerciseService {
 		// 
 		List<RankItem> rank = Lists.newArrayList(customerId2RankItem.values());
 		Comparator<RankItem> comparator = Comparator
-			.comparingInt(RankItem::getCount).reversed()
-			.thenComparing(RankItem::getJogAmount).reversed()
+			.comparing(RankItem::getCount, Comparator.reverseOrder())
+			.thenComparing(RankItem::getJogAmount, Comparator.reverseOrder())
 			.thenComparingLong(RankItem::getLastId);
 		Collections.sort(rank, comparator);
 		return rank;
