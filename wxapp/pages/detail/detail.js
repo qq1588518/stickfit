@@ -1,7 +1,5 @@
 // pages/detail/detail.js
-
-//获取应用实例
-const app = getApp()
+const core = require('../../utils/core.js')
 
 Page({
   data: {
@@ -31,7 +29,7 @@ Page({
       success: res => {
         console.log('currentMonthHistory: ', res);
         res.data.exercisePos.map(exercisePo => {
-          var exerciseType = app.globalData.exerciseTypeMap[exercisePo.typeId];
+          var exerciseType = core.exercise.exerciseTypeMap[exercisePo.typeId];
           exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
         });
         console.log('currentMonthHistory: ', res.data.exercisePos);
