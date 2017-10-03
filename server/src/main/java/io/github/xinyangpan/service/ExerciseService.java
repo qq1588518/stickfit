@@ -47,7 +47,11 @@ public class ExerciseService {
 		Map<Long, RankItem> customerId2RankItem = customerId2RankItem(exercisePos);
 		// 
 		List<RankItem> rank = Lists.newArrayList(customerId2RankItem.values());
-		Collections.sort(rank, Comparator.comparingInt(RankItem::getCount).reversed().thenComparing(RankItem::getLastId));
+		Comparator<RankItem> comparator = Comparator
+			.comparingInt(RankItem::getCount).reversed()
+			.thenComparing(RankItem::getJogAmount).reversed()
+			.thenComparingLong(RankItem::getLastId);
+		Collections.sort(rank, comparator);
 		return rank;
 	}
 
@@ -66,6 +70,9 @@ public class ExerciseService {
 			} else {
 				rankItem.setCount(rankItem.getCount() + 1);
 				rankItem.setLastId(Math.max(exercisePo.getId(), rankItem.getLastId()));
+			}
+			if (exercisePo.getTypeId() == 1) {
+				rankItem.setJogAmount(rankItem.getJogAmount().add(exercisePo.getAmount()));
 			}
 		}
 		return customerId2RankItem;

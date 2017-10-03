@@ -1,10 +1,13 @@
 package io.github.xinyangpan.persistent.vo;
 
+import java.math.BigDecimal;
+
 public class RankItem {
 	private long customerId;
 	private String username;
 	private int count;
 	private long lastId;
+	private BigDecimal jogAmount = BigDecimal.ZERO;
 
 	public RankItem() {
 	}
@@ -19,7 +22,7 @@ public class RankItem {
 
 	@Override
 	public String toString() {
-		return String.format("RankItem [customerId=%s, username=%s, count=%s, lastId=%s]", customerId, username, count, lastId);
+		return String.format("RankItem [customerId=%s, username=%s, count=%s, lastId=%s, jogAmount=%s]", customerId, username, count, lastId, jogAmount);
 	}
 
 	public long getCustomerId() {
@@ -52,6 +55,14 @@ public class RankItem {
 
 	public void setLastId(long lastId) {
 		this.lastId = lastId;
+	}
+
+	public BigDecimal getJogAmount() {
+		return jogAmount;
+	}
+
+	public void setJogAmount(BigDecimal jogAmount) {
+		this.jogAmount = jogAmount;
 	}
 
 }
