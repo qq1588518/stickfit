@@ -1,4 +1,4 @@
-const version = '1.1.4'
+const version = '1.1.5'
 const contextPath = 'https://www.panxinyang.cn/stickfit'
 let cacheTs = wx.getStorageSync('cacheTs')
 
