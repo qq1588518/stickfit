@@ -21,7 +21,7 @@ PATH=$PATH:${JAVA_HOME}/bin:${M2_HOME}/bin
 ####################################################
 # stop app
 ####################################################
-sh ${APP_HOME}/bin/stop.sh
+sh ${APP_HOME}/bin/stop.sh ${ENV}
 
 ####################################################
 # source compile
@@ -45,4 +45,4 @@ cp -R ./${APP_NAME} ${APP_HOME}
 # start app
 ####################################################
 
-sh ${APP_HOME}/bin/start.sh
+sh ${APP_HOME}/bin/start.sh ${ENV}
