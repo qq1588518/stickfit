@@ -4,7 +4,7 @@ ENV=$1
 APP_NAME=stickfit
 APP_HOME=/app/${APP_NAME}
 
-if [[ "${ENV}" -eq "dev" ]]; then
+if [ "${ENV}" == "dev" ]; then
   APP_HOME=/appdev/${APP_NAME}
 fi
 
