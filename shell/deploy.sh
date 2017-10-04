@@ -2,11 +2,17 @@
 
 #
 
+ENV=$1
+
 APP_NAME=stickfit
 JAVA_HOME=/usr/java/jdk1.8.0_144
 M2_HOME=/usr/local/apache-maven-3.5.0
 
 APP_HOME=/app/${APP_NAME}
+
+if [ "${ENV}" -eq "dev" ] {
+  APP_HOME=/appdev/${APP_NAME}
+}
 
 mkdir -p ${APP_HOME}
 
