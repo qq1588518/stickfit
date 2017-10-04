@@ -13,6 +13,8 @@ APP_HOME=/app/${APP_NAME}
 if [[ "${ENV}" -eq "dev" ]]; then
   APP_HOME=/appdev/${APP_NAME}
 fi
+
+echo "APP_HOME is ${APP_HOME}"
   
 mkdir -p ${APP_HOME}
 
