@@ -16,7 +16,7 @@ Page({
       success: res => {
         console.log('rank: ', res.data);
         res.data.map(item => {
-          item.msg = item.username + '打卡' + item.count + '次'
+          item.msg = item.username + '打卡' + item.count + '次 - ' + item.jogAmount + '公里';
         });
         var summary = '共' + res.data.length + '人打卡'
         this.setData({
