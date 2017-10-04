@@ -10,10 +10,10 @@ M2_HOME=/usr/local/apache-maven-3.5.0
 
 APP_HOME=/app/${APP_NAME}
 
-if [ "${ENV}" -eq "dev" ] {
+if [ "${ENV}" -eq "dev" ]
   APP_HOME=/appdev/${APP_NAME}
-}
-
+fi
+  
 mkdir -p ${APP_HOME}
 
 PATH=$PATH:${JAVA_HOME}/bin:${M2_HOME}/bin
