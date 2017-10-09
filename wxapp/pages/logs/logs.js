@@ -1,5 +1,6 @@
 //logs.js
 const core = require('../../utils/core.js')
+const wxx = require('../../utils/wxx.js')
 
 Page({
   data: {
@@ -19,13 +20,14 @@ Page({
   },
   currentMonthHistory: function () {
     wx.request({
-      url: 'https://www.panxinyang.cn/stickfit/exercise/currentMonthHistory',
+      url: wxx.getPath('/exercise/currentMonthHistory'),
       data: {
         customerId: this.data.customer.id
       },
       success: res => {
         console.log('currentMonthHistory: ', res);
-        res.data.exercisePos.map(exercisePo => {
+        const exercisePos = res.data.exercisePos || [];
+        exercisePos.map(exercisePo => {
           var exerciseType = core.exercise.exerciseTypeMap[exercisePo.typeId];
           exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
         });
@@ -70,7 +72,7 @@ Page({
     });
     console.log('clear selected', ids);
     wx.request({
-      url: 'https://www.panxinyang.cn/stickfit/exercise/deleteExercisesByIds',
+      url: wxx.getPath('/exercise/deleteExercisesByIds'),
       data: {
         ids: ids
       },

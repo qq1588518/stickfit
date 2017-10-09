@@ -1,4 +1,6 @@
 // pages/rank/rank.js
+const wxx = require('../../utils/wxx.js')
+
 Page({
   /**
    * 页面的初始数据
@@ -12,7 +14,7 @@ Page({
    */
   onShow: function () {
     wx.request({
-      url: 'https://www.panxinyang.cn/stickfit/exercise/rank',
+      url: wxx.getPath('/exercise/rank'),
       success: res => {
         console.log('rank: ', res.data);
         res.data.map(item => {

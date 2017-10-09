@@ -1,6 +1,7 @@
 //index.js
 const util = require('../../utils/util.js')
 const core = require('../../utils/core.js')
+const wxx = require('../../utils/wxx.js')
 
 //获取应用实例
 const app = getApp()
@@ -119,7 +120,7 @@ Page({
             exercise.customerId = user.customer.id;
             // 远端添加
             wx.request({
-              url: 'https://www.panxinyang.cn/stickfit/exercisePoes',
+              url: wxx.getPath('/exercisePoes'),
               method: 'POST',
               data: exercise,
               success: res => {

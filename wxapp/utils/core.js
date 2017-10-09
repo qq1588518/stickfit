@@ -1,3 +1,5 @@
+const wxx = require('./wxx.js')
+
 const user = {
   // customer: {"id":1,"openId":"oqZ4f0VOsFEyPM9Gq4vJsmlx-r8I","username":"新阳"}
   customer: null,
@@ -33,7 +35,7 @@ const user = {
                       this.userInfo = res.userInfo;
                       // 发起网络请求 - nickName
                       wx.request({
-                        url: 'https://www.panxinyang.cn/stickfit/customer/login',
+                        url: wxx.getPath('/customer/login'),
                         data: { code, username: res.userInfo.nickName },
                         success: e => {
                           this.customer = e.data;
@@ -47,7 +49,7 @@ const user = {
                 } else {
                   // 发起网络请求 - 无nickName
                   wx.request({
-                    url: 'https://www.panxinyang.cn/stickfit/customer/login',
+                    url: wxx.getPath('/customer/login'),
                     data: {
                       code: code
                     },
@@ -71,7 +73,7 @@ const user = {
     this.getUser(user => {
       this.userInfo = userInfo;
       wx.request({
-        url: 'https://www.panxinyang.cn/stickfit/customer/update',
+        url: wxx.getPath('/customer/update'),
         data: {
           customerId: user.customer.id,
           username: userInfo.nickName
@@ -85,6 +87,7 @@ const user = {
 }
 
 const exercise = {
+  
   // exerciseTypePo Array
   exerciseTypes: null,
   // id -> exerciseTypePo
@@ -103,7 +106,7 @@ const exercise = {
     }
     // 获取运动信息
     wx.request({
-      url: 'https://www.panxinyang.cn/stickfit/exerciseTypePoes',
+      url: wxx.getPath('/exerciseTypePoes'),
       success: res => {
         this.exerciseTypes = res.data._embedded.exerciseTypePoes;
         for (let i in this.exerciseTypes) {
