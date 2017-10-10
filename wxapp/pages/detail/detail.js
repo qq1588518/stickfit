@@ -6,37 +6,42 @@ Page({
   data: {
     customer: {},
     records: [],
-    summary: ''
+    summary: '',
+    yearMonth: {}
   },
   onLoad: function (options) {
     console.log('onLoad: ', options);
     // options.customerId & options.username
     var customerId = options.customerId;
     var username = options.username;
+    var year = options.year;
+    var month = options.month;
     this.setData({
       customer: { 'id': customerId, 'username': options.username },
+      yearMonth: { year: year, month: month}
     })
-    wx.setNavigationBarTitle({ title: username + '本月运动记录' })
   },
   onShow: function () {
-    this.currentMonthHistory();
+    this.monthSummary();
   },
-  currentMonthHistory: function () {
+  monthSummary: function () {
     wx.request({
-      url: wxx.getPath('/exercise/currentMonthHistory'),
+      url: wxx.getPath('/exercise/monthSummary'),
       data: {
-        customerId: this.data.customer.id
+        customerId: this.data.customer.id,
+        year: this.data.yearMonth.year,
+        month: this.data.yearMonth.month
       },
       success: res => {
-        console.log('currentMonthHistory: ', res);
+        console.log('monthSummary: ', res);
         res.data.exercisePos.map(exercisePo => {
           var exerciseType = core.exercise.exerciseTypeMap[exercisePo.typeId];
           exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
         });
-        console.log('currentMonthHistory: ', res.data.exercisePos);
+        console.log('monthSummary: ', res.data.exercisePos);
         this.setData({
           records: res.data.exercisePos,
-          summary: this.data.customer.username + res.data.summary
+          summary: res.data.summary
         })
       }
     });

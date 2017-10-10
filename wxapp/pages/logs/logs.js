@@ -16,22 +16,22 @@ Page({
     })
   },
   onShow: function () {
-    this.currentMonthHistory();
+    this.monthSummary();
   },
-  currentMonthHistory: function () {
+  monthSummary: function () {
     wx.request({
-      url: wxx.getPath('/exercise/currentMonthHistory'),
+      url: wxx.getPath('/exercise/monthSummary'),
       data: {
         customerId: this.data.customer.id
       },
       success: res => {
-        console.log('currentMonthHistory: ', res);
+        console.log('monthSummary: ', res);
         const exercisePos = res.data.exercisePos || [];
         exercisePos.map(exercisePo => {
           var exerciseType = core.exercise.exerciseTypeMap[exercisePo.typeId];
           exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
         });
-        console.log('currentMonthHistory: ', res.data.exercisePos);
+        console.log('monthSummary: ', res.data.exercisePos);
         this.setData({
           records: res.data.exercisePos,
           summary: this.data.customer.username + res.data.summary

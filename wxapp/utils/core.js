@@ -7,6 +7,7 @@ const user = {
   userInfo: null,
 
   getUser: function (resolve, reject) {
+    console.log('getUser');
     if (this.customer) {
       resolve(this)
       return;

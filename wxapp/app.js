@@ -6,7 +6,6 @@ App({
   onLaunch: function (res) {
     wx.showLoading({ mask: true })
     wxx.init
-      .then(e => { return core.user.gerUserPromise })
       .then(e => {
         core.user.getUser(e => {
           core.exercise.getExercise (e => {

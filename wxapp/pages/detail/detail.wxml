@@ -1,6 +1,6 @@
 <!--pages/detail/detail.wxml-->
 <view class="container log-list">
-  <view class="weui-cells__title">{{customer.username}}本月运动记录</view>
+  <view class="weui-cells__title">{{customer.username}}{{yearMonth.year}}年{{yearMonth.month}}月运动记录</view>
   <view class="weui-cells weui-cells_after-title">
     <label class="weui-cell weui-check__label" wx:for="{{records}}" wx:key="value">
       <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
