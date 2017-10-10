@@ -28,8 +28,8 @@ import io.github.xinyangpan.persistent.po.CustomerPo;
 import io.github.xinyangpan.persistent.po.ExercisePo;
 import io.github.xinyangpan.persistent.po.ExerciseTypePo;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
-import io.github.xinyangpan.persistent.vo.RankItem;
 import io.github.xinyangpan.vo.MonthSummary;
+import io.github.xinyangpan.vo.RankItem;
 
 @Service
 @Transactional
@@ -101,7 +101,7 @@ public class ExerciseService {
 	}
 
 	private String generateSummary(List<ExercisePo> exercisePos) {
-		String summary = String.format("共打卡%s次.", exercisePos.size());
+		String summary = String.format("打卡%s次.", exercisePos.size());
 		if (exercisePos.isEmpty()) {
 			return summary;
 		}

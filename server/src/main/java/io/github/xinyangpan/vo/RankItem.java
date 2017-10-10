@@ -1,4 +1,4 @@
-package io.github.xinyangpan.persistent.vo;
+package io.github.xinyangpan.vo;
 
 import java.math.BigDecimal;
 
