@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import io.github.xinyangpan.persistent.po.CustomerPo;
 import io.github.xinyangpan.persistent.po.ExercisePo;
 import io.github.xinyangpan.persistent.po.ExerciseTypePo;
+import io.github.xinyangpan.persistent.po.GroupPo;
 
 @SpringBootApplication
 @EnableTransactionManagement
@@ -29,7 +30,7 @@ public class StickfitApplication {
 
 	@PostConstruct
 	public void init() {
-		repositoryRestConfiguration.exposeIdsFor(CustomerPo.class, ExercisePo.class, ExerciseTypePo.class);
+		repositoryRestConfiguration.exposeIdsFor(CustomerPo.class, GroupPo.class, ExercisePo.class, ExerciseTypePo.class);
 	}
 
 	@Bean
