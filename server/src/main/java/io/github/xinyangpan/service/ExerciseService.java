@@ -21,13 +21,13 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 
-import io.github.xinyangpan.core.CoreUtils;
 import io.github.xinyangpan.persistent.dao.CustomerDao;
 import io.github.xinyangpan.persistent.dao.ExerciseDao;
 import io.github.xinyangpan.persistent.dao.ExerciseTypeDao;
 import io.github.xinyangpan.persistent.po.CustomerPo;
 import io.github.xinyangpan.persistent.po.ExercisePo;
 import io.github.xinyangpan.persistent.po.ExerciseTypePo;
+import io.github.xinyangpan.persistent.po.type.YearMonth;
 import io.github.xinyangpan.persistent.vo.RankItem;
 import io.github.xinyangpan.vo.CurrentMonthHistory;
 
@@ -41,8 +41,8 @@ public class ExerciseService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public List<RankItem> rank(int month) {
-		List<ExercisePo> exercisePos = exerciseDao.findByMonth(month);
+	public List<RankItem> rank(YearMonth yearMonth) {
+		List<ExercisePo> exercisePos = exerciseDao.findByMonth(yearMonth);
 		// 
 		Map<Long, RankItem> customerId2RankItem = customerId2RankItem(exercisePos);
 		// 
@@ -90,8 +90,8 @@ public class ExerciseService {
 		}
 	}
 
-	public CurrentMonthHistory currentMonthHistory(long customerId) {
-		List<ExercisePo> exercisePos = exerciseDao.findByCustomerIdAndMonthOrderByTimeAsc(customerId, CoreUtils.getMonth());
+	public CurrentMonthHistory currentMonthHistory(long customerId, YearMonth yearMonth) {
+		List<ExercisePo> exercisePos = exerciseDao.findByCustomerIdAndMonthOrderByTimeAsc(customerId, yearMonth);
 		// 
 		CurrentMonthHistory history = new CurrentMonthHistory();
 		history.setExercisePos(exercisePos);

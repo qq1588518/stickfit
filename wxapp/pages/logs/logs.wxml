@@ -8,7 +8,7 @@
         <checkbox class="weui-check" value="{{item.id}}" checked="{{item.checked}}" />
 
         <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
-        <view class="weui-cell__hd weui-check__hd_in-checkbox" hidden='{{isRedirect}}'>
+        <view class="weui-cell__hd weui-check__hd_in-checkbox">
           <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
           <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
         </view>
@@ -17,7 +17,7 @@
   </view>
   <view class="weui-cells__tips">{{summary}}</view>
 
-  <view class="weui-btn-area" hidden='{{isRedirect}}'>
+  <view class="weui-btn-area">
     <button class="weui-btn" type="warn" bindtap='clearSelected'>删除选中</button>
   </view>
 </view>

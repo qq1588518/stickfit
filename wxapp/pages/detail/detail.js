@@ -1,5 +1,6 @@
 // pages/detail/detail.js
 const core = require('../../utils/core.js')
+const wxx = require('../../utils/wxx.js')
 
 Page({
   data: {
@@ -22,7 +23,7 @@ Page({
   },
   currentMonthHistory: function () {
     wx.request({
-      url: 'https://www.panxinyang.cn/stickfit/exercise/currentMonthHistory',
+      url: wxx.getPath('/exercise/currentMonthHistory'),
       data: {
         customerId: this.data.customer.id
       },

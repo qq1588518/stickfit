@@ -3,12 +3,14 @@ package io.github.xinyangpan.persistent.po;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import io.github.xinyangpan.core.CoreUtils;
+import io.github.xinyangpan.persistent.po.converter.YearMonthConverter;
+import io.github.xinyangpan.persistent.po.type.YearMonth;
 
 @Entity
 public class ExercisePo {
@@ -18,7 +20,8 @@ public class ExercisePo {
 	private long id;
 	private long customerId;
 	private long typeId;
-	private int month;
+	@Convert(converter = YearMonthConverter.class)
+	private YearMonth month;
 	private Date time;
 	private BigDecimal amount;
 
@@ -51,11 +54,11 @@ public class ExercisePo {
 		this.typeId = typeId;
 	}
 
-	public int getMonth() {
+	public YearMonth getMonth() {
 		return month;
 	}
 
-	public void setMonth(int month) {
+	public void setMonth(YearMonth month) {
 		this.month = month;
 	}
 
@@ -65,7 +68,7 @@ public class ExercisePo {
 
 	public void setTime(Date time) {
 		this.time = time;
-		this.month = CoreUtils.getMonth(time);
+		this.month = YearMonth.of(time);
 	}
 
 	public BigDecimal getAmount() {
