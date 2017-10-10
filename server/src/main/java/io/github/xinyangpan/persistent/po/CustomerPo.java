@@ -17,10 +17,11 @@ public class CustomerPo {
 	@Column(unique = true)
 	private String openId;
 	private String username;
+	private Long groupId;
 
 	@Override
 	public String toString() {
-		return String.format("CustomerPo [id=%s, openId=%s, username=%s]", id, openId, username);
+		return String.format("CustomerPo [id=%s, openId=%s, username=%s, groupId=%s]", id, openId, username, groupId);
 	}
 
 	public long getId() {
@@ -45,6 +46,14 @@ public class CustomerPo {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Long getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
 	}
 
 }
