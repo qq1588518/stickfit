@@ -17,6 +17,16 @@ public class YearMonth {
 		month = yearMonth - year * 100;
 	}
 	
+	public static YearMonth of(Integer year, Integer month) {
+		YearMonth yearMonth;
+		if (year == null || month == null) {
+			yearMonth = YearMonth.now();
+		} else {
+			yearMonth = new YearMonth(year, month);
+		}
+		return yearMonth;
+	}
+	
 	public static YearMonth of(Date date) {
 		return of(LocalDate.from(date.toInstant()));
 	}

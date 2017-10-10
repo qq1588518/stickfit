@@ -29,7 +29,7 @@ import io.github.xinyangpan.persistent.po.ExercisePo;
 import io.github.xinyangpan.persistent.po.ExerciseTypePo;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
 import io.github.xinyangpan.persistent.vo.RankItem;
-import io.github.xinyangpan.vo.CurrentMonthHistory;
+import io.github.xinyangpan.vo.MonthSummary;
 
 @Service
 @Transactional
@@ -90,17 +90,18 @@ public class ExerciseService {
 		}
 	}
 
-	public CurrentMonthHistory currentMonthHistory(long customerId, YearMonth yearMonth) {
+	public MonthSummary monthHistory(long customerId, YearMonth yearMonth) {
 		List<ExercisePo> exercisePos = exerciseDao.findByCustomerIdAndMonthOrderByTimeAsc(customerId, yearMonth);
 		// 
-		CurrentMonthHistory history = new CurrentMonthHistory();
+		MonthSummary history = new MonthSummary();
+		history.setYearMonth(yearMonth);
 		history.setExercisePos(exercisePos);
 		history.setSummary(this.generateSummary(exercisePos));
 		return history;
 	}
 
 	private String generateSummary(List<ExercisePo> exercisePos) {
-		String summary = String.format("本月共打卡%s次.", exercisePos.size());
+		String summary = String.format("共打卡%s次.", exercisePos.size());
 		if (exercisePos.isEmpty()) {
 			return summary;
 		}
