@@ -1,5 +1,5 @@
 // pages/detail/detail.js
-const core = require('../../utils/core.js')
+const exercise = require('../../utils/exercise.js')
 const wxx = require('../../utils/wxx.js')
 
 Page({
@@ -35,7 +35,7 @@ Page({
       success: res => {
         console.log('monthSummary: ', res);
         res.data.exercisePos.map(exercisePo => {
-          var exerciseType = core.exercise.exerciseTypeMap[exercisePo.typeId];
+          var exerciseType = exercise.exercise.exerciseTypeMap[exercisePo.typeId];
           exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
         });
         console.log('monthSummary: ', res.data.exercisePos);

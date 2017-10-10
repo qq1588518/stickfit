@@ -1,5 +1,6 @@
 //logs.js
-const core = require('../../utils/core.js')
+const user = require('../../utils/user.js')
+const exercise = require('../../utils/exercise.js')
 const wxx = require('../../utils/wxx.js')
 
 Page({
@@ -9,10 +10,8 @@ Page({
     summary: ''
   },
   onLoad: function (options) {
-    core.user.getUser(user => {
-      this.setData({
-        customer: user.customer
-      })
+    this.setData({
+      customer: user.user.customer
     })
   },
   onShow: function () {
@@ -28,7 +27,7 @@ Page({
         console.log('monthSummary: ', res);
         const exercisePos = res.data.exercisePos || [];
         exercisePos.map(exercisePo => {
-          var exerciseType = core.exercise.exerciseTypeMap[exercisePo.typeId];
+          var exerciseType = exercise.exercise.exerciseTypeMap[exercisePo.typeId];
           exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
         });
         console.log('monthSummary: ', res.data.exercisePos);

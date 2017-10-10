@@ -1,6 +1,7 @@
 //index.js
 const util = require('../../utils/util.js')
-const core = require('../../utils/core.js')
+const user = require('../../utils/user.js')
+const exercise = require('../../utils/exercise.js')
 const wxx = require('../../utils/wxx.js')
 
 //获取应用实例
@@ -17,8 +18,7 @@ Page({
     amount: null
   },
   onLoad: function () {
-    // 
-    core.exercise.getExercise(exercise => {
+    exercise.getExercise(exercise => {
       exercise.exerciseTypes[0].checked = true;
       this.setData({
         date: util.formatDate(new Date()),
@@ -27,7 +27,7 @@ Page({
       })
     })
     // 
-    core.user.getUser(user => {
+    user.getUser(user => {
       if (user && user.userInfo) {
         this.setData({
           userInfo: user.userInfo,
@@ -61,7 +61,7 @@ Page({
       userInfo: userInfo,
       hasUserInfo: true
     })
-    core.user.updateUserInfo(userInfo);
+    user.updateUserInfo(userInfo);
   },
   bindDateChange: function (e) {
     this.setData({
@@ -112,30 +112,28 @@ Page({
           })
         } else {
           // 打卡成功
-          core.user.getUser(user => {
-            var exercise = {};
-            exercise.amount = formData.amount;
-            exercise.typeId = formData.type;
-            exercise.time = new Date(formData.date);
-            exercise.customerId = user.customer.id;
-            // 远端添加
-            wx.request({
-              url: wxx.getPath('/exercisePoes'),
-              method: 'POST',
-              data: exercise,
-              success: res => {
-                console.log('exercisePoes: ' + JSON.stringify(res));
-                // 提示信息
-                wx.showToast({
-                  title: '打卡完成',
-                  duration: 1200
-                });
-                this.setData({
-                  amount: null
-                })
-              }
-            });
-          })
+          var exercise = {};
+          exercise.amount = formData.amount;
+          exercise.typeId = formData.type;
+          exercise.time = new Date(formData.date);
+          exercise.customerId = user.user.customer.id;
+          // 远端添加
+          wx.request({
+            url: wxx.getPath('/exercisePoes'),
+            method: 'POST',
+            data: exercise,
+            success: res => {
+              console.log('exercisePoes: ' + JSON.stringify(res));
+              // 提示信息
+              wx.showToast({
+                title: '打卡完成',
+                duration: 1200
+              });
+              this.setData({
+                amount: null
+              })
+            }
+          });
         }
       }
     }

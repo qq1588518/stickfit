@@ -2,13 +2,6 @@ const version = '1.1.7'
 const contextPath = 'https://www.panxinyang.cn/stickfit'
 let cacheTs = wx.getStorageSync('cacheTs')
 
-const init = new Promise(function (resolve, reject) {
-  new Promise(initEnv)
-    .then(e => {return new Promise(checkIfClearStorage)})
-    .then(resolve)
-    .catch(reject);
-})
-
 function initEnv (resolve, reject) {
   wx.request({
     url: getPath('/core/version', 'prd'),
@@ -75,7 +68,8 @@ function getPath (path, env) {
 }
 
 module.exports = {
-  init,
+  initEnv,
+  checkIfClearStorage,
   getPath,
   getEnv,
   isPrd
