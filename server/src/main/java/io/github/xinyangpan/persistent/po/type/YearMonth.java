@@ -1,6 +1,7 @@
 package io.github.xinyangpan.persistent.po.type;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 public class YearMonth {
@@ -16,7 +17,7 @@ public class YearMonth {
 		year = yearMonth / 100;
 		month = yearMonth - year * 100;
 	}
-	
+
 	public static YearMonth of(Integer year, Integer month) {
 		YearMonth yearMonth;
 		if (year == null || month == null) {
@@ -26,15 +27,17 @@ public class YearMonth {
 		}
 		return yearMonth;
 	}
-	
+
 	public static YearMonth of(Date date) {
-		return of(LocalDate.from(date.toInstant()));
+		Calendar instance = Calendar.getInstance();
+		instance.setTime(date);
+		return new YearMonth(instance.get(Calendar.YEAR), instance.get(Calendar.MONTH) + 1);
 	}
-	
+
 	public static YearMonth of(LocalDate localDate) {
 		return new YearMonth(localDate.getYear(), localDate.getMonthValue());
 	}
-	
+
 	public static YearMonth now() {
 		LocalDate localDate = LocalDate.now();
 		return new YearMonth(localDate.getYear(), localDate.getMonthValue());
