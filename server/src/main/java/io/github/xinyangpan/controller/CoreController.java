@@ -12,7 +12,7 @@ public class CoreController {
 
 	@GetMapping("/version")
 	public String version() {
-		return "1.1.6";
+		return "1.1.7";
 	}
 
 	@GetMapping("/cacheTimestamp")
