@@ -1,0 +1,35 @@
+<!--pages/groupCreate/groupCreate.wxml-->
+<!--pages/group/group.wxml-->
+<view class="page">
+
+  <!-- form  -->
+  <form bindsubmit="formSubmit" bindreset="formReset" hidden='{{afterCreate}}'>
+    <view class="weui-cells__title">创建跑团</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input name="name" class="weui-input" placeholder="必填" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">密码</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input name="password" class="weui-input" password="true" placeholder="可不填" />
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" form-type="submit">确认创建</button>
+    </view>
+  </form>
+
+  <view class="weui-cell" hidden='{{!afterCreate}}'>
+    创建成功
+  </view>
+</view>

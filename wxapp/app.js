@@ -2,16 +2,12 @@
 const wxx = require('./utils/wxx.js')
 const user = require('./utils/user.js')
 const exercise = require('./utils/exercise.js')
+const util = require('./utils/util.js')
 
 App({
   onLaunch: function (res) {
     wx.showLoading({ mask: true })
-    new Promise(wxx.initEnv)
-      .then(e => { return new Promise(wxx.checkIfClearStorage) })
-      .then(e => { return new Promise(exercise.getExercise) })
-      .then(e => { return new Promise(user.getUser) })
-      .then(e => { this.done() })
-      .catch(e => { console.log('onLaunch: error = ', e) })
+    util.initPromise.then(e => { this.done() })
   },
   done: function () {
     console.log('onLaunch: wxx.getEnv() = ', wxx.getEnv());

@@ -1,5 +1,6 @@
 // pages/rank/rank.js
 const wxx = require('../../utils/wxx.js')
+const user = require('../../utils/user.js')
 
 Page({
   /**
@@ -10,14 +11,21 @@ Page({
     summary: '',
     historyRange: [],
     selectedIndex: 0,
-    yearMonth: null,
+    yearMonth: null
   },
   /**
    * 生命周期函数--监听页面显示
    */
-  onLoad: function () {
+  onLoad: function (options) {
+    console.log('rank.onLoad: ', options);
+    if (!user.user.customer.groupId) {
+      return;
+    }
     wx.request({
       url: wxx.getPath('/exercise/rank'),
+      data: {
+        groupId: user.user.customer.groupId
+      },
       success: this.setRankData
     });
     wx.request({
@@ -42,10 +50,12 @@ Page({
   changeMonth: function (e) {
     const selectedIndex = e.detail.value;
     const yearMonth = this.data.historyRange[selectedIndex];
+    const data = yearMonth;
+    data.groupId = user.user.customer.groupId
     console.log('changeMonth:', yearMonth);
     wx.request({
       url: wxx.getPath('/exercise/rank'),
-      data: yearMonth,
+      data: data,
       success: res => {
         this.setRankData(res);
         this.setData({

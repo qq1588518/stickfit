@@ -3,7 +3,10 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/rank/rank",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/me/me",
+    "pages/group/group",
+    "pages/groupCreate/groupCreate"
   ],
   "window": {
     "navigationBarTitleText": "下一马"
@@ -27,6 +30,12 @@
         "pagePath": "pages/rank/rank",
         "iconPath": "image/if_handdrawn-medal_335388.png",
         "selectedIconPath": "image/if_handdrawn-medal_335388.png"
+      },
+      {
+        "text": "跑团",
+        "pagePath": "pages/group/group",
+        "iconPath": "image/if_group_216232.png",
+        "selectedIconPath": "image/if_group_216232.png"
       }
     ]
   },

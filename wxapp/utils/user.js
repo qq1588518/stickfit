@@ -5,6 +5,8 @@ const user = wx.getStorageSync('user') || {
   customer: null,
   // userInfo: {"nickName":"新阳","gender":1,"language":"zh_CN","city": .,"province": .,"country": .,"avatarUrl": .}
   userInfo: null,
+  // group: {"id":1,"name":"下一马"}
+  group: null,
 }
 
 const getUser = function (resolve, reject) {
@@ -13,7 +15,6 @@ const getUser = function (resolve, reject) {
     resolve(user)
     return;
   }
-  // 登录
   wx.login({
     success: res => {
       // 发送 res.code 到后台换取 openId, sessionKey, unionId
@@ -34,24 +35,22 @@ const getUser = function (resolve, reject) {
                     url: wxx.getPath('/customer/login'),
                     data: { code, username: res.userInfo.nickName },
                     success: e => {
-                      user.customer = e.data;
+                      serverLogin(e, resolve, reject);
                       resolve(user);
-                      wx.setStorageSync('user', user);
                     },
                     fail: reject
                   })
                 }
               })
             } else {
-              // 发起网络请求 - 无nickName
+              // 未授权, 发起网络请求 - 无nickName
               wx.request({
                 url: wxx.getPath('/customer/login'),
                 data: {
                   code: code
                 },
                 success: e => {
-                  resolve(user);
-                  wx.setStorageSync('user', user);
+                  serverLogin(e, resolve, reject);
                 },
                 fail: reject
               })
@@ -63,6 +62,35 @@ const getUser = function (resolve, reject) {
       }
     }
   })
+}
+
+const refreshUser = function (resolve, reject) {
+  wx.request({
+    url: wxx.getPath(`/customerPoes/${user.customer.id}`),
+    success: e => {
+      serverLogin(e, resolve, reject);
+    },
+    fail: reject
+  })
+}
+
+const serverLogin = function (e, resolve, reject) {
+  console.log('serverLogin: code =', e);
+  user.customer = e.data;
+  // if (user.customer.groupId) {
+  //   wx.request({
+  //     url: wxx.getPath(`/groupPoes/${user.customer.groupId}`),
+  //     success: e => {
+  //       user.group = e.data;
+  //       wx.setStorageSync('user', user);
+  //       resolve(user);
+  //     },
+  //     fail: reject
+  //   })
+  // } else {
+    wx.setStorageSync('user', user);
+    resolve(user);
+  // }
 }
 
 const updateUserInfo = function (userInfo) {
@@ -84,5 +112,6 @@ const updateUserInfo = function (userInfo) {
 module.exports = {
   user,
   getUser,
+  refreshUser,
   updateUserInfo
 }

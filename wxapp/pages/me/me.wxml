@@ -1,0 +1,29 @@
+<!--pages/me/me.wxml-->
+<view class="page">
+  <view class="userinfo">
+    <image wx:if="{{user.userInfo.avatarUrl}}" class="userinfo-avatar" src="{{user.userInfo.avatarUrl}}" background-size="cover" />
+    <text class="userinfo-nickname">{{user.userInfo.nickName}}</text>
+  </view>
+
+  <view class="page__bd">
+    <view class="weui-cells">
+      <view class="weui-cell" bindtap='changeNickName'>
+        <view class="weui-cell__bd">跑团</view>
+        <block wx:if="{{user.group}}">
+          <view class="weui-cell__ft weui-cell__ft_in-access">{{user.group.name}}({{user.group.id}})</view>
+        </block>
+        <block wx:else>
+          <view class="weui-cell__ft weui-cell__ft_in-access">加入一个跑团</view>
+        </block>
+      </view>
+    </view>
+
+    <view class="weui-cells">
+      <view class="weui-cell" bindtap='changeNickName'>
+        <view class="weui-cell__bd">设置</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+    </view>
+  </view>
+
+</view>

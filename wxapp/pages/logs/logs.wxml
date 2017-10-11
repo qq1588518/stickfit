@@ -1,5 +1,5 @@
 <!--logs.wxml-->
-<view class="container log-list">
+<view class="container">
   <view class="weui-cells__title">{{customer.username}}本月运动记录</view>
   <view class="weui-cells weui-cells_after-title">
 

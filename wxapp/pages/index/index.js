@@ -18,13 +18,14 @@ Page({
     amount: null
   },
   onLoad: function () {
-    exercise.getExercise(exercise => {
-      exercise.exerciseTypes[0].checked = true;
-      this.setData({
-        date: util.formatDate(new Date()),
-        radioItems: exercise.exerciseTypes,
-        unit: exercise.exerciseTypes[0].unit
-      })
+    util.initPromise.then(e => { this.done() })
+  },
+  done: function () {
+    exercise.exercise.exerciseTypes[0].checked = true;
+    this.setData({
+      date: util.formatDate(new Date()),
+      radioItems: exercise.exercise.exerciseTypes,
+      unit: exercise.exercise.exerciseTypes[0].unit
     })
     // 
     user.getUser(user => {
@@ -75,6 +76,15 @@ Page({
   },
   //
   formSubmit: function (e) {
+    if (!user.user.customer.groupId) {
+      // 未加入任何跑团
+      wx.showModal({
+        title: '提示',
+        content: '请先加入一个跑团',
+        showCancel: false
+      })
+      return;
+    }
     var formData = e.detail.value;
     formData.amount = new Number(formData.amount);
     console.log('formSubmit: formData = ' + JSON.stringify(formData));
@@ -117,6 +127,7 @@ Page({
           exercise.typeId = formData.type;
           exercise.time = new Date(formData.date);
           exercise.customerId = user.user.customer.id;
+          exercise.groupId = user.user.customer.groupId;
           // 远端添加
           wx.request({
             url: wxx.getPath('/exercisePoes'),

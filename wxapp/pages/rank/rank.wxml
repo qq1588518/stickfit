@@ -1,5 +1,5 @@
 <!--pages/rank/rank.wxml-->
-<view class="container log-list">
+<view class="container">
   <view class="weui-cells__title">{{yearMonth.display}}排行榜</view>
   <view class="weui-cells weui-cells_after-title">
 
@@ -11,7 +11,7 @@
   </view>
   <view class="weui-cells__tips">{{summary}}</view>
 
-  <view class="weui-btn-area">
+  <view class="weui-btn-area" wx:if="{{historyRange[0]}}">
     <picker name="history" range="{{historyRange}}" range-key='display' value='{{selectedIndex}}' bindchange="changeMonth">
       <button class="weui-btn">历史记录</button>
     </picker>
