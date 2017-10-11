@@ -14,10 +14,11 @@ public class GroupPo {
 	private long id;
 	@NotNull
 	private String name;
-
+	private String password;
+	private long owner;
 	@Override
 	public String toString() {
-		return String.format("GroupPo [id=%s, name=%s]", id, name);
+		return String.format("GroupPo [id=%s, name=%s, password=%s, owner=%s]", id, name, password, owner);
 	}
 
 	public long getId() {
@@ -35,5 +36,22 @@ public class GroupPo {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public long getOwner() {
+		return owner;
+	}
+
+	public void setOwner(long owner) {
+		this.owner = owner;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 
 }
