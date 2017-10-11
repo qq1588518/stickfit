@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.xinyangpan.persistent.po.GroupPo;
 import io.github.xinyangpan.service.GroupService;
 
 @RestController
@@ -32,6 +33,11 @@ public class GroupController {
 	@GetMapping("/join")
 	public void join(long customerId, long groupId, String password) {
 		groupService.join(customerId, groupId, password);
+	}
+
+	@GetMapping("/create")
+	public void create(GroupPo groupPo) {
+		groupService.create(groupPo);
 	}
 
 }

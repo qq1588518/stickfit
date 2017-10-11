@@ -75,4 +75,12 @@ public class GroupService {
 		customerDao.save(customerPo);
 	}
 
+	public void create(GroupPo groupPo) {
+		GroupPo newGroupPo = groupDao.save(groupPo);
+		//
+		CustomerPo customerPo = customerDao.findOne(newGroupPo.getOwner());
+		customerPo.setGroupId(newGroupPo.getId());
+		customerDao.save(customerPo);
+	}
+
 }
