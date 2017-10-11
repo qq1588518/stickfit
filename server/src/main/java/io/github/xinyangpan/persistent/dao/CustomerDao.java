@@ -14,6 +14,6 @@ public interface CustomerDao extends PagingAndSortingRepository<CustomerPo, Long
 
 	List<CustomerPo> findByIdIn(Collection<Long> customerIds);
 
-	List<CustomerPo> findByGroupId(@Param("groupId") Long groupId);
+	List<CustomerPo> findByGroupIdAndUsernameIsNotNull(@Param("groupId") Long groupId);
 
 }
