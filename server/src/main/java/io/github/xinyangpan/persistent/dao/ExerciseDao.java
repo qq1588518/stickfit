@@ -13,4 +13,8 @@ public interface ExerciseDao extends PagingAndSortingRepository<ExercisePo, Long
 
 	List<ExercisePo> findByGroupIdAndMonth(long groupId, YearMonth yearMonth);
 
+	void deleteByCustomerId(long customerId);
+	
+	void deleteByGroupId(long groupId);
+
 }
