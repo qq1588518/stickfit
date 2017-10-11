@@ -1,5 +1,6 @@
 package io.github.xinyangpan.persistent.po;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,7 @@ public class GroupPo {
 	@NotNull
 	private String name;
 	private String password;
+	@Column(unique = true)
 	private long owner;
 	@Override
 	public String toString() {
