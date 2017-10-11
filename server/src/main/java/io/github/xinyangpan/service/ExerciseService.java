@@ -41,8 +41,8 @@ public class ExerciseService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public List<RankItem> rank(YearMonth yearMonth) {
-		List<ExercisePo> exercisePos = exerciseDao.findByMonth(yearMonth);
+	public List<RankItem> rank(long groupId, YearMonth yearMonth) {
+		List<ExercisePo> exercisePos = exerciseDao.findByGroupIdAndMonth(groupId, yearMonth);
 		// 
 		Map<Long, RankItem> customerId2RankItem = customerId2RankItem(exercisePos);
 		// 

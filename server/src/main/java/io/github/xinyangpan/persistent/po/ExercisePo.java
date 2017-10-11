@@ -19,6 +19,7 @@ public class ExercisePo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private long customerId;
+	private long groupId;
 	private long typeId;
 	@Convert(converter = YearMonthConverter.class)
 	private YearMonth month;
@@ -27,7 +28,7 @@ public class ExercisePo {
 
 	@Override
 	public String toString() {
-		return String.format("ExercisePo [id=%s, customerId=%s, typeId=%s, month=%s, time=%s, amount=%s]", id, customerId, typeId, month, time, amount);
+		return String.format("ExercisePo [id=%s, customerId=%s, groupId=%s, typeId=%s, month=%s, time=%s, amount=%s]", id, customerId, groupId, typeId, month, time, amount);
 	}
 
 	public long getId() {
@@ -77,6 +78,14 @@ public class ExercisePo {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
+	}
+
+	public long getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(long groupId) {
+		this.groupId = groupId;
 	}
 
 }

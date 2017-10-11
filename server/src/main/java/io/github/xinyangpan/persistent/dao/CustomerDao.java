@@ -10,7 +10,9 @@ import io.github.xinyangpan.persistent.po.CustomerPo;
 public interface CustomerDao extends PagingAndSortingRepository<CustomerPo, Long> {
 
 	CustomerPo findByOpenId(String openId);
-	
+
 	List<CustomerPo> findByIdIn(Collection<Long> customerIds);
-	
+
+	List<CustomerPo> findByGroupId(Long groupId);
+
 }

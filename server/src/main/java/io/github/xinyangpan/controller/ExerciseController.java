@@ -46,8 +46,11 @@ public class ExerciseController {
 	}
 
 	@GetMapping("/rank")
-	public List<RankItem> rank(Integer year, Integer month) {
-		return exerciseService.rank(YearMonth.of(year, month));
+	public List<RankItem> rank(Long groupId, Integer year, Integer month) {
+		if (groupId == null) {
+			return Lists.newArrayList();
+		}
+		return exerciseService.rank(groupId, YearMonth.of(year, month));
 	}
 
 	@GetMapping("/deleteExercisesByIds")
