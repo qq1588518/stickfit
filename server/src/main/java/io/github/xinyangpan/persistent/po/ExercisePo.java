@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 
 import io.github.xinyangpan.persistent.po.converter.YearMonthConverter;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
@@ -18,6 +19,7 @@ public class ExercisePo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	@Min(1)
 	private long customerId;
 	private long groupId;
 	private long typeId;
