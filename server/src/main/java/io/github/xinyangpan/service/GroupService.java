@@ -29,7 +29,8 @@ public class GroupService {
 	public GroupVo get(long groupId) {
 		GroupPo groupPo = groupDao.findOne(groupId);
 		CustomerPo customerPo = customerDao.findOne(groupPo.getOwnerId());
-		return new GroupVo(groupPo, customerPo);
+		List<CustomerPo> members = customerDao.findByGroupIdAndUsernameIsNotNull(groupId);
+		return new GroupVo(groupPo, customerPo, members);
 	}
 	
 	public void dismiss(long customerId, long groupId) {
