@@ -13,7 +13,7 @@
 
   <view class="weui-btn-area page__ft" wx:if="{{historyRange[0]}}">
     <picker name="history" range="{{historyRange}}" range-key='display' value='{{selectedIndex}}' bindchange="changeMonth">
-      <button class="weui-btn">历史记录</button>
+      <button class="weui-btn history">历史记录</button>
     </picker>
   </view>
 

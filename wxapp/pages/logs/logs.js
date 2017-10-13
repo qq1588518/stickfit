@@ -7,7 +7,8 @@ Page({
   data: {
     customer: {},
     records: [],
-    summary: ''
+    summary: '',
+    selected: []
   },
   onLoad: function (options) {
     this.setData({
@@ -33,20 +34,21 @@ Page({
         console.log('monthSummary: ', res.data.exercisePos);
         this.setData({
           records: res.data.exercisePos,
-          summary: this.data.customer.username + res.data.summary
+          summary: this.data.customer.username + res.data.summary,
+          selected: []
         })
       }
     });
   },
   checkboxChange: function (e) {
-    console.log('checkbox发生change事件，携带value值为：', e.detail.value);
-
-    var records = this.data.records, values = e.detail.value;
+    const selected = e.detail.value;
+    console.log('checkbox发生change事件，携带value值为：', selected);
+    const records = this.data.records;
     for (var i = 0, lenI = records.length; i < lenI; ++i) {
       records[i].checked = false;
 
-      for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
-        if (records[i].id == values[j]) {
+      for (var j = 0, lenJ = selected.length; j < lenJ; ++j) {
+        if (records[i].id == selected[j]) {
           records[i].checked = true;
           break;
         }
@@ -54,7 +56,8 @@ Page({
     }
 
     this.setData({
-      records: records
+      records: records,
+      selected
     });
   },
   clearSelected: function () {

@@ -3,7 +3,7 @@
   <view class="weui-cells__title">{{customer.username}}本月运动记录</view>
   <view class="weui-cells weui-cells_after-title my-cells">
 
-    <checkbox-group bindchange="checkboxChange">
+    <checkbox-group bindchange="checkboxChange" value="{{selected}}">
       <label class="weui-cell weui-check__label" wx:for="{{records}}" wx:key="value">
         <checkbox class="weui-check" value="{{item.id}}" checked="{{item.checked}}" />
 
@@ -18,6 +18,6 @@
   <view class="weui-cells__tips">{{summary}}</view>
 
   <view class="weui-btn-area page__ft">
-    <button class="weui-btn" type="warn" bindtap='clearSelected'>删除选中</button>
+    <button class="weui-btn" type="warn" bindtap="clearSelected" disabled="{{selected.length===0}}" >删除选中</button>
   </view>
 </view>
