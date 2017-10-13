@@ -1,7 +1,7 @@
 <!--pages/rank/rank.wxml-->
-<view class="container">
+<view class="page my-page">
   <view class="weui-cells__title">{{yearMonth.display}}排行榜</view>
-  <view class="weui-cells weui-cells_after-title">
+  <view class="weui-cells weui-cells_after-title my-cells">
 
     <navigator url="../detail/detail?customerId={{item.customerId}}&username={{item.username}}&year={{yearMonth.year}}&month={{yearMonth.month}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" wx:for="{{rank}}" wx:key="value">
       <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
@@ -11,7 +11,7 @@
   </view>
   <view class="weui-cells__tips">{{summary}}</view>
 
-  <view class="weui-btn-area" wx:if="{{historyRange[0]}}">
+  <view class="weui-btn-area page__ft" wx:if="{{historyRange[0]}}">
     <picker name="history" range="{{historyRange}}" range-key='display' value='{{selectedIndex}}' bindchange="changeMonth">
       <button class="weui-btn">历史记录</button>
     </picker>

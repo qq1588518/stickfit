@@ -7,8 +7,7 @@ Page({
     inputShowed: false,
     inputVal: "",
     inGroup: false,
-    group: {},
-    groupMembers: [],
+    group: null,
     buttonHidden: {
       transfer: false,
       dismiss: false,
@@ -18,60 +17,29 @@ Page({
     }
   },
   onShow: function () {
-    if (user.user.customer.groupId) {
-      new Promise((resolve, reject) => {
-        wx.request({
-          url: wxx.getPath(`/groupPoes/${user.user.customer.groupId}`),
-          success: resolve,
-          fail: reject
-        })
-      }).then(e => {
-        const group = e.data;
-        const isOwner = (group.ownerId == user.user.customer.id)
+    new Promise(user.getUserGroup)
+      .then(e => {
+        const groupVo = e.data;
+        const isOwner = (groupVo.group.ownerId == user.user.customer.id)
         this.setData({
-          group: group,
+          group: groupVo,
           inGroup: true,
-          buttonHidden: {
-            transfer: isOwner, dismiss: isOwner, leave: !isOwner,
-            join: false, create: false,
-          }
-        })
-        return new Promise((resolve, reject) => {
-          wx.request({
-            url: wxx.getPath(`/customerPoes/${group.ownerId}`),
-            success: resolve,
-            fail: reject
-          })
-        })
-      }).then(e => {
-        const owner = e.data;
-        const group = this.data.group;
-        group.ownerName = owner.username;
-        this.setData({
-          group: group
-        })
-        return new Promise((resolve, reject) => {
-          wx.request({
-            url: wxx.getPath(`/customerPoes/search/findByGroupIdAndUsernameIsNotNull?groupId=${group.id}`),
-            success: resolve,
-            fail: reject
-          })
-        })
-      }).then(e => {
-        const groupMembers = e.data._embedded.customerPoes;
-        console.log('groupMembers', groupMembers)
-        this.setData({
-          groupMembers: groupMembers
+          // buttonHidden: {
+          //   transfer: isOwner, dismiss: isOwner, leave: !isOwner,
+          //   join: false, create: false,
+          // }
         })
       })
-    } else {
-      this.setData({
-        buttonHidden: {
-          transfer: false, dismiss: false, leave: false,
-          join: false, create: true,
-        }
+      .catch(e => {
+        console.log('user.getUserGroup - catch: ', e)
+        this.setData({
+          inGroup: false,
+          // buttonHidden: {
+          //   transfer: false, dismiss: false, leave: false,
+          //   join: false, create: true,
+          // }
+        })
       })
-    }
   },
   showInput: function () {
     this.setData({
@@ -109,7 +77,7 @@ Page({
           success: e => {
             this.setData({
               inGroup: false,
-              group: {},
+              group: null,
               buttonHidden: {
                 transfer: false, dismiss: false, leave: false,
                 join: false, create: true,
@@ -138,7 +106,7 @@ Page({
             user.refreshUserCustomer((resolve, reject) => {
               this.setData({
                 inGroup: false,
-                group: {},
+                group: null,
                 buttonHidden: {
                   transfer: false, dismiss: false, leave: false,
                   join: false, create: true,
@@ -156,23 +124,7 @@ Page({
     console.log('transferGroup')
   },
   joinGroup: function () {
-    wx.showModal({
-      title: '注意',
-      content: '离开跑团后, 您的所有运动记录将被删除.',
-      confirmColor: '#E64340',
-      confirmText: '离开',
-      cancelColor: '#3CC51F',
-      cancelText: '返回',
-      success: res => {
-        if (res.confirm) {
-          this.setData({
-            inGroup: false
-          })
-        } else {
-          console.log('用户点击取消')
-        }
-      }
-    })
+    console.log('joinGroup')
   },
   createGroup: function () {
     wx.navigateTo({

@@ -51,3 +51,12 @@ page{
 .userinfo-nickname {
   color: #aaa;
 }
+
+/** my **/
+.my-page {
+  padding: 10px;
+}
+
+.my-cells {
+  background: none;
+}

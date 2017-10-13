@@ -1,77 +1,39 @@
 <!--pages/group/group.wxml-->
-<view class="page">
-  <view class="page__bd" hidden='{{inGroup}}'>
-    <view class="weui-search-bar">
-      <view class="weui-search-bar__form">
-        <view class="weui-search-bar__box">
-          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-          <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
-          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
-            <icon type="clear" size="14"></icon>
-          </view>
+<view class="page my-page">
+  <view class="page__bd">
+
+    <view wx:if='{{group}}'>
+      <view class="weui-cells__title">跑团信息</view>
+      <view class="weui-cells weui-cells_after-title my-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">ID</view>
+          <view class="weui-cell__ft">{{group.group.id}}</view>
         </view>
-        <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
-          <icon class="weui-icon-search" type="search" size="14"></icon>
-          <view class="weui-search-bar__text">搜索</view>
-        </label>
+        <view class="weui-cell">
+          <view class="weui-cell__bd">名称</view>
+          <view class="weui-cell__ft">{{group.group.name}}</view>
+        </view>
+        <view class="weui-cell">
+          <view class="weui-cell__bd">团长</view>
+          <view class="weui-cell__ft">{{group.owner.username}}</view>
+        </view>
       </view>
-      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
     </view>
 
-
-    <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
+    <view wx:if='{{inGroup}}'>
+      <view class="weui-cells__title">成员信息</view>
+      <view class="weui-cells weui-cells_after-title my-cells">
+        <view class="weui-cell" wx:for="{{group.members}}" wx:key="id">
+          <view class="weui-cell__bd">{{item.username}}</view>
+          <view class="weui-cell__ft"></view>
         </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
+      </view>
+      <view class="weui-cells__tips">共{{group.members.length + 1}}人</view>
     </view>
+
   </view>
 
-  <block wx:if='{{group.id}}'>
-    <view class="weui-cells__title">跑团信息</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">ID</view>
-        <view class="weui-cell__ft">{{group.id}}</view>
-      </view>
-      <view class="weui-cell">
-        <view class="weui-cell__bd">名称</view>
-        <view class="weui-cell__ft">{{group.name}}</view>
-      </view>
-      <view class="weui-cell">
-        <view class="weui-cell__bd">团长</view>
-        <view class="weui-cell__ft">{{group.ownerName}}</view>
-      </view>
-    </view>
-  </block>
-
-  <block wx:if='{{inGroup}}'>
-    <view class="weui-cells__title">成员信息</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell" wx:for="{{groupMembers}}" wx:key="id">
-        <view class="weui-cell__bd">{{item.username}}</view>
-        <view class="weui-cell__ft"></view>
-      </view>
-    </view>
-  </block>
-
-  <view class="weui-btn-area">
+  <view class="weui-btn-area page__ft">
     <button wx:if='{{buttonHidden.transfer}}' class="weui-btn" type="warn" bindtap='transferGroup'>转让</button>
     <button wx:if='{{buttonHidden.leave}}' class="weui-btn" type="warn" bindtap='leaveGroup'>离开</button>
     <button wx:if='{{buttonHidden.dismiss}}' class="weui-btn" type="warn" bindtap='dismissGroup'>解散</button>

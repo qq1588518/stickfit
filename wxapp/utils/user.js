@@ -95,54 +95,16 @@ const updateUserInfo = function (userInfo) {
   })
 }
 
-
 const getUserGroup = function (resolve, reject) {
   if (!user.customer.groupId) {
     reject('User is not in a group')
     return;
   }
-  new Promise((resolve, reject) => {
-    wx.request({
-      url: wxx.getPath(`/groupPoes/${user.customer.groupId}`),
-      success: resolve,
-      fail: reject
-    })
-  }).then(e => {
-    const group = e.data;
-    group.isOwner = (group.ownerId == user.user.customer.id);
-    if (group.isOwner) {
-      return new Promise((resolve, reject) => {
-        resolve({ data: user.customer });
-      })
-    } else {
-      return new Promise((resolve, reject) => {
-        wx.request({
-          url: wxx.getPath(`/customerPoes/${group.ownerId}`),
-          success: resolve,
-          fail: reject
-        })
-      })
-    }
-  }).then(e => {
-    const owner = e.data;
-    const group = this.data.group;
-    group.ownerName = owner.username;
-    this.setData({
-      group: group
-    })
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: wxx.getPath(`/customerPoes/search/findByGroupIdAndUsernameIsNotNull?groupId=${group.id}`),
-        success: resolve,
-        fail: reject
-      })
-    })
-  }).then(e => {
-    const groupMembers = e.data._embedded.customerPoes;
-    console.log('groupMembers', groupMembers)
-    this.setData({
-      groupMembers: groupMembers
-    })
+  wx.request({
+    url: wxx.getPath('/group/get'),
+    data: { groupId: user.customer.groupId },
+    success: resolve,
+    fail: reject
   })
 }
 
@@ -150,5 +112,6 @@ module.exports = {
   user,
   getUser,
   refreshUserCustomer,
-  updateUserInfo
+  updateUserInfo,
+  getUserGroup
 }
