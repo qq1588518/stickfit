@@ -17,10 +17,10 @@ public class GroupPo {
 	private String name;
 	private String password;
 	@Column(unique = true)
-	private long owner;
+	private long ownerId;
 	@Override
 	public String toString() {
-		return String.format("GroupPo [id=%s, name=%s, password=%s, owner=%s]", id, name, password, owner);
+		return String.format("GroupPo [id=%s, name=%s, password=%s, ownerId=%s]", id, name, password, ownerId);
 	}
 
 	public long getId() {
@@ -39,12 +39,12 @@ public class GroupPo {
 		this.name = name;
 	}
 
-	public long getOwner() {
-		return owner;
+	public long getOwnerId() {
+		return ownerId;
 	}
 
-	public void setOwner(long owner) {
-		this.owner = owner;
+	public void setOwnerId(long owner) {
+		this.ownerId = owner;
 	}
 
 	public String getPassword() {

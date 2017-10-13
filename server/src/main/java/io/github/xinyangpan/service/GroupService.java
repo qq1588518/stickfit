@@ -28,7 +28,7 @@ public class GroupService {
 	public void dismiss(long customerId, long groupId) {
 		GroupPo groupPo = groupDao.findOne(groupId);
 		// is the owner
-		Assert.isTrue(groupPo.getOwner() == customerId, "Only owner can dismis the group!");
+		Assert.isTrue(groupPo.getOwnerId() == customerId, "Only owner can dismis the group!");
 		// reomve all members
 		List<CustomerPo> customerPos = customerDao.findByGroupId(groupId);
 		customerPos.forEach(e -> {e.setGroupId(null);});
@@ -45,7 +45,7 @@ public class GroupService {
 		// is in the group
 		Assert.isTrue(customerPo.getGroupId() != null && customerPo.getGroupId() == groupId, "Not in the group!");
 		// is the owner
-		Assert.isTrue(groupPo.getOwner() != customerId, "Owner can not leave the group!");
+		Assert.isTrue(groupPo.getOwnerId() != customerId, "Owner can not leave the group!");
 		// set groupId to null to remove from group
 		customerPo.setGroupId(null);
 		customerDao.save(customerPo);
@@ -56,12 +56,12 @@ public class GroupService {
 	public void transfer(long from, long to, long groupId) {
 		GroupPo groupPo = groupDao.findOne(groupId);
 		// is the owner
-		Assert.isTrue(groupPo.getOwner() == from, "Only owner can transfer the group!");
+		Assert.isTrue(groupPo.getOwnerId() == from, "Only owner can transfer the group!");
 		// "to" is in the group
 		CustomerPo toCustomerPo = customerDao.findOne(to);
 		Assert.isTrue(toCustomerPo.getGroupId() == groupId, "Next owner must be in the group!");
 		// change
-		groupPo.setOwner(to);
+		groupPo.setOwnerId(to);
 		groupDao.save(groupPo);
 	}
 
@@ -78,7 +78,7 @@ public class GroupService {
 	public void create(GroupPo groupPo) {
 		GroupPo newGroupPo = groupDao.save(groupPo);
 		//
-		CustomerPo customerPo = customerDao.findOne(newGroupPo.getOwner());
+		CustomerPo customerPo = customerDao.findOne(newGroupPo.getOwnerId());
 		customerPo.setGroupId(newGroupPo.getId());
 		customerDao.save(customerPo);
 	}
