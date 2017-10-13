@@ -27,7 +27,7 @@ Page({
         })
       }).then(e => {
         const group = e.data;
-        const isOwner = (group.id == user.user.customer.groupId)
+        const isOwner = (group.ownerId == user.user.customer.id)
         this.setData({
           group: group,
           inGroup: true,
@@ -38,7 +38,7 @@ Page({
         })
         return new Promise((resolve, reject) => {
           wx.request({
-            url: wxx.getPath(`/customerPoes/${group.owner}`),
+            url: wxx.getPath(`/customerPoes/${group.ownerId}`),
             success: resolve,
             fail: reject
           })
@@ -135,7 +135,7 @@ Page({
           url: wxx.getPath('/group/dismiss'),
           data: { customerId: user.user.customer.id, groupId: user.user.customer.groupId },
           success: e => {
-            user.refreshUser((resolve, reject) => {
+            user.refreshUserCustomer((resolve, reject) => {
               this.setData({
                 inGroup: false,
                 group: {},

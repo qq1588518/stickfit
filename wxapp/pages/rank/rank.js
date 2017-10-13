@@ -13,11 +13,21 @@ Page({
     selectedIndex: 0,
     yearMonth: null
   },
+  init: function () {
+    this.setData({
+      rank: null,
+      summary: '',
+      historyRange: [],
+      selectedIndex: 0,
+      yearMonth: null
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
   onLoad: function (options) {
     console.log('rank.onLoad: ', options);
+    this.init();
     if (!user.user.customer.groupId) {
       return;
     }
@@ -46,6 +56,10 @@ Page({
         })
       }
     });
+  },
+  onPullDownRefresh: function () {
+    this.onLoad({});
+    wx.stopPullDownRefresh();
   },
   changeMonth: function (e) {
     const selectedIndex = e.detail.value;

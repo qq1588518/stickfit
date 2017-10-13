@@ -14,6 +14,7 @@ import io.github.xinyangpan.persistent.dao.ExerciseDao;
 import io.github.xinyangpan.persistent.dao.GroupDao;
 import io.github.xinyangpan.persistent.po.CustomerPo;
 import io.github.xinyangpan.persistent.po.GroupPo;
+import io.github.xinyangpan.vo.GroupVo;
 
 @Service
 @Transactional
@@ -25,6 +26,12 @@ public class GroupService {
 	@Autowired
 	private GroupDao groupDao;
 
+	public GroupVo get(long groupId) {
+		GroupPo groupPo = groupDao.findOne(groupId);
+		CustomerPo customerPo = customerDao.findOne(groupPo.getOwnerId());
+		return new GroupVo(groupPo, customerPo);
+	}
+	
 	public void dismiss(long customerId, long groupId) {
 		GroupPo groupPo = groupDao.findOne(groupId);
 		// is the owner

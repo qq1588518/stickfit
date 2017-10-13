@@ -19,13 +19,13 @@ Page({
   },
   formSubmit: function (e) {
     const group = e.detail.value;
-    group.owner = user.user.customer.id;
+    group.ownerId = user.user.customer.id;
     wx.request({
       url: wxx.getPath('/group/create'),
       method: 'GET',
       data: group,
       success: res => {
-        user.refreshUser((resolve, reject) => {
+        user.refreshUserCustomer((resolve, reject) => {
           this.setData({
             afterCreate: true
           })

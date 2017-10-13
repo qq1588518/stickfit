@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.xinyangpan.persistent.po.GroupPo;
 import io.github.xinyangpan.service.GroupService;
+import io.github.xinyangpan.vo.GroupVo;
 
 @RestController
 @RequestMapping("/group")
@@ -38,6 +39,11 @@ public class GroupController {
 	@GetMapping("/create")
 	public void create(GroupPo groupPo) {
 		groupService.create(groupPo);
+	}
+
+	@GetMapping("/get")
+	public GroupVo get(long groupId) {
+		return groupService.get(groupId);
 	}
 
 }

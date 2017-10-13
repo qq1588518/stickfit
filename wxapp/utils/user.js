@@ -1,12 +1,10 @@
 const wxx = require('./wxx.js')
 
-const user = wx.getStorageSync('user') || {
+const user = {
   // customer: {"id":1,"openId":"oqZ4f0VOsFEyPM9Gq4vJsmlx-r8I","username":"新阳"}
   customer: null,
   // userInfo: {"nickName":"新阳","gender":1,"language":"zh_CN","city": .,"province": .,"country": .,"avatarUrl": .}
-  userInfo: null,
-  // group: {"id":1,"name":"下一马"}
-  group: null,
+  userInfo: null
 }
 
 const getUser = function (resolve, reject) {
@@ -19,7 +17,7 @@ const getUser = function (resolve, reject) {
     success: res => {
       // 发送 res.code 到后台换取 openId, sessionKey, unionId
       const code = res.code;
-      console.log('login: code=' + code);
+      console.log('login - code:', code);
       if (code) {
         // 获取用户信息 nickName
         wx.getSetting({
@@ -64,7 +62,7 @@ const getUser = function (resolve, reject) {
   })
 }
 
-const refreshUser = function (resolve, reject) {
+const refreshUserCustomer = function (resolve, reject) {
   wx.request({
     url: wxx.getPath(`/customerPoes/${user.customer.id}`),
     success: e => {
@@ -74,23 +72,11 @@ const refreshUser = function (resolve, reject) {
   })
 }
 
+// private 
 const serverLogin = function (e, resolve, reject) {
   console.log('serverLogin: code =', e);
   user.customer = e.data;
-  // if (user.customer.groupId) {
-  //   wx.request({
-  //     url: wxx.getPath(`/groupPoes/${user.customer.groupId}`),
-  //     success: e => {
-  //       user.group = e.data;
-  //       wx.setStorageSync('user', user);
-  //       resolve(user);
-  //     },
-  //     fail: reject
-  //   })
-  // } else {
-    wx.setStorageSync('user', user);
-    resolve(user);
-  // }
+  resolve(user);
 }
 
 const updateUserInfo = function (userInfo) {
@@ -109,9 +95,60 @@ const updateUserInfo = function (userInfo) {
   })
 }
 
+
+const getUserGroup = function (resolve, reject) {
+  if (!user.customer.groupId) {
+    reject('User is not in a group')
+    return;
+  }
+  new Promise((resolve, reject) => {
+    wx.request({
+      url: wxx.getPath(`/groupPoes/${user.customer.groupId}`),
+      success: resolve,
+      fail: reject
+    })
+  }).then(e => {
+    const group = e.data;
+    group.isOwner = (group.ownerId == user.user.customer.id);
+    if (group.isOwner) {
+      return new Promise((resolve, reject) => {
+        resolve({ data: user.customer });
+      })
+    } else {
+      return new Promise((resolve, reject) => {
+        wx.request({
+          url: wxx.getPath(`/customerPoes/${group.ownerId}`),
+          success: resolve,
+          fail: reject
+        })
+      })
+    }
+  }).then(e => {
+    const owner = e.data;
+    const group = this.data.group;
+    group.ownerName = owner.username;
+    this.setData({
+      group: group
+    })
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: wxx.getPath(`/customerPoes/search/findByGroupIdAndUsernameIsNotNull?groupId=${group.id}`),
+        success: resolve,
+        fail: reject
+      })
+    })
+  }).then(e => {
+    const groupMembers = e.data._embedded.customerPoes;
+    console.log('groupMembers', groupMembers)
+    this.setData({
+      groupMembers: groupMembers
+    })
+  })
+}
+
 module.exports = {
   user,
   getUser,
-  refreshUser,
+  refreshUserCustomer,
   updateUserInfo
 }
