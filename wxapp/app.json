@@ -30,12 +30,6 @@
         "pagePath": "pages/rank/rank",
         "iconPath": "image/if_handdrawn-medal_335388.png",
         "selectedIconPath": "image/if_handdrawn-medal_335388.png"
-      },
-      {
-        "text": "跑团",
-        "pagePath": "pages/group/group",
-        "iconPath": "image/if_group_216232.png",
-        "selectedIconPath": "image/if_group_216232.png"
       }
     ]
   },

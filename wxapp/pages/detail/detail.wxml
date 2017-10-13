@@ -1,11 +1,13 @@
 <!--pages/detail/detail.wxml-->
-<view class="container">
-  <view class="weui-cells__title">{{customer.username}}{{yearMonth.year}}年{{yearMonth.month}}月运动记录</view>
-  <view class="weui-cells weui-cells_after-title">
-    <label class="weui-cell weui-check__label" wx:for="{{records}}" wx:key="value">
-      <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
-    </label>
+<view class="page my-page">
+  <view class="page__bd">
+    <view class="weui-cells__title">{{customer.username}} - {{yearMonth.year}}年{{yearMonth.month}}月运动记录</view>
+    <view class="weui-cells weui-cells_after-title my-cells">
+      <label class="weui-cell" wx:for="{{records}}" wx:key="value">
+        <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
+      </label>
+    </view>
+    <view class="weui-cells__tips">{{summary}}</view>
   </view>
-  <view class="weui-cells__tips">{{summary}}</view>
-  
+
 </view>

@@ -54,7 +54,7 @@ page{
 
 /** my **/
 .my-page {
-  padding: 10px;
+  padding: 40rpx;
 }
 
 .my-cells {
