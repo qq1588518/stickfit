@@ -1,5 +1,5 @@
 <!--pages/rank/rank.wxml-->
-<view class="page my-page">
+<view class="my-page">
   <view class="weui-cells__title">{{yearMonth.display}}排行榜</view>
   <view class="weui-cells weui-cells_after-title my-cells">
 

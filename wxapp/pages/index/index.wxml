@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="page">
+<view class="my-page">
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>
@@ -10,7 +10,7 @@
   <!-- form  -->
   <form bindsubmit="formSubmit" bindreset="formReset">
     <view class="weui-cells__title">运动类型</view>
-    <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cells weui-cells_after-title my-cells">
       <radio-group bindchange="radioChange" name="type">
         <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
           <radio class="weui-check" value="{{item.id}}" checked="{{item.checked}}" />
@@ -23,7 +23,7 @@
     </view>
 
     <view class="weui-cells__title">运动详情</view>
-    <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cells weui-cells_after-title my-cells">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">日期</view>
@@ -42,7 +42,7 @@
           <input bindinput="changeAmount" name="amount" class="weui-input" type="digit" placeholder="请输入运动量" value="{{amount}}" />
         </view>
         <view class="weui-cell__ft">
-          <view class="weui-label">{{unit}}</view>
+          <view class="weui-label index-label">{{unit}}</view>
         </view>
       </view>
     </view>

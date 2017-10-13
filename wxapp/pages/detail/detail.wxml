@@ -1,5 +1,5 @@
 <!--pages/detail/detail.wxml-->
-<view class="page my-page">
+<view class="my-page">
   <view class="page__bd">
     <view class="weui-cells__title">{{customer.username}} - {{yearMonth.year}}年{{yearMonth.month}}月运动记录</view>
     <view class="weui-cells weui-cells_after-title my-cells">

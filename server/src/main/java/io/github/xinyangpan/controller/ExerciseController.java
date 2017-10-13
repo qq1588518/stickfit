@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,6 +56,9 @@ public class ExerciseController {
 
 	@GetMapping("/deleteExercisesByIds")
 	public void deleteExercisesByIds(String ids) {
+		if (StringUtils.isEmpty(ids)) {
+			return;
+		}
 		List<Long> idList = Arrays.stream(ids.split(",")).map(s -> Long.parseLong(s)).collect(Collectors.toList());
 		exerciseService.deleteExercisesByIds(Lists.newArrayList(idList));
 	}
