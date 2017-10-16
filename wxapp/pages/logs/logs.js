@@ -20,6 +20,7 @@ Page({
     this.monthSummary();
   },
   monthSummary: function () {
+    wx.showNavigationBarLoading();
     wx.request({
       url: wxx.getPath('/exercise/monthSummary'),
       data: {
@@ -31,6 +32,7 @@ Page({
           monthSummary: res.data,
           selected: []
         })
+        wx.hideNavigationBarLoading();
       }
     });
   },

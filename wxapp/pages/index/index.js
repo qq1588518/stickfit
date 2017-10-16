@@ -21,6 +21,11 @@ Page({
     util.initPromise.then(e => { this.done() })
   },
   done: function () {
+    if (!wxx.isPrd()) {
+      wx.setNavigationBarTitle({
+        title: '下一马(开发版)'
+      })
+    }
     exercise.exercise.exerciseTypes[0].checked = true;
     this.setData({
       date: util.formatDate(new Date()),

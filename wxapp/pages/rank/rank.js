@@ -31,6 +31,8 @@ Page({
     if (!user.user.customer.groupId) {
       return;
     }
+    // 
+    wx.showNavigationBarLoading();
     wx.request({
       url: wxx.getPath('/exercise/rank'),
       data: {
@@ -67,6 +69,7 @@ Page({
     const data = yearMonth;
     data.groupId = user.user.customer.groupId
     console.log('changeMonth:', yearMonth);
+    wx.showNavigationBarLoading();
     wx.request({
       url: wxx.getPath('/exercise/rank'),
       data: data,
@@ -89,5 +92,6 @@ Page({
       rank: res.data,
       summary: summary
     })
+    wx.hideNavigationBarLoading()
   }
 })
