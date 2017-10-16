@@ -45,6 +45,7 @@ public class CustomerService {
 		CustomerPo customerPo = new CustomerPo();
 		customerPo.setUsername(username);
 		customerPo.setOpenId(openId);
+		customerPo.setGroupId(1L);
 		return customerDao.save(customerPo);
 	}
 

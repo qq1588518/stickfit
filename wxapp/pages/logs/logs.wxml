@@ -8,7 +8,10 @@
         <checkbox class="weui-check" value="{{item.exercisePo.id}}" checked="{{item.checked}}" />
 
         <view class="weui-cell__bd">{{index + 1}}. {{item.description}}</view>
-        <view class="weui-cell__hd weui-check__hd_in-checkbox">
+        <view class="weui-cell__ft">
+          <view class="e-tag">{{item.tag}}</view>
+        </view>
+        <view class="weui-cell__hd weui-check__hd_in-checkbox" hidden="{{deleteAction.status==='initial'}}">
           <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
           <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
         </view>
@@ -18,6 +21,7 @@
   <view class="weui-cells__tips">{{monthSummary.summary}}</view>
 
   <view class="weui-btn-area page__ft">
-    <button class="weui-btn" type="warn" bindtap="clearSelected" disabled="{{selected.length===0}}" >删除选中</button>
+    <button class="weui-btn" type="warn" bindtap="clearSelected" disabled="{{deleteAction.status==='deleting'&&selected.length===0}}">{{deleteAction.text}}</button>
+    <button class="weui-btn" bindtap="resetDelete" hidden="{{deleteAction.status!=='deleting'}}">取消</button>
   </view>
 </view>

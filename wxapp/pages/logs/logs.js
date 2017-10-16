@@ -7,7 +7,8 @@ Page({
   data: {
     customer: {},
     monthSummary: {},
-    selected: []
+    selected: [],
+    deleteAction: { status: 'initial', text: '删除' } // initial(删除), deleting(删除选中)
   },
   onLoad: function (options) {
     this.setData({
@@ -15,6 +16,7 @@ Page({
     })
   },
   onShow: function () {
+    this.setDelete();
     this.monthSummary();
   },
   monthSummary: function () {
@@ -33,6 +35,9 @@ Page({
     });
   },
   checkboxChange: function (e) {
+    if (this.data.deleteAction.status === 'initial') {
+      return;
+    }
     console.log('checkboxChange: ', e);
     const selected = e.detail.value;
     const monthSummary = this.data.monthSummary;
@@ -52,17 +57,14 @@ Page({
     });
   },
   clearSelected: function () {
-    var ids = '';
-    this.data.records.map(record => {
-      console.log('clear selected' + JSON.stringify(record))
-      if (record.checked) {
-        if (ids === '') {
-          ids += record.id;
-        } else {
-          ids += ',' + record.id;
-        }
-      }
-    });
+    if (this.data.deleteAction.status === 'initial') {
+      this.setDelete('deleting')
+      this.setData({
+        deleteAction: { status: 'deleting', text: '删除选中' }
+      })
+      return;
+    }
+    const ids = this.data.selected.join();
     console.log('clear selected', ids);
     wx.request({
       url: wxx.getPath('/exercise/deleteExercisesByIds'),
@@ -70,8 +72,24 @@ Page({
         ids: ids
       },
       success: res => {
+        this.setDelete('initial')
         this.onShow();
       }
     });
+  },
+  resetDelete: function(){
+    this.setDelete();
+  },
+  setDelete: function (status = 'initial') {
+    console.log('setDelete: ', status);
+    if (status === 'initial') {
+      this.setData({
+        deleteAction: { status: 'initial', text: '删除' }
+      })
+    } else {
+      this.setData({
+        deleteAction: { status: 'deleting', text: '删除选中' }
+      })
+    }
   }
 })

@@ -69,8 +69,8 @@ page {
 .e-tag {
   background-color: #1aad19;
   color: white;
-  font-size: 13px;
+  font-size: 26rpx;
   line-height: 1.8;
-  padding: 0 13px;
-  border-radius: 5px;
+  padding: 0 26rpx;
+  border-radius: 6rpx;
 }
