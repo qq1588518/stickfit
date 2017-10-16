@@ -28,6 +28,7 @@ import io.github.xinyangpan.persistent.po.CustomerPo;
 import io.github.xinyangpan.persistent.po.ExercisePo;
 import io.github.xinyangpan.persistent.po.ExerciseTypePo;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
+import io.github.xinyangpan.vo.ExerciseVo;
 import io.github.xinyangpan.vo.MonthSummary;
 import io.github.xinyangpan.vo.RankItem;
 
@@ -92,14 +93,37 @@ public class ExerciseService {
 
 	public MonthSummary monthHistory(long customerId, YearMonth yearMonth) {
 		List<ExercisePo> exercisePos = exerciseDao.findByCustomerIdAndMonthOrderByTimeAsc(customerId, yearMonth);
+		List<ExerciseVo> exerciseVos = exercisePos.stream().map(this::transform).collect(Collectors.toList());
 		// 
 		MonthSummary history = new MonthSummary();
 		history.setYearMonth(yearMonth);
-		history.setExercisePos(exercisePos);
+		history.setExerciseVos(exerciseVos);
 		history.setSummary(this.generateSummary(exercisePos));
 		return history;
 	}
 
+	private ExerciseVo transform(ExercisePo exercisePo) {
+		ExerciseTypePo exerciseTypePo = exerciseTypeDao.findOne(exercisePo.getTypeId());
+		int month = exercisePo.getMonth().getMonth();
+		String description = exerciseTypePo.getDescription();
+		BigDecimal amount = exercisePo.getAmount();
+		String unit = exerciseTypePo.getUnit();
+		// 
+		ExerciseVo exerciseVo = new ExerciseVo();
+		exerciseVo.setExercisePo(exercisePo);
+		exerciseVo.setDescription(String.format("%s日  %s", month, description, amount, unit));
+		if (exercisePo.getTypeId() == 1) {
+			if (amount.compareTo(new BigDecimal("42"))>=0) {
+				exerciseVo.setTag("");
+			} else if (amount.compareTo(new BigDecimal("21"))>=0) {
+				exerciseVo.setTag("");
+			} else {
+				exerciseVo.setTag("");
+			}
+		}
+		return exerciseVo;
+	}
+	
 	private String generateSummary(List<ExercisePo> exercisePos) {
 		String summary = String.format("打卡%s次.", exercisePos.size());
 		if (exercisePos.isEmpty()) {

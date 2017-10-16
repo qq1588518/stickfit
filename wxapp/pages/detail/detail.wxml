@@ -5,6 +5,9 @@
     <view class="weui-cells weui-cells_after-title my-cells">
       <label class="weui-cell" wx:for="{{records}}" wx:key="value">
         <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
+        <view class="weui-cell__ft">
+          <view class="e-tag">全马</view>
+        </view>
       </label>
     </view>
     <view class="weui-cells__tips">{{summary}}</view>
