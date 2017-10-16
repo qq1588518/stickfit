@@ -116,12 +116,14 @@ public class ExerciseService {
 		exerciseVo.setDescription(String.format("%s日  %s%s%s", date.getDate(), description, amount, unit));
 		if (exercisePo.getTypeId() == 1) {
 			if (amount.compareTo(new BigDecimal("42"))>=0) {
-				exerciseVo.setTag("");
+				exerciseVo.setTag("全马");
 			} else if (amount.compareTo(new BigDecimal("21"))>=0) {
-				exerciseVo.setTag("");
+				exerciseVo.setTag("半马");
 			} else {
 				exerciseVo.setTag("");
 			}
+		} else {
+			exerciseVo.setTag("");
 		}
 		return exerciseVo;
 	}

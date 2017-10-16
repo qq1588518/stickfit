@@ -6,8 +6,7 @@ const wxx = require('../../utils/wxx.js')
 Page({
   data: {
     customer: {},
-    records: [],
-    summary: '',
+    monthSummary: {},
     selected: []
   },
   onLoad: function (options) {
@@ -26,37 +25,29 @@ Page({
       },
       success: res => {
         console.log('monthSummary: ', res);
-        const exercisePos = res.data.exercisePos || [];
-        exercisePos.map(exercisePo => {
-          var exerciseType = exercise.exercise.exerciseTypeMap[exercisePo.typeId];
-          exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
-        });
-        console.log('monthSummary: ', res.data.exercisePos);
         this.setData({
-          records: res.data.exercisePos,
-          summary: this.data.customer.username + res.data.summary,
+          monthSummary: res.data,
           selected: []
         })
       }
     });
   },
   checkboxChange: function (e) {
+    console.log('checkboxChange: ', e);
     const selected = e.detail.value;
-    console.log('checkbox发生change事件，携带value值为：', selected);
-    const records = this.data.records;
-    for (var i = 0, lenI = records.length; i < lenI; ++i) {
-      records[i].checked = false;
-
-      for (var j = 0, lenJ = selected.length; j < lenJ; ++j) {
-        if (records[i].id == selected[j]) {
-          records[i].checked = true;
+    const monthSummary = this.data.monthSummary;
+    console.log('monthSummary: ', monthSummary);
+    for (let i = 0, lenI = monthSummary.exerciseVos.length; i < lenI; ++i) {
+      monthSummary.exerciseVos[i].checked = false;
+      for (let j = 0, lenJ = selected.length; j < lenJ; ++j) {
+        if (monthSummary.exerciseVos[i].exercisePo.id == selected[j]) {
+          monthSummary.exerciseVos[i].checked = true;
           break;
         }
       }
     }
-
     this.setData({
-      records: records,
+      monthSummary,
       selected
     });
   },

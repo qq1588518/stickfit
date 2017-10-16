@@ -5,8 +5,7 @@ const wxx = require('../../utils/wxx.js')
 Page({
   data: {
     customer: {},
-    records: [],
-    summary: '',
+    monthSummary: {},
     yearMonth: {}
   },
   onLoad: function (options) {
@@ -34,14 +33,8 @@ Page({
       },
       success: res => {
         console.log('monthSummary: ', res);
-        res.data.exercisePos.map(exercisePo => {
-          var exerciseType = exercise.exercise.exerciseTypeMap[exercisePo.typeId];
-          exercisePo.msg = new Date(exercisePo.time).getDate() + '日 ' + exerciseType.description + exercisePo.amount + exerciseType.unit;
-        });
-        console.log('monthSummary: ', res.data.exercisePos);
         this.setData({
-          records: res.data.exercisePos,
-          summary: res.data.summary
+          monthSummary: res.data
         })
       }
     });

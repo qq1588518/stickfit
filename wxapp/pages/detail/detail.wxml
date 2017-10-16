@@ -3,14 +3,14 @@
   <view class="page__bd">
     <view class="weui-cells__title">{{customer.username}} - {{yearMonth.year}}年{{yearMonth.month}}月运动记录</view>
     <view class="weui-cells weui-cells_after-title my-cells">
-      <label class="weui-cell" wx:for="{{records}}" wx:key="value">
-        <view class="weui-cell__bd">{{index + 1}}. {{item.msg}}</view>
+      <label class="weui-cell" wx:for="{{monthSummary.exerciseVos}}" wx:key="item.exercisePo.id">
+        <view class="weui-cell__bd">{{index + 1}}. {{item.description}}</view>
         <view class="weui-cell__ft">
-          <view class="e-tag">全马</view>
+          <view class="e-tag">{{item.tag}}</view>
         </view>
       </label>
     </view>
-    <view class="weui-cells__tips">{{summary}}</view>
+    <view class="weui-cells__tips">{{monthSummary.summary}}</view>
   </view>
 
 </view>
