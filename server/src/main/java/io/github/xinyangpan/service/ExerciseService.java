@@ -111,7 +111,7 @@ public class ExerciseService {
 		// 
 		ExerciseVo exerciseVo = new ExerciseVo();
 		exerciseVo.setExercisePo(exercisePo);
-		exerciseVo.setDescription(String.format("%s日  %s", month, description, amount, unit));
+		exerciseVo.setDescription(String.format("%s日  %s%s%s", month, description, amount, unit));
 		if (exercisePo.getTypeId() == 1) {
 			if (amount.compareTo(new BigDecimal("42"))>=0) {
 				exerciseVo.setTag("");
