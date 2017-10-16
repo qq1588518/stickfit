@@ -1,10 +1,10 @@
 package io.github.xinyangpan.service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -103,16 +103,17 @@ public class ExerciseService {
 		return history;
 	}
 
+	@SuppressWarnings("deprecation")
 	private ExerciseVo transform(ExercisePo exercisePo) {
 		ExerciseTypePo exerciseTypePo = exerciseTypeDao.findOne(exercisePo.getTypeId());
-		LocalDate localDate = LocalDate.from(exercisePo.getTime().toInstant());
+		Date date = exercisePo.getTime();
 		String description = exerciseTypePo.getDescription();
 		BigDecimal amount = exercisePo.getAmount();
 		String unit = exerciseTypePo.getUnit();
 		// 
 		ExerciseVo exerciseVo = new ExerciseVo();
 		exerciseVo.setExercisePo(exercisePo);
-		exerciseVo.setDescription(String.format("%s日  %s%s%s", localDate.getDayOfMonth(), description, amount, unit));
+		exerciseVo.setDescription(String.format("%s日  %s%s%s", date.getDate(), description, amount, unit));
 		if (exercisePo.getTypeId() == 1) {
 			if (amount.compareTo(new BigDecimal("42"))>=0) {
 				exerciseVo.setTag("");
