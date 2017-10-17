@@ -59,7 +59,6 @@ public class ExerciseService {
 		Rank rank = new Rank();
 		rank.setRankEntries(rankEntries);
 		rank.setYearMonth(yearMonth);
-		rank.setSummary(String.format("共%s人打卡", rankEntries.size()));
 		return rank;
 	}
 
