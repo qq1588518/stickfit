@@ -16,7 +16,7 @@ import com.google.common.collect.Lists;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
 import io.github.xinyangpan.service.ExerciseService;
 import io.github.xinyangpan.vo.MonthSummary;
-import io.github.xinyangpan.vo.RankItem;
+import io.github.xinyangpan.vo.Rank;
 
 @RestController
 @RequestMapping("/exercise")
@@ -47,9 +47,9 @@ public class ExerciseController {
 	}
 
 	@GetMapping("/rank")
-	public List<RankItem> rank(Long groupId, Integer year, Integer month) {
+	public Rank rank(Long groupId, Integer year, Integer month) {
 		if (groupId == null) {
-			return Lists.newArrayList();
+			return new Rank(Lists.newArrayList(), YearMonth.of(year, month));
 		}
 		return exerciseService.rank(groupId, YearMonth.of(year, month));
 	}

@@ -31,7 +31,8 @@ import io.github.xinyangpan.persistent.po.ExerciseTypePo;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
 import io.github.xinyangpan.vo.ExerciseVo;
 import io.github.xinyangpan.vo.MonthSummary;
-import io.github.xinyangpan.vo.RankItem;
+import io.github.xinyangpan.vo.Rank;
+import io.github.xinyangpan.vo.RankEntry;
 
 @Service
 @Transactional
@@ -43,38 +44,43 @@ public class ExerciseService {
 	@Autowired
 	private CustomerDao customerDao;
 
-	public List<RankItem> rank(long groupId, YearMonth yearMonth) {
+	public Rank rank(long groupId, YearMonth yearMonth) {
 		List<ExercisePo> exercisePos = exerciseDao.findByGroupIdAndMonth(groupId, yearMonth);
 		// 
-		Map<Long, RankItem> customerId2RankItem = customerId2RankItem(exercisePos);
+		Map<Long, RankEntry> customerId2RankItem = customerId2RankItem(exercisePos);
 		// 
-		List<RankItem> rank = Lists.newArrayList(customerId2RankItem.values());
-		Comparator<RankItem> comparator = Comparator
-			.comparing(RankItem::getJogAmount, Comparator.reverseOrder())
-			.thenComparing(RankItem::getCount, Comparator.reverseOrder())
-			.thenComparingLong(RankItem::getLastId);
-		Collections.sort(rank, comparator);
+		List<RankEntry> rankEntries = Lists.newArrayList(customerId2RankItem.values());
+		Comparator<RankEntry> comparator = Comparator
+			.comparing(RankEntry::getJogAmount, Comparator.reverseOrder())
+			.thenComparing(RankEntry::getCount, Comparator.reverseOrder())
+			.thenComparingLong(RankEntry::getLastId);
+		Collections.sort(rankEntries, comparator);
+		// 
+		Rank rank = new Rank();
+		rank.setRankEntries(rankEntries);
+		rank.setYearMonth(yearMonth);
+		rank.setSummary(String.format("共%s人打卡", rankEntries.size()));
 		return rank;
 	}
 
-	private Map<Long, RankItem> customerId2RankItem(List<ExercisePo> exercisePos) {
+	private Map<Long, RankEntry> customerId2RankItem(List<ExercisePo> exercisePos) {
 		//
 		Map<Long, CustomerPo> id2CustomerPo = id2CustomerPo(exercisePos);
 		//
-		Map<Long, RankItem> customerId2RankItem = Maps.newHashMap();
+		Map<Long, RankEntry> customerId2RankItem = Maps.newHashMap();
 		for (ExercisePo exercisePo : exercisePos) {
 			long customerId = exercisePo.getCustomerId();
-			RankItem rankItem = customerId2RankItem.get(customerId);
-			if (rankItem == null) {
+			RankEntry rankEntry = customerId2RankItem.get(customerId);
+			if (rankEntry == null) {
 				String username = id2CustomerPo.get(exercisePo.getCustomerId()).getUsername();
-				rankItem = new RankItem(customerId, username, 1, exercisePo.getId());
-				customerId2RankItem.put(customerId, rankItem);
+				rankEntry = new RankEntry(customerId, username, 1, exercisePo.getId());
+				customerId2RankItem.put(customerId, rankEntry);
 			} else {
-				rankItem.setCount(rankItem.getCount() + 1);
-				rankItem.setLastId(Math.max(exercisePo.getId(), rankItem.getLastId()));
+				rankEntry.setCount(rankEntry.getCount() + 1);
+				rankEntry.setLastId(Math.max(exercisePo.getId(), rankEntry.getLastId()));
 			}
 			if (exercisePo.getTypeId() == 1) {
-				rankItem.setJogAmount(rankItem.getJogAmount().add(exercisePo.getAmount()));
+				rankEntry.setJogAmount(rankEntry.getJogAmount().add(exercisePo.getAmount()));
 			}
 		}
 		return customerId2RankItem;

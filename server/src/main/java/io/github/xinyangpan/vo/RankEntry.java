@@ -2,17 +2,17 @@ package io.github.xinyangpan.vo;
 
 import java.math.BigDecimal;
 
-public class RankItem {
+public class RankEntry {
 	private long customerId;
 	private String username;
 	private int count;
 	private long lastId;
 	private BigDecimal jogAmount = BigDecimal.ZERO;
 
-	public RankItem() {
+	public RankEntry() {
 	}
 
-	public RankItem(long customerId, String username, int count, long lastId) {
+	public RankEntry(long customerId, String username, int count, long lastId) {
 		super();
 		this.customerId = customerId;
 		this.username = username;

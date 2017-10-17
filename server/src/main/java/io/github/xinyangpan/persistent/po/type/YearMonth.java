@@ -68,4 +68,8 @@ public class YearMonth {
 		this.month = month;
 	}
 
+	public String getDisplay() {
+		return String.format("%s年%02d月", year, month);
+	}
+
 }
