@@ -119,9 +119,11 @@ public class ExerciseService {
 		// 
 		ExerciseVo exerciseVo = new ExerciseVo();
 		exerciseVo.setExercisePo(exercisePo);
-		exerciseVo.setDescription(String.format("%s日  %s%s%s", date.getDate(), description, amount, unit));
+		exerciseVo.setDescription(String.format("%s日%s%s%s", date.getDate(), description, amount, unit));
 		if (exercisePo.getTypeId() == 1) {
-			if (amount.compareTo(new BigDecimal("42"))>=0) {
+			if (amount.compareTo(new BigDecimal("100"))>=0) {
+				exerciseVo.setTag("超马");
+			} else if (amount.compareTo(new BigDecimal("42"))>=0) {
 				exerciseVo.setTag("全马");
 			} else if (amount.compareTo(new BigDecimal("21"))>=0) {
 				exerciseVo.setTag("半马");
