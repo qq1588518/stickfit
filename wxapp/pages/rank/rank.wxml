@@ -4,7 +4,7 @@
   <view class="weui-cells weui-cells_after-title my-cells">
 
     <navigator url="../detail/detail?customerId={{item.customerId}}&username={{item.username}}&year={{yearMonth.year}}&month={{yearMonth.month}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" wx:for="{{rank.rankEntries}}" wx:key="value">
-      <view class="weui-cell__bd">{{index + 1}}. {{item.description}}</view>
+      <view class="weui-cell__bd">{{index + 1}}.{{item.description}}</view>
       <view class="weui-cell__ft weui-cell__ft_in-access">
           <view class="e-tag">{{item.tag}}</view>
       </view>
