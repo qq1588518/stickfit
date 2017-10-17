@@ -6,27 +6,29 @@ public class RankEntry {
 	private long customerId;
 	private String username;
 	private int count;
-	private long lastId;
+	private int jogCount;
 	private BigDecimal jogAmount = BigDecimal.ZERO;
 
 	public RankEntry() {
 	}
 
-	public RankEntry(long customerId, String username, int count, long lastId) {
-		super();
-		this.customerId = customerId;
-		this.username = username;
-		this.count = count;
-		this.lastId = lastId;
-	}
-	
 	public String getDescription() {
 		return String.format("%s打卡%s次 - %s公里", username, count, jogAmount);
 	}
-	
+
+	public String getTag() {
+		if (jogAmount.compareTo(new BigDecimal("180")) >= 0) {
+			return "达标";
+		} else if (jogAmount.compareTo(new BigDecimal("100")) >= 0 && count >= 15 && jogCount >= 9) {
+			return "达标";
+		}
+		return "";
+	}
+
 	@Override
 	public String toString() {
-		return String.format("RankItem [customerId=%s, username=%s, count=%s, lastId=%s, jogAmount=%s]", customerId, username, count, lastId, jogAmount);
+		return String
+			.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, getTag()=%s, getDescription()=%s]", customerId, username, count, jogCount, jogAmount, getTag(), getDescription());
 	}
 
 	public long getCustomerId() {
@@ -41,8 +43,8 @@ public class RankEntry {
 		return username;
 	}
 
-	public void setUsername(String customerName) {
-		this.username = customerName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public int getCount() {
@@ -53,20 +55,20 @@ public class RankEntry {
 		this.count = count;
 	}
 
-	public long getLastId() {
-		return lastId;
-	}
-
-	public void setLastId(long lastId) {
-		this.lastId = lastId;
-	}
-
 	public BigDecimal getJogAmount() {
 		return jogAmount;
 	}
 
 	public void setJogAmount(BigDecimal jogAmount) {
 		this.jogAmount = jogAmount;
+	}
+
+	public int getJogCount() {
+		return jogCount;
+	}
+
+	public void setJogCount(int jogCount) {
+		this.jogCount = jogCount;
 	}
 
 }

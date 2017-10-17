@@ -23,7 +23,7 @@ Page({
   done: function () {
     if (!wxx.isPrd()) {
       wx.setNavigationBarTitle({
-        title: '下一马(开发版)'
+        title: '下一马(开发)'
       })
     }
     exercise.exercise.exerciseTypes[0].checked = true;

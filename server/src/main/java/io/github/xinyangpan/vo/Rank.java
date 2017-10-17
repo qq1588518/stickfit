@@ -12,7 +12,7 @@ public class Rank {
 	}
 	
 	public Rank(List<RankEntry> rankEntries, YearMonth yearMonth) {
-		super();
+		this();
 		this.rankEntries = rankEntries;
 		this.yearMonth = yearMonth;
 	}

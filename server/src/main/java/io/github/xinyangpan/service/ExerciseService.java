@@ -52,8 +52,7 @@ public class ExerciseService {
 		List<RankEntry> rankEntries = Lists.newArrayList(customerId2RankItem.values());
 		Comparator<RankEntry> comparator = Comparator
 			.comparing(RankEntry::getJogAmount, Comparator.reverseOrder())
-			.thenComparing(RankEntry::getCount, Comparator.reverseOrder())
-			.thenComparingLong(RankEntry::getLastId);
+			.thenComparing(RankEntry::getCount, Comparator.reverseOrder());
 		Collections.sort(rankEntries, comparator);
 		// 
 		Rank rank = new Rank();
@@ -71,15 +70,17 @@ public class ExerciseService {
 			long customerId = exercisePo.getCustomerId();
 			RankEntry rankEntry = customerId2RankItem.get(customerId);
 			if (rankEntry == null) {
-				String username = id2CustomerPo.get(exercisePo.getCustomerId()).getUsername();
-				rankEntry = new RankEntry(customerId, username, 1, exercisePo.getId());
+				CustomerPo customerPo = id2CustomerPo.get(exercisePo.getCustomerId());
+				String username = customerPo.getUsername();
+				rankEntry = new RankEntry();
+				rankEntry.setCustomerId(customerId);
+				rankEntry.setUsername(username);
 				customerId2RankItem.put(customerId, rankEntry);
-			} else {
-				rankEntry.setCount(rankEntry.getCount() + 1);
-				rankEntry.setLastId(Math.max(exercisePo.getId(), rankEntry.getLastId()));
 			}
+			rankEntry.setCount(rankEntry.getCount() + 1);
 			if (exercisePo.getTypeId() == 1) {
 				rankEntry.setJogAmount(rankEntry.getJogAmount().add(exercisePo.getAmount()));
+				rankEntry.setJogCount(rankEntry.getJogCount() + 1);
 			}
 		}
 		return customerId2RankItem;

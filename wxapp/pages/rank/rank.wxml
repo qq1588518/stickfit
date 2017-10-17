@@ -9,7 +9,7 @@
     </navigator>
 
   </view>
-  <view class="weui-cells__tips">{{summary}}</view>
+  <view class="weui-cells__tips">{{rank.summary}}</view>
 
   <view class="weui-btn-area page__ft" wx:if="{{historyRange[0]}}">
     <picker name="history" range="{{historyRange}}" range-key='display' value='{{selectedIndex}}' bindchange="changeMonth">
