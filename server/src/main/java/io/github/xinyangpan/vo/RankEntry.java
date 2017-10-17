@@ -19,7 +19,11 @@ public class RankEntry {
 		this.count = count;
 		this.lastId = lastId;
 	}
-
+	
+	public String getDescription() {
+		return String.format("%s打卡%s次 - %s公里", username, count, jogAmount);
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("RankItem [customerId=%s, username=%s, count=%s, lastId=%s, jogAmount=%s]", customerId, username, count, lastId, jogAmount);

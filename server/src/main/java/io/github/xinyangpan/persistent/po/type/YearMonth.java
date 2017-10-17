@@ -47,6 +47,10 @@ public class YearMonth {
 		return year * 100 + month;
 	}
 
+	public String getDisplay() {
+		return String.format("%s年%02d月", year, month);
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("YearMonth [year=%s, month=%s]", year, month);
@@ -66,10 +70,6 @@ public class YearMonth {
 
 	public void setMonth(int month) {
 		this.month = month;
-	}
-
-	public String getDisplay() {
-		return String.format("%s年%02d月", year, month);
 	}
 
 }
