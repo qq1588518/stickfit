@@ -8,7 +8,6 @@ Page({
    */
   data: {
     rank: null,
-    summary: '',
     historyRange: [],
     selectedIndex: 0,
     yearMonth: null
@@ -16,7 +15,6 @@ Page({
   init: function () {
     this.setData({
       rank: null,
-      summary: '',
       historyRange: [],
       selectedIndex: 0,
       yearMonth: null
@@ -31,33 +29,21 @@ Page({
     if (!user.user.customer.groupId) {
       return;
     }
-    // 
-    wx.showNavigationBarLoading();
-    wx.request({
-      url: wxx.getPath('/exercise/rank'),
-      data: {
-        groupId: user.user.customer.groupId
-      },
-      success: this.setRankData
-    });
+    // history range
     wx.request({
       url: wxx.getPath('/exercise/historyRange'),
       success: res => {
-        console.log('historyRange: ', res.data);
-        res.data.map(yearMonth => {
-          if (yearMonth.month < 10) {
-            yearMonth.display = `${yearMonth.year}年0${yearMonth.month}月`
-          } else {
-            yearMonth.display = `${yearMonth.year}年${yearMonth.month}月`
-          }
-        });
+        const historyRange = res.data;
+        console.log('historyRange: ', historyRange);
         this.setData({
-          historyRange: res.data,
-          selectedIndex: res.data.length - 1,
-          yearMonth: res.data[res.data.length - 1]
+          historyRange: historyRange,
+          selectedIndex: historyRange.length - 1,
+          yearMonth: historyRange[historyRange.length - 1]
         })
+        this.loadRank();
       }
     });
+    // 
   },
   onPullDownRefresh: function () {
     this.onLoad({});
@@ -65,33 +51,27 @@ Page({
   },
   changeMonth: function (e) {
     const selectedIndex = e.detail.value;
+    this.loadRank(selectedIndex);
+  },
+  loadRank(selectedIndex = this.data.selectedIndex) {
     const yearMonth = this.data.historyRange[selectedIndex];
     const data = yearMonth;
-    data.groupId = user.user.customer.groupId
-    console.log('changeMonth:', yearMonth);
+    data.groupId = user.user.customer.groupId;
+    // 
     wx.showNavigationBarLoading();
     wx.request({
       url: wxx.getPath('/exercise/rank'),
-      data: data,
+      data,
       success: res => {
-        this.setRankData(res);
+        const rank = res.data;
+        console.log('rank: ', rank);
         this.setData({
+          rank: rank,
           selectedIndex,
           yearMonth
         })
+        wx.hideNavigationBarLoading()
       }
     });
-  },
-  setRankData(res) {
-    console.log('rank: ', res.data);
-    res.data.map(item => {
-      item.msg = item.username + '打卡' + item.count + '次 - ' + item.jogAmount + '公里';
-    });
-    var summary = '共' + res.data.length + '人打卡'
-    this.setData({
-      rank: res.data,
-      summary: summary
-    })
-    wx.hideNavigationBarLoading()
   }
 })
