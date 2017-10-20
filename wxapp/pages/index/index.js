@@ -13,7 +13,7 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     radioItems: null,
-    date: '2017-09-01',
+    date: util.formatDate(new Date()),
     unit: '',
     amount: null
   },
@@ -26,11 +26,11 @@ Page({
         title: '下一马(开发)'
       })
     }
-    exercise.exercise.exerciseTypes[0].checked = true;
+    let radioItems = JSON.parse(JSON.stringify(exercise.exercise.exerciseTypes));
+    radioItems[0].checked = true;
     this.setData({
-      date: util.formatDate(new Date()),
-      radioItems: exercise.exercise.exerciseTypes,
-      unit: exercise.exercise.exerciseTypes[0].unit
+      radioItems: radioItems,
+      unit: radioItems[0].unit
     })
     // 
     user.getUser(user => {
@@ -45,11 +45,10 @@ Page({
   //事件处理函数
   radioChange: function (e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value);
-
-    var radioItems = this.data.radioItems;
-    var unit = this.data.unit;
-    for (var i = 0, len = radioItems.length; i < len; ++i) {
-      radioItems[i].checked = radioItems[i].id == e.detail.value;
+    let radioItems = this.data.radioItems;
+    let unit = this.data.unit;
+    for (let i = 0, len = radioItems.length; i < len; ++i) {
+      radioItems[i].checked = (radioItems[i].id == e.detail.value);
       if (radioItems[i].checked) {
         unit = radioItems[i].unit;
       }
@@ -90,11 +89,11 @@ Page({
       })
       return;
     }
-    var formData = e.detail.value;
+    const formData = e.detail.value;
     formData.amount = new Number(formData.amount);
     console.log('formSubmit: formData = ' + JSON.stringify(formData));
-    var radioItems = this.data.radioItems;
-    for (var i = 0; i < radioItems.length; i++) {
+    const radioItems = this.data.radioItems;
+    for (let i = 0; i < radioItems.length; i++) {
       if (radioItems[i].checked) {
         if (this.data.amount == null) {
           // Amount 未输入
@@ -127,7 +126,7 @@ Page({
           })
         } else {
           // 打卡成功
-          var exercise = {};
+          const exercise = {};
           exercise.amount = formData.amount;
           exercise.typeId = formData.type;
           exercise.time = new Date(formData.date);

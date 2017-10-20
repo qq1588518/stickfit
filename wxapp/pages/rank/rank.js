@@ -55,7 +55,7 @@ Page({
   },
   loadRank(selectedIndex = this.data.selectedIndex) {
     const yearMonth = this.data.historyRange[selectedIndex];
-    const data = yearMonth;
+    const data = JSON.parse(JSON.stringify(yearMonth));
     data.groupId = user.user.customer.groupId;
     // 
     wx.showNavigationBarLoading();

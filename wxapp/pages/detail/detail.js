@@ -11,12 +11,12 @@ Page({
   onLoad: function (options) {
     console.log('onLoad: ', options);
     // options.customerId & options.username
-    var customerId = options.customerId;
-    var username = options.username;
-    var year = options.year;
-    var month = options.month;
+    const customerId = options.customerId;
+    const username = options.username;
+    const year = options.year;
+    const month = options.month;
     this.setData({
-      customer: { 'id': customerId, 'username': options.username },
+      customer: { id: customerId, username: username },
       yearMonth: { year: year, month: month}
     })
   },
