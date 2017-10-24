@@ -133,8 +133,8 @@ Page({
           exercise.customerId = user.user.customer.id;
           exercise.groupId = user.user.customer.groupId;
           // 远端添加
-          wx.request({
-            url: wxx.getPath('/exercisePoes'),
+          wxx.request({
+            url: '/exercisePoes',
             method: 'POST',
             data: exercise,
             success: res => {

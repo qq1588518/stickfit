@@ -21,8 +21,8 @@ Page({
   },
   monthSummary: function () {
     wx.showNavigationBarLoading();
-    wx.request({
-      url: wxx.getPath('/exercise/monthSummary'),
+    wxx.request({
+      url: '/exercise/monthSummary',
       data: {
         customerId: this.data.customer.id
       },
@@ -68,8 +68,8 @@ Page({
     }
     const ids = this.data.selected.join();
     console.log('clear selected', ids);
-    wx.request({
-      url: wxx.getPath('/exercise/deleteExercisesByIds'),
+    wxx.request({
+      url: '/exercise/deleteExercisesByIds',
       data: {
         ids: ids
       },

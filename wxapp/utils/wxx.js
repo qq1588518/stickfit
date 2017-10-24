@@ -1,9 +1,9 @@
-const version = '1.1.10'
+const version = '1.1.10.1'
 const contextPath = 'https://www.panxinyang.cn/stickfit'
 let cacheTs = wx.getStorageSync('cacheTs')
 
-function initEnv (resolve, reject) {
-  wx.request({
+function initEnv(resolve, reject) {
+  request({
     url: getPath('/core/version', 'prd'),
     success: e => {
       const serverVersion = e.data;
@@ -20,8 +20,8 @@ function initEnv (resolve, reject) {
 }
 
 function checkIfClearStorage(resolve, reject) {
-  wx.request({
-    url: getPath('/core/cacheTimestamp'),
+  request({
+    url: '/core/cacheTimestamp',
     success: e => {
       const serverCacheTs = e.data;
       if (cacheTs != serverCacheTs) {
@@ -56,7 +56,7 @@ function getEnv() {
   return env;
 }
 
-function getPath (path, env) {
+function getPath(path, env) {
   if (env == 'prd') {
     return contextPath + path;
   }
@@ -67,10 +67,19 @@ function getPath (path, env) {
   }
 }
 
+function request(obj) {
+  if (!obj.url.startsWith('http')) {
+    obj.url = getPath(obj.url);
+  }
+  obj.header = { 'Authorization': 'Basic c2VhbjoxMWFhMjJiYg==' };
+  wx.request(obj);
+}
+
 module.exports = {
   initEnv,
   checkIfClearStorage,
   getPath,
   getEnv,
-  isPrd
+  isPrd,
+  request
 }

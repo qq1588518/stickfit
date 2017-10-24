@@ -30,8 +30,8 @@ Page({
       return;
     }
     // history range
-    wx.request({
-      url: wxx.getPath('/exercise/historyRange'),
+    wxx.request({
+      url: '/exercise/historyRange',
       success: res => {
         const historyRange = res.data;
         console.log('historyRange: ', historyRange);
@@ -59,8 +59,8 @@ Page({
     data.groupId = user.user.customer.groupId;
     // 
     wx.showNavigationBarLoading();
-    wx.request({
-      url: wxx.getPath('/exercise/rank'),
+    wxx.request({
+      url: '/exercise/rank',
       data,
       success: res => {
         const rank = res.data;

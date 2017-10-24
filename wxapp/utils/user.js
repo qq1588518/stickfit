@@ -29,8 +29,8 @@ const getUser = function (resolve, reject) {
                   // 可以将 res 发送给后台解码出 unionId
                   user.userInfo = res.userInfo;
                   // 发起网络请求 - nickName
-                  wx.request({
-                    url: wxx.getPath('/customer/login'),
+                  wxx.request({
+                    url: '/customer/login',
                     data: { code, username: res.userInfo.nickName },
                     success: e => {
                       serverLogin(e, resolve, reject);
@@ -42,8 +42,8 @@ const getUser = function (resolve, reject) {
               })
             } else {
               // 未授权, 发起网络请求 - 无nickName
-              wx.request({
-                url: wxx.getPath('/customer/login'),
+              wxx.request({
+                url: '/customer/login',
                 data: {
                   code: code
                 },
@@ -63,8 +63,8 @@ const getUser = function (resolve, reject) {
 }
 
 const refreshUserCustomer = function (resolve, reject) {
-  wx.request({
-    url: wxx.getPath(`/customerPoes/${user.customer.id}`),
+  wxx.request({
+    url: `/customerPoes/${user.customer.id}`,
     success: e => {
       serverLogin(e, resolve, reject);
     },
@@ -82,8 +82,8 @@ const serverLogin = function (e, resolve, reject) {
 const updateUserInfo = function (userInfo) {
   user.getUser(user => {
     user.userInfo = userInfo;
-    wx.request({
-      url: wxx.getPath('/customer/update'),
+    wxx.request({
+      url: '/customer/update',
       data: {
         customerId: user.customer.id,
         username: userInfo.nickName
@@ -100,8 +100,8 @@ const getUserGroup = function (resolve, reject) {
     reject('User is not in a group')
     return;
   }
-  wx.request({
-    url: wxx.getPath('/group/get'),
+  wxx.request({
+    url: '/group/get',
     data: { groupId: user.customer.groupId },
     success: resolve,
     fail: reject

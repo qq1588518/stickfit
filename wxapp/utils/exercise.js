@@ -13,8 +13,8 @@ const getExercise = function (resolve, reject) {
     return;
   }
   // 获取运动信息
-  wx.request({
-    url: wxx.getPath('/exerciseTypePoes'),
+  wxx.request({
+    url: '/exerciseTypePoes',
     success: res => {
       exercise.exerciseTypes = res.data._embedded.exerciseTypePoes;
       for (let i in exercise.exerciseTypes) {

@@ -24,8 +24,8 @@ Page({
     this.monthSummary();
   },
   monthSummary: function () {
-    wx.request({
-      url: wxx.getPath('/exercise/monthSummary'),
+    wxx.request({
+      url: '/exercise/monthSummary',
       data: {
         customerId: this.data.customer.id,
         year: this.data.yearMonth.year,

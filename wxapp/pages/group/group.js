@@ -71,8 +71,8 @@ Page({
       })
     }).then(res => {
       if (res.confirm) {
-        wx.request({
-          url: wxx.getPath('/group/leave'),
+        wxx.request({
+          url: '/group/leave',
           data: { customerId: user.user.customer.id, groupId: user.user.customer.groupId },
           success: e => {
             this.setData({
@@ -99,8 +99,8 @@ Page({
       })
     }).then(res => {
       if (res.confirm) {
-        wx.request({
-          url: wxx.getPath('/group/dismiss'),
+        wxx.request({
+          url: '/group/dismiss',
           data: { customerId: user.user.customer.id, groupId: user.user.customer.groupId },
           success: e => {
             user.refreshUserCustomer((resolve, reject) => {
