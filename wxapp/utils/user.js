@@ -80,7 +80,7 @@ const serverLogin = function (e, resolve, reject) {
 }
 
 const updateUserInfo = function (userInfo) {
-  user.getUser(user => {
+  getUser(user => {
     user.userInfo = userInfo;
     wxx.request({
       url: '/customer/update',
