@@ -1,1 +1,1 @@
-JAVA_OPTS="-Dspring.profiles.active=dev -DAPP_NAME=stickfit"
+JAVA_OPTS="-Dspring.profiles.active=prd -DAPP_NAME=stickfit"
