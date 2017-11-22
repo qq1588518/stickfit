@@ -1,5 +1,6 @@
-const version = '1.1.10.1'
-const contextPath = 'https://www.panxinyang.cn/stickfit'
+const version = '2.0.0'
+const contextPath = 'https://www.nextmarathon.cn/stickfit'
+const contextPathDev = 'https://www.nextmarathon.cn/stickfit/dev'
 let cacheTs = wx.getStorageSync('cacheTs')
 
 function initEnv(resolve, reject) {
@@ -63,7 +64,7 @@ function getPath(path, env) {
   if (isPrd()) {
     return contextPath + path;
   } else {
-    return contextPath + '/dev' + path;
+    return contextPathDev + path;
   }
 }
 
