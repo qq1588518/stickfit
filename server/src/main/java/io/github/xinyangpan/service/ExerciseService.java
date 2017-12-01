@@ -91,6 +91,8 @@ public class ExerciseService {
 			}
 			if (isMeetStandard(groupId, yearMonth, rankEntry)) {
 				rankEntry.setTag("达标");
+			} else {
+				rankEntry.setTag("");
 			}
 		}
 		return customerId2RankItem;
