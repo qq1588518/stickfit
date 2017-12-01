@@ -2,6 +2,8 @@ package io.github.xinyangpan.persistent.po;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ public class MonthStandard {
 	private long groupId;
 	@Convert(converter = YearMonthConverter.class)
 	private YearMonth month;
+	@Enumerated(EnumType.STRING)
 	private StandardEnum standardEnum;
 	@Convert(converter = StandardParamConverter.class)
 	private StandardParam standardParam;
