@@ -1,14 +1,17 @@
-package io.github.xinyangpan.persistent.po.enums;
+package io.github.xinyangpan.core.standard;
 
 import java.math.BigDecimal;
 
 import io.github.xinyangpan.persistent.po.type.StandardParam;
-import io.github.xinyangpan.service.standard.JogAmountOrMixStandard;
-import io.github.xinyangpan.service.standard.JogAmountStandard;
-import io.github.xinyangpan.service.standard.MixedStandard;
-import io.github.xinyangpan.service.standard.Standard;
 
 public enum StandardEnum {
+	Count {
+		@Override
+		public Standard getStandard(StandardParam standardParam) {
+			int count = Integer.parseInt(standardParam.getParam(0));
+			return new CountStandard(count);
+		}
+	},
 	JogAmount {
 		@Override
 		public Standard getStandard(StandardParam standardParam) {

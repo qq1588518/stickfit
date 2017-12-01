@@ -6,12 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import io.github.xinyangpan.core.standard.Standard;
+import io.github.xinyangpan.core.standard.StandardEnum;
 import io.github.xinyangpan.persistent.po.converter.StandardParamConverter;
 import io.github.xinyangpan.persistent.po.converter.YearMonthConverter;
-import io.github.xinyangpan.persistent.po.enums.StandardEnum;
 import io.github.xinyangpan.persistent.po.type.StandardParam;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
-import io.github.xinyangpan.service.standard.Standard;
 
 @Entity
 public class MonthStandard {

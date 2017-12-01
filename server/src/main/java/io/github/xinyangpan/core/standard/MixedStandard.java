@@ -1,4 +1,4 @@
-package io.github.xinyangpan.service.standard;
+package io.github.xinyangpan.core.standard;
 
 import java.math.BigDecimal;
 
