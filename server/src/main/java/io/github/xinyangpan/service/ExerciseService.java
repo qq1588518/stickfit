@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -32,8 +31,8 @@ import io.github.xinyangpan.persistent.po.ExercisePo;
 import io.github.xinyangpan.persistent.po.ExerciseTypePo;
 import io.github.xinyangpan.persistent.po.MonthStandard;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
-import io.github.xinyangpan.service.standard.JogAmountStandard;
-import io.github.xinyangpan.service.standard.MixedStandard;
+import io.github.xinyangpan.service.standard.JogAmountOrMixStandard;
+import io.github.xinyangpan.service.standard.Standard;
 import io.github.xinyangpan.vo.ExerciseVo;
 import io.github.xinyangpan.vo.MonthSummary;
 import io.github.xinyangpan.vo.Rank;
@@ -42,8 +41,7 @@ import io.github.xinyangpan.vo.RankEntry;
 @Service
 @Transactional
 public class ExerciseService {
-	private static final JogAmountStandard JOG_AMOUNT_STANDARD = new JogAmountStandard(new BigDecimal("180"));
-	private static final MixedStandard MIXED_STANDARD = new MixedStandard(new BigDecimal("110"), 15, 9);
+	private static final JogAmountOrMixStandard DEFAULT_STANDARD = new JogAmountOrMixStandard(new BigDecimal("180"), new BigDecimal("110"), 15, 9);
 	@Autowired
 	private ExerciseDao exerciseDao;
 	@Autowired
@@ -69,6 +67,7 @@ public class ExerciseService {
 	}
 
 	private Map<Long, RankEntry> customerId2RankItem(long groupId, YearMonth yearMonth, List<ExercisePo> exercisePos) {
+		Standard standard = getStandard(groupId, yearMonth);
 		//
 		Map<Long, CustomerPo> id2CustomerPo = id2CustomerPo(exercisePos);
 		//
@@ -89,7 +88,7 @@ public class ExerciseService {
 				rankEntry.setJogAmount(rankEntry.getJogAmount().add(exercisePo.getAmount()));
 				rankEntry.setJogCount(rankEntry.getJogCount() + 1);
 			}
-			if (isMeetStandard(groupId, yearMonth, rankEntry)) {
+			if (standard.eval(rankEntry)) {
 				rankEntry.setTag("达标");
 			} else {
 				rankEntry.setTag("");
@@ -98,27 +97,12 @@ public class ExerciseService {
 		return customerId2RankItem;
 	}
 
-	private boolean isMeetStandard(long groupId, YearMonth yearMonth, RankEntry rankEntry) {
-		List<MonthStandard> monthStandards = monthStandardDao.findByGroupIdAndMonth(groupId, yearMonth);
-		if (CollectionUtils.isEmpty(monthStandards)) {
-			return isMeetDefaultStandard(rankEntry);
+	private Standard getStandard(long groupId, YearMonth yearMonth) {
+		MonthStandard monthStandard = monthStandardDao.findByGroupIdAndMonth(groupId, yearMonth);
+		if (monthStandard == null) {
+			return DEFAULT_STANDARD;
 		} else {
-			for (MonthStandard monthStandard : monthStandards) {
-				if (monthStandard.getStandard().eval(rankEntry)) {
-					return true;
-				}
-			}
-			return false;
-		}
-	}
-
-	private boolean isMeetDefaultStandard(RankEntry rankEntry) {
-		if (JOG_AMOUNT_STANDARD.eval(rankEntry)) {
-			return true;
-		} else if (MIXED_STANDARD.eval(rankEntry)) {
-			return true;
-		} else {
-			return false;
+			return monthStandard.getStandard();
 		}
 	}
 
