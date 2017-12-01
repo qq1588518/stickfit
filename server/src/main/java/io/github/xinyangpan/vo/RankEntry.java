@@ -27,8 +27,7 @@ public class RankEntry {
 
 	@Override
 	public String toString() {
-		return String
-			.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, getTag()=%s, getDescription()=%s]", customerId, username, count, jogCount, jogAmount, getTag(), getDescription());
+		return String.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, getTag()=%s, getDescription()=%s]", customerId, username, count, jogCount, jogAmount, getTag(), getDescription());
 	}
 
 	public long getCustomerId() {
