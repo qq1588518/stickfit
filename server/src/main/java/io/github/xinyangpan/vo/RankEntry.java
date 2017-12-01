@@ -19,7 +19,7 @@ public class RankEntry {
 	public String getTag() {
 		if (jogAmount.compareTo(new BigDecimal("180")) >= 0) {
 			return "达标";
-		} else if (jogAmount.compareTo(new BigDecimal("100")) >= 0 && count >= 15 && jogCount >= 9) {
+		} else if (jogAmount.compareTo(new BigDecimal("110")) >= 0 && count >= 15 && jogCount >= 9) {
 			return "达标";
 		}
 		return "";
