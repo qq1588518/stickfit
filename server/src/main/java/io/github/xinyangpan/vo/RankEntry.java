@@ -8,6 +8,7 @@ public class RankEntry {
 	private int count;
 	private int jogCount;
 	private BigDecimal jogAmount = BigDecimal.ZERO;
+	private String tag;
 
 	public RankEntry() {
 	}
@@ -16,18 +17,9 @@ public class RankEntry {
 		return String.format("%s打卡%s次 - %s公里", username, count, jogAmount);
 	}
 
-	public String getTag() {
-		if (jogAmount.compareTo(new BigDecimal("180")) >= 0) {
-			return "达标";
-		} else if (jogAmount.compareTo(new BigDecimal("110")) >= 0 && count >= 15 && jogCount >= 9) {
-			return "达标";
-		}
-		return "";
-	}
-
 	@Override
 	public String toString() {
-		return String.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, getTag()=%s, getDescription()=%s]", customerId, username, count, jogCount, jogAmount, getTag(), getDescription());
+		return String.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, tag=%s, getDescription()=%s]", customerId, username, count, jogCount, jogAmount, getTag(), getDescription());
 	}
 
 	public long getCustomerId() {
@@ -68,6 +60,14 @@ public class RankEntry {
 
 	public void setJogCount(int jogCount) {
 		this.jogCount = jogCount;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 
 }
