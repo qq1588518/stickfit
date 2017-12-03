@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -55,7 +54,7 @@ public class ExerciseService {
 		List<ExercisePo> exercisePos = exerciseDao.findByGroupIdAndMonth(groupId, yearMonth);
 		MonthStandard monthStandard = monthStandardDao.findByGroupIdAndMonth(groupId, yearMonth);
 		Standard standard = getStandard(monthStandard);
-		Map<Long, CustomerPo> id2CustomerPo = id2CustomerPo(exercisePos);
+		Map<Long, CustomerPo> id2CustomerPo = id2CustomerPo(groupId);
 		String pioneer = getPioneer(monthStandard, id2CustomerPo);
 		// rankEntries
 		Map<Long, RankEntry> customerId2RankItem = customerId2RankItem(exercisePos, id2CustomerPo, standard);
@@ -117,9 +116,8 @@ public class ExerciseService {
 		}
 	}
 
-	private Map<Long, CustomerPo> id2CustomerPo(List<ExercisePo> exercisePos) {
-		Set<Long> customerIds = exercisePos.stream().map(ExercisePo::getCustomerId).collect(Collectors.toSet());
-		List<CustomerPo> customerPos = customerDao.findByIdIn(customerIds);
+	private Map<Long, CustomerPo> id2CustomerPo(long groupId) {
+		List<CustomerPo> customerPos = customerDao.findByGroupIdAndUsernameIsNotNull(groupId);
 		return Maps.uniqueIndex(customerPos, CustomerPo::getId);
 	}
 

@@ -6,7 +6,8 @@ insert into exercise_type_po(`name`,`description`,`min`,`unit`,`order`) values
 ('其他','其他运动',45,'分钟',99);
 
 
-insert into month_standard(group_id, month, standard_enum, standard_param) values(1, 201709, 'Count', '15');
-insert into month_standard(group_id, month, standard_enum, standard_param) values(1, 201710, 'JogAmountOrMix', '180,100,15,9');
-insert into month_standard(group_id, month, standard_enum, standard_param) values(1, 201711, 'JogAmountOrMix', '180,110,15,9');
-insert into month_standard(group_id, month, standard_enum, standard_param) values(1, 201712, 'JogAmountOrMix', '180,110,15,9');
+drop table month_standard;
+insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(1, 201709, 'Count', '15', null);
+insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(1, 201710, 'JogAmountOrMix', '180,100,15,9', null);
+insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(1, 201711, 'JogAmountOrMix', '180,110,15,9', 12);
+insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(1, 201712, 'JogAmountOrMix', '180,110,15,9', 21);
