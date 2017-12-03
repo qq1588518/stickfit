@@ -18,4 +18,9 @@ public class JogAmountOrMixStandard implements Standard {
 		return jogAmountStandard.eval(rankEntry) || mixedStandard.eval(rankEntry);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("JogAmountOrMixStandard [jogAmountStandard=%s, mixedStandard=%s]", jogAmountStandard, mixedStandard);
+	}
+
 }

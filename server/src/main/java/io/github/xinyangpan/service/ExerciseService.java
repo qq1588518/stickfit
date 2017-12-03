@@ -53,23 +53,31 @@ public class ExerciseService {
 
 	public Rank rank(long groupId, YearMonth yearMonth) {
 		List<ExercisePo> exercisePos = exerciseDao.findByGroupIdAndMonth(groupId, yearMonth);
-		// 
-		Map<Long, RankEntry> customerId2RankItem = customerId2RankItem(groupId, yearMonth, exercisePos);
-		// 
+		MonthStandard monthStandard = monthStandardDao.findByGroupIdAndMonth(groupId, yearMonth);
+		Standard standard = getStandard(monthStandard);
+		Map<Long, CustomerPo> id2CustomerPo = id2CustomerPo(exercisePos);
+		String pioneer = getPioneer(monthStandard, id2CustomerPo);
+		// rankEntries
+		Map<Long, RankEntry> customerId2RankItem = customerId2RankItem(exercisePos, id2CustomerPo, standard);
 		List<RankEntry> rankEntries = Lists.newArrayList(customerId2RankItem.values());
 		Comparator<RankEntry> comparator = Comparator.comparing(RankEntry::getJogAmount, Comparator.reverseOrder()).thenComparing(RankEntry::getCount, Comparator.reverseOrder());
 		Collections.sort(rankEntries, comparator);
 		// 
 		Rank rank = new Rank();
-		rank.setRankEntries(rankEntries);
 		rank.setYearMonth(yearMonth);
+		rank.setRankEntries(rankEntries);
+		rank.setPioneer(pioneer);
 		return rank;
 	}
 
-	private Map<Long, RankEntry> customerId2RankItem(long groupId, YearMonth yearMonth, List<ExercisePo> exercisePos) {
-		Standard standard = getStandard(groupId, yearMonth);
-		//
-		Map<Long, CustomerPo> id2CustomerPo = id2CustomerPo(exercisePos);
+	private String getPioneer(MonthStandard monthStandard, Map<Long, CustomerPo> id2CustomerPo) {
+		if (monthStandard == null) {
+			return null;
+		}
+		return id2CustomerPo.get(monthStandard.getPioneerId()).getUsername();
+	}
+
+	private Map<Long, RankEntry> customerId2RankItem(List<ExercisePo> exercisePos, Map<Long, CustomerPo> id2CustomerPo, Standard standard) {
 		//
 		Map<Long, RankEntry> customerId2RankItem = Maps.newHashMap();
 		for (ExercisePo exercisePo : exercisePos) {
@@ -97,8 +105,7 @@ public class ExerciseService {
 		return customerId2RankItem;
 	}
 
-	private Standard getStandard(long groupId, YearMonth yearMonth) {
-		MonthStandard monthStandard = monthStandardDao.findByGroupIdAndMonth(groupId, yearMonth);
+	private Standard getStandard(MonthStandard monthStandard) {
 		if (monthStandard == null) {
 			return DEFAULT_STANDARD;
 		} else {

@@ -9,3 +9,4 @@ insert into exercise_type_po(`name`,`description`,`min`,`unit`,`order`) values
 insert into month_standard(group_id, month, standard_enum, standard_param) values(1, 201709, 'Count', '15');
 insert into month_standard(group_id, month, standard_enum, standard_param) values(1, 201710, 'JogAmountOrMix', '180,100,15,9');
 insert into month_standard(group_id, month, standard_enum, standard_param) values(1, 201711, 'JogAmountOrMix', '180,110,15,9');
+insert into month_standard(group_id, month, standard_enum, standard_param) values(1, 201712, 'JogAmountOrMix', '180,110,15,9');

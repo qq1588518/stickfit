@@ -28,6 +28,7 @@ public class MonthStandard {
 	private StandardEnum standardEnum;
 	@Convert(converter = StandardParamConverter.class)
 	private StandardParam standardParam;
+	private long pioneerId;
 
 	public Standard getStandard() {
 		return this.standardEnum.getStandard(standardParam);
@@ -35,7 +36,7 @@ public class MonthStandard {
 
 	@Override
 	public String toString() {
-		return String.format("MonthStandard [id=%s, groupId=%s, month=%s, standardEnum=%s, standardParam=%s]", id, groupId, month, standardEnum, standardParam);
+		return String.format("MonthStandard [id=%s, groupId=%s, month=%s, standardEnum=%s, standardParam=%s, pioneerId=%s]", id, groupId, month, standardEnum, standardParam, pioneerId);
 	}
 
 	public long getId() {
@@ -76,6 +77,14 @@ public class MonthStandard {
 
 	public void setGroupId(long groupId) {
 		this.groupId = groupId;
+	}
+
+	public long getPioneerId() {
+		return pioneerId;
+	}
+
+	public void setPioneerId(long pioneerId) {
+		this.pioneerId = pioneerId;
 	}
 
 }

@@ -16,4 +16,9 @@ public class JogAmountStandard implements Standard {
 		return rankEntry.getJogAmount().compareTo(jogAmount) >= 0;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("JogAmountStandard [jogAmount=%s]", jogAmount);
+	}
+
 }

@@ -21,4 +21,9 @@ public class MixedStandard implements Standard {
 		return rankEntry.getJogAmount().compareTo(jogAmount) >= 0 && rankEntry.getCount() >= count && rankEntry.getJogCount() >= jogCount;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("MixedStandard [jogAmount=%s, count=%s, jogCount=%s]", jogAmount, count, jogCount);
+	}
+
 }
