@@ -28,7 +28,7 @@ public class MonthStandard {
 	private StandardEnum standardEnum;
 	@Convert(converter = StandardParamConverter.class)
 	private StandardParam standardParam;
-	private long pioneerId;
+	private Long pioneerId;
 
 	public Standard getStandard() {
 		return this.standardEnum.getStandard(standardParam);
@@ -79,11 +79,11 @@ public class MonthStandard {
 		this.groupId = groupId;
 	}
 
-	public long getPioneerId() {
+	public Long getPioneerId() {
 		return pioneerId;
 	}
 
-	public void setPioneerId(long pioneerId) {
+	public void setPioneerId(Long pioneerId) {
 		this.pioneerId = pioneerId;
 	}
 

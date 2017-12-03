@@ -74,7 +74,11 @@ public class ExerciseService {
 		if (monthStandard == null) {
 			return null;
 		}
-		return id2CustomerPo.get(monthStandard.getPioneerId()).getUsername();
+		Long pioneerId = monthStandard.getPioneerId();
+		if (pioneerId == null) {
+			return null;
+		}
+		return id2CustomerPo.get(pioneerId).getUsername();
 	}
 
 	private Map<Long, RankEntry> customerId2RankItem(List<ExercisePo> exercisePos, Map<Long, CustomerPo> id2CustomerPo, Standard standard) {
