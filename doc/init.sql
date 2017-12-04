@@ -5,6 +5,10 @@ insert into exercise_type_po(`name`,`description`,`min`,`unit`,`order`) values
 ('骑车','骑车',12,'公里',4),
 ('其他','其他运动',45,'分钟',99);
 
+delete from group_po;
+ALTER TABLE group_po AUTO_INCREMENT = 1;
+insert into group_po(name, owner_id) values('未分组', 0);
+insert into group_po(name, owner_id) values('下一马', 3);
 
 drop table month_standard;
 insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(1, 201709, 'Count', '15', null);

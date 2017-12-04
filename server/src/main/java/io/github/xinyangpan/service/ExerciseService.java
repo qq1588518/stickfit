@@ -82,7 +82,7 @@ public class ExerciseService {
 
 	private Map<Long, RankEntry> customerId2RankItem(List<ExercisePo> exercisePos, Map<Long, CustomerPo> id2CustomerPo, Standard standard) {
 		//
-		Map<Long, RankEntry> customerId2RankItem = Maps.transformValues(id2CustomerPo, this::convert);
+		Map<Long, RankEntry> customerId2RankItem = Maps.newHashMap(Maps.transformValues(id2CustomerPo, this::convert));
 		for (ExercisePo exercisePo : exercisePos) {
 			long customerId = exercisePo.getCustomerId();
 			RankEntry rankEntry = customerId2RankItem.get(customerId);
