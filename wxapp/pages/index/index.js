@@ -9,6 +9,7 @@ const app = getApp()
 
 Page({
   data: {
+    customer: {},
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -37,6 +38,7 @@ Page({
       if (user && user.userInfo) {
         this.setData({
           userInfo: user.userInfo,
+          customer: user.customer,
           hasUserInfo: true
         })
       }
@@ -66,7 +68,15 @@ Page({
       userInfo: userInfo,
       hasUserInfo: true
     })
-    user.updateUserInfo(userInfo);
+    user.updateUserInfo(userInfo, user => {
+      if (user && user.userInfo) {
+        this.setData({
+          userInfo: user.userInfo,
+          customer: user.customer,
+          hasUserInfo: true
+        })
+      }
+    });
   },
   bindDateChange: function (e) {
     this.setData({

@@ -81,7 +81,7 @@ const serverLogin = function (e, resolve, reject) {
   resolve(user);
 }
 
-const updateUserInfo = function (userInfo) {
+const updateUserInfo = function (userInfo, resolve) {
   getUser(user => {
     user.userInfo = userInfo;
     wxx.request({
@@ -92,6 +92,7 @@ const updateUserInfo = function (userInfo) {
       },
       success: e => {
         user.customer = e.data;
+        resolve(user);
       }
     })
   })

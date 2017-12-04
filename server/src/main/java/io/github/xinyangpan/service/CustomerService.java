@@ -18,8 +18,8 @@ public class CustomerService {
 
 	public CustomerPo update(Long customerId, String username) {
 		CustomerPo customerPo = customerDao.findOne(customerId);
-		customerPo.setUsername(username);
-		return customerDao.save(customerPo);
+		customerPo = updateUserNameWhenNull(customerPo, username);
+		return customerPo;
 	}
 
 	public CustomerPo login(String openId, String username) {
@@ -31,12 +31,17 @@ public class CustomerService {
 			// first time
 			return this.createCustomer(openId, username);
 		} else {
-			if (username != null && customerPo.getUsername() == null) {
-				customerPo.setUsername(username);
-				customerPo = customerDao.save(customerPo);
-			}
+			customerPo = updateUserNameWhenNull(customerPo, username);
 			return customerPo;
 		}
+	}
+
+	private CustomerPo updateUserNameWhenNull(CustomerPo customerPo, String username) {
+		if (customerPo.getUsername() == null && username != null) {
+			customerPo.setUsername(username);
+			customerPo = customerDao.save(customerPo);
+		}
+		return customerPo;
 	}
 
 	private CustomerPo createCustomer(String openId, String username) {
