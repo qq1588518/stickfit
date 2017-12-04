@@ -15,7 +15,7 @@ import io.github.xinyangpan.persistent.po.converter.YearMonthConverter;
 import io.github.xinyangpan.persistent.po.type.YearMonth;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "customer_id", "month" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "customerId", "month" }))
 public class CustomerStatusPo {
 
 	@Id
