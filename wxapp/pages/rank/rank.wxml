@@ -1,6 +1,6 @@
 <!--pages/rank/rank.wxml-->
 <view class="my-page">
-  <view class="weui-cells__title">{{yearMonth.display}}排行榜</view>
+  <view class="weui-cells__title">{{rank.header}}</view>
   <view class="weui-cells weui-cells_after-title my-cells">
 
     <navigator url="../detail/detail?customerId={{item.customerId}}&username={{item.username}}&year={{yearMonth.year}}&month={{yearMonth.month}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" wx:for="{{rank.rankEntries}}" wx:key="value">

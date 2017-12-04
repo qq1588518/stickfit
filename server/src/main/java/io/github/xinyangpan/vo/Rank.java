@@ -18,6 +18,14 @@ public class Rank {
 		this.yearMonth = yearMonth;
 	}
 
+	public String getHeader() {
+		String pioneerDesc = "";
+		if (pioneer != null) {
+			pioneerDesc = String.format(" - 本月先锋: %s", pioneer);
+		}
+		return String.format("%s%s", yearMonth.getDisplay(), pioneerDesc);
+	}
+	
 	public String getSummary() {
 		String pioneerDesc = "";
 		if (pioneer != null) {
