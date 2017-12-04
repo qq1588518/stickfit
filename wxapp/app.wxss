@@ -74,3 +74,11 @@ page {
   padding: 0 26rpx;
   border-radius: 6rpx;
 }
+
+.good {
+  background-color: #1aad19;
+}
+
+.bad {
+  background-color: #e64340;
+}

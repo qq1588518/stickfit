@@ -18,14 +18,14 @@ public class RankEntry {
 		return String.format("%s打卡%s次 - %s公里", username, count, jogAmount);
 	}
 
-	public String getTag() {
+	public Tag getTag() {
 		if (this.isMeetStandard()) {
-			return "达标";
+			return new Tag("达标", "good");
 		}
 		if (this.isLeave()) {
-			return "请假";
+			return new Tag("请假", "bad");
 		}
-		return "";
+		return new Tag("", "");
 	}
 
 	@Override
