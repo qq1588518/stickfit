@@ -66,7 +66,10 @@ public class ExerciseService {
 		// rankEntries
 		Map<Long, RankEntry> customerId2RankItem = customerId2RankItem(exercisePos, id2CustomerPo, id2CustomerStatusPo, standard);
 		List<RankEntry> rankEntries = Lists.newArrayList(customerId2RankItem.values());
-		Comparator<RankEntry> comparator = Comparator.comparing(RankEntry::getJogAmount, Comparator.reverseOrder()).thenComparing(RankEntry::getCount, Comparator.reverseOrder());
+		Comparator<RankEntry> comparator = Comparator
+			.comparing(RankEntry::isLeave)
+			.thenComparing(RankEntry::getJogAmount, Comparator.reverseOrder())
+			.thenComparing(RankEntry::getCount, Comparator.reverseOrder());
 		Collections.sort(rankEntries, comparator);
 		// 
 		Rank rank = new Rank();
@@ -102,10 +105,10 @@ public class ExerciseService {
 		for (RankEntry rankEntry : customerId2RankItem.values()) {
 			long customerId = rankEntry.getCustomerId();
 			if (standard.eval(rankEntry)) {
-				rankEntry.setTag("达标");
+				rankEntry.setMeetStandard(true);
 			}
 			if (isLeave(id2CustomerStatusPo, customerId)) {
-				rankEntry.setTag("请假");
+				rankEntry.setLeave(true);
 			}
 		}
 		return customerId2RankItem;
@@ -126,7 +129,6 @@ public class ExerciseService {
 		rankEntry.setCount(0);
 		rankEntry.setJogAmount(BigDecimal.ZERO);
 		rankEntry.setJogCount(0);
-		rankEntry.setTag("");
 		return rankEntry;
 	}
 

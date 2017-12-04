@@ -8,7 +8,8 @@ public class RankEntry {
 	private int count;
 	private int jogCount;
 	private BigDecimal jogAmount = BigDecimal.ZERO;
-	private String tag;
+	private boolean leave;
+	private boolean meetStandard;
 
 	public RankEntry() {
 	}
@@ -17,9 +18,19 @@ public class RankEntry {
 		return String.format("%s打卡%s次 - %s公里", username, count, jogAmount);
 	}
 
+	public String getTag() {
+		if (this.isMeetStandard()) {
+			return "达标";
+		}
+		if (this.isLeave()) {
+			return "请假";
+		}
+		return "";
+	}
+
 	@Override
 	public String toString() {
-		return String.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, tag=%s, getDescription()=%s]", customerId, username, count, jogCount, jogAmount, getTag(), getDescription());
+		return String.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, leave=%s, meetStandard=%s, getDescription()=%s, getTag()=%s]", customerId, username, count, jogCount, jogAmount, leave, meetStandard, getDescription(), getTag());
 	}
 
 	public long getCustomerId() {
@@ -62,12 +73,20 @@ public class RankEntry {
 		this.jogCount = jogCount;
 	}
 
-	public String getTag() {
-		return tag;
+	public boolean isLeave() {
+		return leave;
 	}
 
-	public void setTag(String tag) {
-		this.tag = tag;
+	public void setLeave(boolean leave) {
+		this.leave = leave;
+	}
+
+	public boolean isMeetStandard() {
+		return meetStandard;
+	}
+
+	public void setMeetStandard(boolean meetStandard) {
+		this.meetStandard = meetStandard;
 	}
 
 }
