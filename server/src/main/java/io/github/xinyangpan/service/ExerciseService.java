@@ -21,13 +21,16 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 
+import io.github.xinyangpan.core.StatusEnum;
 import io.github.xinyangpan.core.standard.JogAmountOrMixStandard;
 import io.github.xinyangpan.core.standard.Standard;
 import io.github.xinyangpan.persistent.dao.CustomerDao;
+import io.github.xinyangpan.persistent.dao.CustomerStatusDao;
 import io.github.xinyangpan.persistent.dao.ExerciseDao;
 import io.github.xinyangpan.persistent.dao.ExerciseTypeDao;
 import io.github.xinyangpan.persistent.dao.MonthStandardDao;
 import io.github.xinyangpan.persistent.po.CustomerPo;
+import io.github.xinyangpan.persistent.po.CustomerStatusPo;
 import io.github.xinyangpan.persistent.po.ExercisePo;
 import io.github.xinyangpan.persistent.po.ExerciseTypePo;
 import io.github.xinyangpan.persistent.po.MonthStandard;
@@ -48,16 +51,20 @@ public class ExerciseService {
 	@Autowired
 	private CustomerDao customerDao;
 	@Autowired
+	private CustomerStatusDao customerStatusDao;
+	@Autowired
 	private MonthStandardDao monthStandardDao;
+	
 
 	public Rank rank(long groupId, YearMonth yearMonth) {
 		List<ExercisePo> exercisePos = exerciseDao.findByGroupIdAndMonth(groupId, yearMonth);
 		MonthStandard monthStandard = monthStandardDao.findByGroupIdAndMonth(groupId, yearMonth);
 		Standard standard = getStandard(monthStandard);
 		Map<Long, CustomerPo> id2CustomerPo = id2CustomerPo(groupId);
+		Map<Long, CustomerStatusPo> id2CustomerStatusPo = id2CustomerStatusPo(groupId, yearMonth);
 		String pioneer = getPioneer(monthStandard, id2CustomerPo);
 		// rankEntries
-		Map<Long, RankEntry> customerId2RankItem = customerId2RankItem(exercisePos, id2CustomerPo, standard);
+		Map<Long, RankEntry> customerId2RankItem = customerId2RankItem(exercisePos, id2CustomerPo, id2CustomerStatusPo, standard);
 		List<RankEntry> rankEntries = Lists.newArrayList(customerId2RankItem.values());
 		Comparator<RankEntry> comparator = Comparator.comparing(RankEntry::getJogAmount, Comparator.reverseOrder()).thenComparing(RankEntry::getCount, Comparator.reverseOrder());
 		Collections.sort(rankEntries, comparator);
@@ -80,7 +87,7 @@ public class ExerciseService {
 		return id2CustomerPo.get(pioneerId).getUsername();
 	}
 
-	private Map<Long, RankEntry> customerId2RankItem(List<ExercisePo> exercisePos, Map<Long, CustomerPo> id2CustomerPo, Standard standard) {
+	private Map<Long, RankEntry> customerId2RankItem(List<ExercisePo> exercisePos, Map<Long, CustomerPo> id2CustomerPo, Map<Long, CustomerStatusPo> id2CustomerStatusPo, Standard standard) {
 		//
 		Map<Long, RankEntry> customerId2RankItem = Maps.newHashMap(Maps.transformValues(id2CustomerPo, this::convert));
 		for (ExercisePo exercisePo : exercisePos) {
@@ -94,8 +101,19 @@ public class ExerciseService {
 			if (standard.eval(rankEntry)) {
 				rankEntry.setTag("达标");
 			}
+			if (isLeave(id2CustomerStatusPo, customerId)) {
+				rankEntry.setTag("请假");
+			}
 		}
 		return customerId2RankItem;
+	}
+
+	private boolean isLeave(Map<Long, CustomerStatusPo> id2CustomerStatusPo, long customerId) {
+		CustomerStatusPo customerStatusPo = id2CustomerStatusPo.get(customerId);
+		if (customerStatusPo == null) {
+			return false;
+		}
+		return customerStatusPo.getStatusEnum() == StatusEnum.LEAVE;
 	}
 
 	private RankEntry convert(CustomerPo customerPo) {
@@ -120,6 +138,11 @@ public class ExerciseService {
 	private Map<Long, CustomerPo> id2CustomerPo(long groupId) {
 		List<CustomerPo> customerPos = customerDao.findByGroupIdAndUsernameIsNotNull(groupId);
 		return Maps.uniqueIndex(customerPos, CustomerPo::getId);
+	}
+
+	private Map<Long, CustomerStatusPo> id2CustomerStatusPo(long groupId, YearMonth yearMonth) {
+		List<CustomerStatusPo> customerStatusPos = customerStatusDao.findByGroupIdAndMonth(groupId, yearMonth);
+		return Maps.uniqueIndex(customerStatusPos, CustomerStatusPo::getCustomerId);
 	}
 
 	public void deleteExercisesByIds(List<Long> ids) {
