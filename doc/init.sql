@@ -18,3 +18,11 @@ insert into month_standard(group_id, month, standard_enum, standard_param, pione
 insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(1, 201710, 'JogAmountOrMix', '180,100,15,9', null);
 insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(1, 201711, 'JogAmountOrMix', '180,110,15,9', 12);
 insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(1, 201712, 'JogAmountOrMix', '180,110,15,9', 21);
+
+delete from customer_status_po;
+ALTER TABLE customer_status_po AUTO_INCREMENT = 1;
+insert into customer_status_po(customer_id, group_id, month, status_enum) values(21, 2, 201710, 'LEAVE');
+insert into customer_status_po(customer_id, group_id, month, status_enum) values(20, 2, 201711, 'LEAVE');
+insert into customer_status_po(customer_id, group_id, month, status_enum) values(16, 2, 201711, 'LEAVE');
+insert into customer_status_po(customer_id, group_id, month, status_enum) values(16, 2, 201712, 'LEAVE');
+insert into customer_status_po(customer_id, group_id, month, status_enum) values( 5, 2, 201712, 'LEAVE');

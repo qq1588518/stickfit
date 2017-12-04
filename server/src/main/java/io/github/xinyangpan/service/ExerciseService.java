@@ -98,6 +98,9 @@ public class ExerciseService {
 				rankEntry.setJogAmount(rankEntry.getJogAmount().add(exercisePo.getAmount()));
 				rankEntry.setJogCount(rankEntry.getJogCount() + 1);
 			}
+		}
+		for (RankEntry rankEntry : customerId2RankItem.values()) {
+			long customerId = rankEntry.getCustomerId();
 			if (standard.eval(rankEntry)) {
 				rankEntry.setTag("达标");
 			}
