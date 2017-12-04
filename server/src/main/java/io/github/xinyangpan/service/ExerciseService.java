@@ -82,18 +82,10 @@ public class ExerciseService {
 
 	private Map<Long, RankEntry> customerId2RankItem(List<ExercisePo> exercisePos, Map<Long, CustomerPo> id2CustomerPo, Standard standard) {
 		//
-		Map<Long, RankEntry> customerId2RankItem = Maps.newHashMap();
+		Map<Long, RankEntry> customerId2RankItem = Maps.transformValues(id2CustomerPo, this::convert);
 		for (ExercisePo exercisePo : exercisePos) {
 			long customerId = exercisePo.getCustomerId();
 			RankEntry rankEntry = customerId2RankItem.get(customerId);
-			if (rankEntry == null) {
-				CustomerPo customerPo = id2CustomerPo.get(exercisePo.getCustomerId());
-				String username = customerPo.getUsername();
-				rankEntry = new RankEntry();
-				rankEntry.setCustomerId(customerId);
-				rankEntry.setUsername(username);
-				customerId2RankItem.put(customerId, rankEntry);
-			}
 			rankEntry.setCount(rankEntry.getCount() + 1);
 			if (exercisePo.getTypeId() == 1) {
 				rankEntry.setJogAmount(rankEntry.getJogAmount().add(exercisePo.getAmount()));
@@ -101,11 +93,20 @@ public class ExerciseService {
 			}
 			if (standard.eval(rankEntry)) {
 				rankEntry.setTag("达标");
-			} else {
-				rankEntry.setTag("");
 			}
 		}
 		return customerId2RankItem;
+	}
+
+	private RankEntry convert(CustomerPo customerPo) {
+		RankEntry rankEntry = new RankEntry();
+		rankEntry.setCustomerId(customerPo.getId());
+		rankEntry.setUsername(customerPo.getUsername());
+		rankEntry.setCount(0);
+		rankEntry.setJogAmount(BigDecimal.ZERO);
+		rankEntry.setJogCount(0);
+		rankEntry.setTag("");
+		return rankEntry;
 	}
 
 	private Standard getStandard(MonthStandard monthStandard) {
