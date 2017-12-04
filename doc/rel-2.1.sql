@@ -6,7 +6,7 @@ insert into group_po(name, owner_id) values('下一马', 3);
 delete from month_standard;
 ALTER TABLE month_standard AUTO_INCREMENT = 1;
 insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(2, 201709, 'Count', '15', null);
-insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(2, 201710, 'JogAmountOrMix', '180,100,15,9', null);
+insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(2, 201710, 'JogAmountOrMix', '180,100,15,9', 8);
 insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(2, 201711, 'JogAmountOrMix', '180,110,15,9', 12);
 insert into month_standard(group_id, month, standard_enum, standard_param, pioneer_id) values(2, 201712, 'JogAmountOrMix', '180,110,15,9', 21);
 
