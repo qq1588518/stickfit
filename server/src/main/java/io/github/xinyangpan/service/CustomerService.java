@@ -1,7 +1,5 @@
 package io.github.xinyangpan.service;
 
-import java.util.Objects;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,7 @@ public class CustomerService {
 			// first time
 			return this.createCustomer(openId, username);
 		} else {
-			if (username != null && !Objects.equals(customerPo.getUsername(), username)) {
+			if (username != null && customerPo.getUsername() == null) {
 				customerPo.setUsername(username);
 				customerPo = customerDao.save(customerPo);
 			}

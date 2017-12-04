@@ -24,6 +24,7 @@ public class CustomerController {
 
 	@GetMapping("/login")
 	public CustomerPo login(String code, String username) {
+		log.info("login start code={}, username={}", code, username);
 		String appId = "wx7697e61e4407f57a";
 		String secret = "672fa10aea63e42a39a683c65267dca2";
 		Session session = coreService.jscode2session(appId, secret, code);
