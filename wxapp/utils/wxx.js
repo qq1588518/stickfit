@@ -1,4 +1,4 @@
-const version = '2.0.1'
+const version = '2.0.4'
 const contextPath = 'https://www.nextmarathon.cn/stickfit'
 const contextPathDev = 'https://www.nextmarathon.cn/stickfit/dev'
 let cacheTs = wx.getStorageSync('cacheTs')
