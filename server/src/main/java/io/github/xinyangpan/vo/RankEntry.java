@@ -2,6 +2,8 @@ package io.github.xinyangpan.vo;
 
 import java.math.BigDecimal;
 
+import io.github.xinyangpan.persistent.po.CustomerPo;
+
 public class RankEntry {
 	private long customerId;
 	private String username;
@@ -12,6 +14,16 @@ public class RankEntry {
 	private boolean meetStandard;
 
 	public RankEntry() {
+	}
+
+	public static RankEntry from(CustomerPo customerPo) {
+		RankEntry rankEntry = new RankEntry();
+		rankEntry.setCustomerId(customerPo.getId());
+		rankEntry.setUsername(customerPo.getUsername());
+		rankEntry.setCount(0);
+		rankEntry.setJogAmount(BigDecimal.ZERO);
+		rankEntry.setJogCount(0);
+		return rankEntry;
 	}
 
 	public String getDescription() {
@@ -30,7 +42,8 @@ public class RankEntry {
 
 	@Override
 	public String toString() {
-		return String.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, leave=%s, meetStandard=%s, getDescription()=%s, getTag()=%s]", customerId, username, count, jogCount, jogAmount, leave, meetStandard, getDescription(), getTag());
+		return String
+			.format("RankEntry [customerId=%s, username=%s, count=%s, jogCount=%s, jogAmount=%s, leave=%s, meetStandard=%s, getDescription()=%s, getTag()=%s]", customerId, username, count, jogCount, jogAmount, leave, meetStandard, getDescription(), getTag());
 	}
 
 	public long getCustomerId() {

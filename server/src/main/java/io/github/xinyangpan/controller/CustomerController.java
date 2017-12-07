@@ -1,5 +1,8 @@
 package io.github.xinyangpan.controller;
 
+import java.util.Collection;
+
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.xinyangpan.persistent.po.CustomerPo;
+import io.github.xinyangpan.persistent.po.type.YearMonth;
 import io.github.xinyangpan.service.CoreService;
 import io.github.xinyangpan.service.CustomerService;
+import io.github.xinyangpan.service.CustomerStatusService;
+import io.github.xinyangpan.vo.CustomerStatusVo;
 import io.github.xinyangpan.vo.Session;
 
 @RestController
@@ -21,6 +27,8 @@ public class CustomerController {
 	private CoreService coreService;
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private CustomerStatusService customerStatusService;
 
 	@GetMapping("/login")
 	public CustomerPo login(String code, String username) {
@@ -35,6 +43,22 @@ public class CustomerController {
 	@GetMapping("/update")
 	public CustomerPo update(Long customerId, String username) {
 		return customerService.update(customerId, username);
+	}
+
+	@GetMapping("/statusList")
+	public Collection<CustomerStatusVo> statusList(long groupId, Integer year, Integer month) {
+		return customerStatusService.customerId2CustomerStatusVo(groupId, YearMonth.of(year, month)).values();
+	}
+
+	@GetMapping("/takeLeave")
+	public void takeLeave(long customerId, Integer year, Integer month, Boolean leave) {
+		YearMonth yearMonth = YearMonth.of(year, month);
+		boolean isLeave = BooleanUtils.isTrue(leave);
+		if (isLeave) {
+			customerStatusService.setLeave(customerId, yearMonth);
+		} else {
+			customerStatusService.setNotLeave(customerId, yearMonth);
+		}
 	}
 
 }
