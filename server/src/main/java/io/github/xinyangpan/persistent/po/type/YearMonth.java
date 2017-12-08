@@ -13,11 +13,15 @@ public class YearMonth {
 		this.month = month;
 	}
 
-	public YearMonth(int yearMonth) {
-		year = yearMonth / 100;
-		month = yearMonth - year * 100;
+	public YearMonth(int yearMonthInt) {
+		year = yearMonthInt / 100;
+		month = yearMonthInt - year * 100;
 	}
 
+	public static YearMonth orNow(YearMonth yearMonth) {
+		return yearMonth != null ? yearMonth : now();
+	}
+	
 	public static YearMonth of(Integer year, Integer month) {
 		YearMonth yearMonth;
 		if (year == null || month == null) {
@@ -26,6 +30,13 @@ public class YearMonth {
 			yearMonth = new YearMonth(year, month);
 		}
 		return yearMonth;
+	}
+
+	public static YearMonth of(Integer yearMonthInt) {
+		if (yearMonthInt == null ) {
+			return YearMonth.now();
+		}
+		return new YearMonth(yearMonthInt);
 	}
 
 	public static YearMonth of(Date date) {
@@ -43,7 +54,7 @@ public class YearMonth {
 		return new YearMonth(localDate.getYear(), localDate.getMonthValue());
 	}
 
-	public int toInt() {
+	public int getIntValue() {
 		return year * 100 + month;
 	}
 

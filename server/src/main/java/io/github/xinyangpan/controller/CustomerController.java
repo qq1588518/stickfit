@@ -46,13 +46,13 @@ public class CustomerController {
 	}
 
 	@GetMapping("/statusList")
-	public Collection<CustomerStatusVo> statusList(long groupId, Integer year, Integer month) {
-		return customerStatusService.customerId2CustomerStatusVo(groupId, YearMonth.of(year, month)).values();
+	public Collection<CustomerStatusVo> statusList(long groupId, Integer yearMonthInt) {
+		return customerStatusService.customerId2CustomerStatusVo(groupId, YearMonth.of(yearMonthInt)).values();
 	}
 
 	@GetMapping("/takeLeave")
-	public void takeLeave(long customerId, Integer year, Integer month, Boolean leave) {
-		YearMonth yearMonth = YearMonth.of(year, month);
+	public void takeLeave(long customerId, Integer yearMonthInt, Boolean leave) {
+		YearMonth yearMonth = YearMonth.of(yearMonthInt);
 		boolean isLeave = BooleanUtils.isTrue(leave);
 		if (isLeave) {
 			customerStatusService.setLeave(customerId, yearMonth);

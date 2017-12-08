@@ -8,12 +8,12 @@ public class YearMonthConverter implements AttributeConverter<YearMonth, Integer
 
 	@Override
 	public Integer convertToDatabaseColumn(YearMonth attribute) {
-		return attribute.toInt();
+		return attribute.getIntValue();
 	}
 
 	@Override
 	public YearMonth convertToEntityAttribute(Integer dbData) {
-		return new YearMonth(dbData);
+		return YearMonth.of(dbData);
 	}
 
 }

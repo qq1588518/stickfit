@@ -1,31 +1,49 @@
-new Vue({
+var vue = new Vue({
     el:'#app',
     data:{
-        tableData: []
+        tableData: [],
+        options: [],
+        yearMonthInt: {},
     },
     created: function(){
-        this.getTableData()
+        this.getTableData();
+        this.getOptions();
     },
     methods:{
-        getTableData: function(){
+    	getOptions: function(){
+            axios.get('exercise/historyRange')
+            .then(res => {
+            	this.options = res.data;
+            })
+            .catch(error => {
+            	console.error('getOptions', error)
+            })
+        },
+        changeYearMonth: function(yearMonthInt){
+        	console.log('changeYearMonth:', yearMonthInt)
+        	this.getTableData(yearMonthInt);
+        },
+        getTableData: function(yearMonthInt){
+        	let params = {groupId: 2}
+        	if (yearMonthInt) {
+        		params.yearMonthInt = yearMonthInt
+        	}
             axios.get('customer/statusList', {
-            	params: {
-					groupId: 2
-            	}
+            	params: params
             })
             .then(res => {
-              let data = [];
-              for (let i = 0; i < res.data.length; i++) {
-                  let item = {}
-                  item.id = res.data[i].customerPo.id
-                  item.username = res.data[i].customerPo.username
-                  item.status = res.data[i].leave?'请假':''
-                  data[i] = item
-              }
-              this.tableData = data;
+				let data = [];
+				for (let i = 0; i < res.data.length; i++) {
+					let item = {}
+					item.id = res.data[i].customerPo.id
+					item.username = res.data[i].customerPo.username
+					item.status = res.data[i].leave?'请假':''
+					data[i] = item
+				}
+				this.tableData = data;
             })
-            .catch(e => {
-            	console.error('error', e)
+            .catch(error => {
+            	console.error('getTableData', error)
             })
         }, 
         takeLeave: function(id, leave){
@@ -38,8 +56,8 @@ new Vue({
             .then(res => {
                 this.getTableData()
             })
-            .catch(e => {
-            	console.error('error', e)
+            .catch(error => {
+            	console.error('takeLeave', error)
             })
         }
     }
