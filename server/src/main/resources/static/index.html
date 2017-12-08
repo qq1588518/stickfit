@@ -12,9 +12,11 @@
 </head>
 <body>
 	<div id="app">
-		<el-select v-model="yearMonthInt" size="mini" @change="changeYearMonth">
-			<el-option v-for="item in options" :key="item.intValue" :label="item.display" :value="item.intValue"></el-option>
-		</el-select>
+		<div id="yearMonthSelect">
+			<el-select v-model="yearMonthInt" size="mini" @change="changeYearMonth">
+				<el-option v-for="item in options" :key="item.intValue" :label="item.display" :value="item.intValue"></el-option>
+			</el-select>
+		</div>
 		<el-table :data="tableData" size="mini">
 			<el-table-column prop="id" label="ID" width="150"></el-table-column>
 			<el-table-column prop="username" label="用户名" width="120"></el-table-column>
