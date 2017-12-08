@@ -39,8 +39,7 @@
         },
         methods:{
             getTableData: function(){
-            	var baseUrl = window.location.pathname.replace("index.html", "");
-                axios.get(baseUrl + '/customer/statusList?groupId=2')
+                axios.get('customer/statusList?groupId=2')
                 .then(res => {
                   let data = [];
                   for (let i = 0; i < res.data.length; i++) {
@@ -58,7 +57,7 @@
             }, 
             takeLeave: function(id){
                 console.log('id', id);
-                axios.get('/stickfit/dev/customer/takeLeave?customerId='+id+'&leave=true')
+                axios.get('customer/takeLeave?customerId='+id+'&leave=true')
                 .then(res => {
                     this.getTableData()
                 })
@@ -68,7 +67,7 @@
             },
             cancelLeave: function(id){
                 console.log('id', id);
-                axios.get('/stickfit/dev/customer/takeLeave?customerId='+id+'&leave=false')
+                axios.get('customer/takeLeave?customerId='+id+'&leave=false')
                 .then(res => {
                     this.getTableData()
                 })
