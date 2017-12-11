@@ -37,6 +37,7 @@ var vue = new Vue({
 					let item = {}
 					item.id = res.data[i].customerPo.id
 					item.username = res.data[i].customerPo.username
+					item.fullName = res.data[i].customerPo.lastName + res.data[i].customerPo.firstName
 					item.status = res.data[i].leave?'请假':''
 					data[i] = item
 				}

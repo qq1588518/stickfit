@@ -17,8 +17,8 @@ public class CustomerPo {
 	@Column(unique = true)
 	private String openId;
 	private String username;
-	private String lastName;
 	private String firstName;
+	private String lastName;
 	private Long groupId;
 	@Override
 	public String toString() {
