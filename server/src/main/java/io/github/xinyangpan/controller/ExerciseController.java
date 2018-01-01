@@ -32,7 +32,7 @@ public class ExerciseController {
 		// 
 		List<LocalDate> localDates = Lists.newArrayList();
 		while (true) {
-			if (current.getYear() > now.getYear() || current.getMonthValue() > now.getMonthValue()) {
+			if (current.isAfter(now)) {
 				break;
 			}
 			localDates.add(current);
