@@ -50,8 +50,6 @@ public class StickfitApplication {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
-                .protocols(Sets.newHashSet("https"))
-//                .host("https://www.nextmarathon.cn")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("io.github.xinyangpan"))
                 .paths(PathSelectors.any())
