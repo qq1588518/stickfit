@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import io.github.xinyangpan.persistent.po.CustomerPo;
 import io.github.xinyangpan.persistent.po.ExercisePo;
@@ -49,6 +50,8 @@ public class StickfitApplication {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
+                .protocols(Sets.newHashSet("https"))
+//                .host("https://www.nextmarathon.cn")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("io.github.xinyangpan"))
                 .paths(PathSelectors.any())
