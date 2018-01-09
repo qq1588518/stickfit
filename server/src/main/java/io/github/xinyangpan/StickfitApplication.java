@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import io.github.xinyangpan.persistent.po.CustomerPo;
 import io.github.xinyangpan.persistent.po.ExercisePo;
