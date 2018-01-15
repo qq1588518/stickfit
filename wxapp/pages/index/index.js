@@ -14,12 +14,17 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     radioItems: null,
-    date: util.formatDate(new Date()),
+    date: null,
     unit: '',
     amount: null
   },
   onLoad: function () {
     util.initPromise.then(e => { this.done() })
+  },
+  onShow: function () {
+    this.setData({
+      date: util.formatDate(new Date())
+    })
   },
   done: function () {
     if (!wxx.isPrd()) {
