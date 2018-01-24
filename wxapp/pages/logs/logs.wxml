@@ -21,7 +21,7 @@
   <view class="weui-cells__tips">{{monthSummary.summary}}</view>
 
   <view class="weui-btn-area page__ft">
-    <button class="weui-btn" type="warn" bindtap="clearSelected" disabled="{{deleteAction.status==='deleting'&&selected.length===0}}">{{deleteAction.text}}</button>
+    <button class="weui-btn" type="{{deleteAction.type}}" bindtap="clearSelected" disabled="{{deleteAction.status==='deleting'&&selected.length===0}}">{{deleteAction.text}}</button>
     <button class="weui-btn" bindtap="resetDelete" hidden="{{deleteAction.status!=='deleting'}}">取消</button>
   </view>
 </view>

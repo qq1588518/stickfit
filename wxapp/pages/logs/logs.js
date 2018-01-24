@@ -8,7 +8,7 @@ Page({
     customer: {},
     monthSummary: {},
     selected: [],
-    deleteAction: { status: 'initial', text: '删除' } // initial(删除), deleting(删除选中)
+    deleteAction: { status: 'initial', text: '编辑', type: '' } // initial(编辑), deleting(删除选中)
   },
   onLoad: function (options) {
     this.setData({
@@ -62,7 +62,7 @@ Page({
     if (this.data.deleteAction.status === 'initial') {
       this.setDelete('deleting')
       this.setData({
-        deleteAction: { status: 'deleting', text: '删除选中' }
+        deleteAction: { status: 'deleting', text: '删除选中', type: 'warn' }
       })
       return;
     }
@@ -86,11 +86,11 @@ Page({
     console.log('setDelete: ', status);
     if (status === 'initial') {
       this.setData({
-        deleteAction: { status: 'initial', text: '删除' }
+        deleteAction: { status: 'initial', text: '编辑', type: '' }
       })
     } else {
       this.setData({
-        deleteAction: { status: 'deleting', text: '删除选中' }
+        deleteAction: { status: 'deleting', text: '删除选中', type: 'warn' }
       })
     }
   }
