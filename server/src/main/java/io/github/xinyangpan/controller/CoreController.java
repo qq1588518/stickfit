@@ -15,7 +15,7 @@ public class CoreController {
     @ApiOperation(value="获取当前服务端版本号", notes="")
 	@GetMapping("/version")
 	public String version() {
-		return "2.0.1";
+		return "2.0.6";
 	}
 
     @ApiOperation(value="获取Cache刷新时间", notes="")
