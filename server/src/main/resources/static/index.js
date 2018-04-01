@@ -51,7 +51,7 @@ var vue = new Vue({
             console.log('id', id);
             axios.get('customer/takeLeave', {
             	params: {
-            		customerId: id, leave: leave
+            		customerId: id, yearMonthInt: this.yearMonthInt, leave: leave
             	}
             })
             .then(res => {
