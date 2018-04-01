@@ -49,7 +49,7 @@ var vue = new Vue({
         }, 
         takeLeave: function(id, leave){
             console.log('id', id);
-            var yearMonthInt = isNaN(num) ? null : this.yearMonthInt
+            var yearMonthInt = isNaN(this.yearMonthInt) ? null : this.yearMonthInt
             axios.get('customer/takeLeave', {
             	params: {
             		customerId: id, yearMonthInt: yearMonthInt, leave: leave
