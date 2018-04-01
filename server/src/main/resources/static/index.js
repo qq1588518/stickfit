@@ -49,13 +49,14 @@ var vue = new Vue({
         }, 
         takeLeave: function(id, leave){
             console.log('id', id);
+            var yearMonthInt = isNaN(num) ? null : this.yearMonthInt
             axios.get('customer/takeLeave', {
             	params: {
-            		customerId: id, yearMonthInt: Number(this.yearMonthInt), leave: leave
+            		customerId: id, yearMonthInt: yearMonthInt, leave: leave
             	}
             })
             .then(res => {
-                this.getTableData()
+                this.getTableData(yearMonthInt)
             })
             .catch(error => {
             	console.error('takeLeave', error)
